@@ -1,5 +1,17 @@
 # ```ft_containers```
 
+An implementation of the C++ Standard Library's vector, stack and map containers.
+
+## How to use it
+To run the tests for a container, compile it first using:
+```bash
+make <the container> # example: make vector
+```
+Next, execute the following command to run the tests:
+```bash
+./container
+```
+
 ## Acknowledgments
 - [ULB's amazing iterator PDF](https://home.csulb.edu/~pnguyen/cecs282/lecnotes/iterators.pdf)
 - [Sun's man pages](https://docs.oracle.com/cd/E19205-01/820-4180/man3c++/)

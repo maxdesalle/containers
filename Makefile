@@ -14,7 +14,7 @@ NAME = container
 
 CC = clang++ #-fsanitize=address -g
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror #-std=c++98
 
 vector:
 	@$(CC) $(CFLAGS) tests/vector.cpp -o $(NAME)

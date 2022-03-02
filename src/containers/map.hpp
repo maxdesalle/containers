@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/02 07:36:29 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/02 07:55:46 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,36 @@
 
 namespace ft
 {
-	template <  class Key,
+	template < class Key,
                 class T,
                 class Compare = std::less<Key>,
-                class Allocator = std::allocator<std::pair<const Key, T> 
+                class Allocator = std::allocator< std::pair<const Key, T> >
             >
 	class map
 	{
 		public:
 
-			class 												Iterator;
+			class 												value_compare;
 
-			typedef	T											value_type;
+			typedef	T											mapped_type;
+            typedef Key                                         key_type;
+            typedef std::pair<const Key, T>                     value_type;
+            typedef std::size_t									size_type;
+            typedef std::ptrdiff_t							    difference_type;
+            typedef Compare                                     key_compare;
 			typedef Allocator									allocator_type;
 
-			typedef typename allocator_type::reference			reference;
-			typedef typename allocator_type::const_reference	const_reference;
-			typedef typename allocator_type::pointer			pointer;
-			typedef typename allocator_type::const_pointer		const_pointer;
+			typedef value_type&			                        reference;
+			typedef const  	value_type&                     	const_reference;
+			typedef typename Allocator::pointer			        pointer;
+			typedef typename Allocator::const_pointer		    const_pointer;
 
 			typedef Iterator									iterator;
 			typedef const iterator								const_iterator;
 			typedef ft::reverse_iterator<iterator>				reverse_iterator;
 			typedef const ft::reverse_iterator<iterator>		const_reverse_iterator;
-			typedef size_t										size_type;
-			typedef typename iterator::difference_type			difference_type;
+			
+			// node_type, insert_return_type ? since c++17
 
 			explicit	map(const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(nullptr), _size(0) {}
 			explicit	map(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(nullptr), _size(0) { insert(begin(), n, val); }

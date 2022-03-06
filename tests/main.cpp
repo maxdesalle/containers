@@ -44,10 +44,11 @@ public:
 	iterator end() { return this->c.end(); }
 };
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
 	if (argc != 2)
 	{
-		std::cerr << "Usage: ./test seed" << std::endl;
+		std::cerr << "Error: arg not provided\nUsage: ./test seed" << std::endl;
 		std::cerr << "Provide a seed please" << std::endl;
 		std::cerr << "Count value:" << COUNT << std::endl;
 		return 1;
@@ -101,9 +102,7 @@ int main(int argc, char** argv) {
 	}
 	std::cout << "should be constant with the same seed: " << sum << std::endl;
 
-	{
-		ft::map<int, int> copy = map_int;
-	}
+	ft::map<int, int> copy = map_int;
 	MutantStack<char> iterable_stack;
 	for (char letter = 'a'; letter <= 'z'; letter++)
 		iterable_stack.push(letter);

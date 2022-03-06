@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxdesalle <mdesalle@student.s19.be>       +#+  +:+       +#+        */
+/*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 10:14:41 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/01/04 14:34:37 by maxdesall        ###   ########.fr       */
+/*   Updated: 2022/03/06 10:10:13 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 namespace ft
 {
-	template <class Iterator>
+	template <>
 	struct iterator_traits
 	{
 		typedef typename Iterator::difference_type		difference_type;
@@ -94,7 +94,7 @@ namespace ft
 
 			reverse_iterator	operator+(difference_type n) const { return (reverse_iterator(this->base() - n)); }
 
-			reverse_iterator&	operator++()
+			reverse_iterator&	++operator()
 			{
 				this->_it -= 1;
 				return (*this);
@@ -115,7 +115,7 @@ namespace ft
 
 			reverse_iterator	operator-(difference_type n) const { return (reverse_iterator(this->base() + n)); }
 
-			reverse_iterator&	operator--()
+			reverse_iterator&	--operator()
 			{
 				this->_it += 1;
 				return (*this);

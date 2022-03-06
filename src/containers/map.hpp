@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/06 12:57:29 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/06 20:42:37 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <iterator>
 # include <algorithm>
 
+# include "BRTree.hpp"
 # include "../utilities/type_traits.hpp"
 # include "../utilities/iterator.hpp"
 # include "../utilities/algorithm.hpp"
@@ -40,12 +41,12 @@ namespace ft
             typedef std::size_t									size_type;
             typedef std::ptrdiff_t							    difference_type;
             typedef Compare                                     key_compare;
-			typedef Alloc									allocator_type;
+			typedef Alloc										allocator_type;
 
 			typedef value_type&			                        reference;
 			typedef const  	value_type&                     	const_reference;
-			typedef typename Alloc::pointer			        pointer;
-			typedef typename Alloc::const_pointer		    const_pointer;
+			typedef typename Alloc::pointer			        	pointer;
+			typedef typename Alloc::const_pointer		    	const_pointer;
 
 			typedef Iterator									iterator;
 			typedef const iterator								const_iterator;
@@ -54,9 +55,9 @@ namespace ft
 			
 
 		private:
-			BRTree			_tree;
-			Compare			_compare;
-			Allocator		_alloc;
+			BRTree												_tree;
+			Compare												_compare;
+			Allocator											_alloc;
 
 		public:
 
@@ -66,7 +67,7 @@ namespace ft
 																			_compare(comp),
 																			_alloc(alloc) {};
 
-			map( map& const m ):	_data(m._data),
+			map( map& const m ):	_tree(m._tree),
 									_compare(m._compare),
 									_alloc(m._alloc) {};
 
@@ -76,7 +77,7 @@ namespace ft
 			{
 				if (this != &m)
 				{
-					_data = m._data;
+					_tree = m._tree;
 					_compare = m._compare;
 					_alloc = m._alloc ;
 				}
@@ -85,31 +86,30 @@ namespace ft
 	};
 
 	template <class T, class Alloc>
-	bool	operator==(const map<T,Alloc>& lhs, const map<T,Alloc>& rhs)
+	bool	operator ==(const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)
 	{
 		if (lhs.size() != rhs.size())
-			return (false);
-
-		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+			return false;
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	};
 
 	template <class T, class Alloc>
-	bool	operator!= (const map<T,Alloc>& lhs, const map<T,Alloc>& rhs) { return !(lhs == rhs); }
+	bool	operator != (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)	{ return !(lhs == rhs); }
 
 	template <class T, class Alloc>
-	bool	operator<(const map<T,Alloc>& lhs, const map<T,Alloc>& rhs) { return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); }
+	bool	operator < (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)		{ return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()); }
 
 	template <class T, class Alloc>
-	bool	operator<=(const map<T,Alloc>& lhs, const map<T,Alloc>& rhs) { return !(rhs < lhs); }
+	bool	operator <= (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)	{ return !(rhs < lhs); }
 
 	template <class T, class Alloc>
-	bool	operator>(const map<T,Alloc>& lhs, const map<T,Alloc>& rhs) { return rhs < lhs; }
+	bool	operator > (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)		{ return rhs < lhs; }
 
 	template <class T, class Alloc>
-	bool	operator>=(const map<T,Alloc>& lhs, const map<T,Alloc>& rhs) { return !(lhs < rhs); }
+	bool	operator >= (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)	{ return !(lhs < rhs); }
 
 	template <class T, class Alloc>
-	void	swap(map<T,Alloc>& x, map<T,Alloc>& y) { x.swap(y); }
+	void	swap( map< T, Alloc >& x, map< T, Alloc >& y) 							{ x.swap(y); }
 }
 
 #endif

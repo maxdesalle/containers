@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/06 10:04:49 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/06 13:32:04 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,26 +216,26 @@ void	decorator(std::string title)
 // 	if (foo>=bar) std::cout << "6";
 // }
 
-void	std_swaps(void)
-{
-	std::map<int> foo,bar;
-	foo.push (10); foo.push(20); foo.push(30);
-	bar.push (111); bar.push(222);
+// void	std_swaps(void)
+// {
+// 	std::map<int> foo,bar;
+// 	foo.push (10); foo.push(20); foo.push(30);
+// 	bar.push (111); bar.push(222);
 
-	swap(foo,bar);
+// 	swap(foo,bar);
 
-	std::cout << "size of foo and bar: " << foo.size() << ", " << bar.size();
-}
+// 	std::cout << "size of foo and bar: " << foo.size() << ", " << bar.size();
+// }
 
-void	ft_swaps(void)
-{
-	ft::map<int> foo,bar;
-	foo.push (10); foo.push(20); foo.push(30);
-	bar.push (111); bar.push(222);
+// void	ft_swaps(void)
+// {
+// 	ft::map<int> foo,bar;
+// 	foo.push (10); foo.push(20); foo.push(30);
+// 	bar.push (111); bar.push(222);
 
-	swap(foo,bar);
+// 	swap(foo,bar);
 
-	std::cout << "size of foo and bar: " << foo.size() << ", " << bar.size();
+// 	std::cout << "size of foo and bar: " << foo.size() << ", " << bar.size();
 }
 
 void	caller(void (*f1)(void), void (*f2)(void), std::string title)

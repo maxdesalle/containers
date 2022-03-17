@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/06 20:42:37 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/17 12:08:50 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 # include <iterator>
 # include <algorithm>
 
-# include "BRTree.hpp"
+# include "RBTree.hpp"
 # include "../utilities/type_traits.hpp"
 # include "../utilities/iterator.hpp"
 # include "../utilities/algorithm.hpp"
+
+# define	MAX 461168601842738790;
 
 namespace ft
 {
@@ -31,8 +33,9 @@ namespace ft
             >
 	class map
 	{
+		// all the var types we need
 		public:
-
+			class 												Iterator;
 			class 												value_compare;
 
 			typedef	T											mapped_type;
@@ -55,13 +58,13 @@ namespace ft
 			
 
 		private:
-			BRTree												_tree;
+			RBTree												_tree;
 			Compare												_compare;
 			Allocator											_alloc;
 
+		
 		public:
-
-
+		// member functions
 			explicit map( key_compare& const comp = key_compare(),
 						allocator_type& const alloc = allocator_type()) :	_tree(),
 																			_compare(comp),
@@ -83,30 +86,45 @@ namespace ft
 				}
 				return *this;
 			}
+
+		// capacity
+		bool			empty( void ) const				{	return	_tree.empty();	};
+		size_type 		size( void ) const				{	return	_tree.height();	};
+		size_type 		max_size() const				{	return	MAX;	};
+
+		// element access
+		mapped_type& operator[] ( const key_type& k )	{	(*((this->insert(make_pair(k,mapped_type()))).first)).second					};
+		mapped_type& at (const key_type& k)				{	try {	} catch (std::out_of_range const& e) {	std::cout << e.what() << '\n';    }};
+		const mapped_type& at (const key_type& k) const	{	try {	} catch (std::out_of_range const& e) {	std::cout << e.what() << '\n';    }};
+
+
+		// allocator
+		allocator_type	get_allocator( void ) const	{	return this->_alloc;	};
+
 	};
 
 	template <class T, class Alloc>
-	bool	operator ==(const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)
+	bool	operator == ( const map< T, Alloc >& l, const map< T, Alloc >& r ) 
 	{
-		if (lhs.size() != rhs.size())
+		if (l.size() != r.size())
 			return false;
-		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+		return ft::equal(l.begin(), l.end(), r.begin());
 	};
 
 	template <class T, class Alloc>
-	bool	operator != (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)	{ return !(lhs == rhs); }
+	bool	operator !=  ( const map< T, Alloc >& l, const map< T, Alloc >& r )	{ return !(l == r); }
 
 	template <class T, class Alloc>
-	bool	operator < (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)		{ return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()); }
+	bool	operator <  ( const map< T, Alloc >& l, const map< T, Alloc >& r )		{ return ft::lexicographical_compare(l.begin(), l.end(), r.begin(), r.end()); }
 
 	template <class T, class Alloc>
-	bool	operator <= (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)	{ return !(rhs < lhs); }
+	bool	operator <=  ( const map< T, Alloc >& l, const map< T, Alloc >& r )	{ return !(r < l); }
 
 	template <class T, class Alloc>
-	bool	operator > (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)		{ return rhs < lhs; }
+	bool	operator >  ( const map< T, Alloc >& l, const map< T, Alloc >& r )		{ return r < l; }
 
 	template <class T, class Alloc>
-	bool	operator >= (const map< T, Alloc >& lhs, const map< T, Alloc >& rhs)	{ return !(lhs < rhs); }
+	bool	operator >=  ( const map< T, Alloc >& l, const map< T, Alloc >& r )	{ return !(l < r); }
 
 	template <class T, class Alloc>
 	void	swap( map< T, Alloc >& x, map< T, Alloc >& y) 							{ x.swap(y); }

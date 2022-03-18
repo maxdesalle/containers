@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/17 19:16:39 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/18 18:44:56 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@
 # include "../utilities/type_traits.hpp"
 # include "../utilities/iterator.hpp"
 # include "../utilities/algorithm.hpp"
-
-# define	MAX 461168601842738790;
+# include "../utilities/pair.hpp"
 
 namespace ft
 {
-	template < class Key,
+	template <	class Key,
                 class T,
-                class Compare = std::less<Key>,
-                class Alloc = std::allocator< std::pair<const Key, T> >
-            >
+                class Compare = std::less< Key >,
+                class Alloc = std::allocator< ft::pair< const Key, T > >
+             >
+			 
 	class map
 	{
-		// all the var types we need
+		// VAR TYPES
 		public:
 			class 												Iterator;
 			class 												value_compare;
@@ -53,8 +53,8 @@ namespace ft
 
 			typedef Iterator									iterator;
 			typedef const iterator								const_iterator;
-			typedef ft::reverse_iterator<iterator>				reverse_iterator;
-			typedef const ft::reverse_iterator<iterator>		const_reverse_iterator;
+			typedef ft::reverse_iterator< iterator >			reverse_iterator;
+			typedef const ft::reverse_iterator< iterator >		const_reverse_iterator;
 			
 
 		private:
@@ -90,10 +90,10 @@ namespace ft
 		// capacity
 		bool			empty( void ) const				{	return	_tree.empty();	};
 		size_type 		size( void ) const				{	return	_tree.height();	};
-		size_type 		max_size() const				{	return	MAX;	};
+		size_type 		max_size() const				{	return	_tree.max_size();	};
 
 		// element access
-		mapped_type& operator[] ( const key_type& k )	{	(*((this->insert(make_pair(k,mapped_type()))).first)).second					};
+		mapped_type& operator[] ( const key_type& k )	{	return (*((this->insert(make_pair(k,mapped_type()))).first)).second;					};
 		mapped_type& at (const key_type& k)				{	try {	} catch (std::out_of_range const& e) {	std::cout << e.what() << '\n';    }};
 		const mapped_type& at (const key_type& k) const	{	try {	} catch (std::out_of_range const& e) {	std::cout << e.what() << '\n';    }};
 
@@ -112,19 +112,19 @@ namespace ft
 	};
 
 	template <class T, class Alloc>
-	bool	operator !=  ( const map< T, Alloc >& l, const map< T, Alloc >& r )	{ return !(l == r); }
+	bool	operator !=  ( const map< T, Alloc >& l, const map< T, Alloc >& r )		{ return !(l == r); }
 
 	template <class T, class Alloc>
 	bool	operator <  ( const map< T, Alloc >& l, const map< T, Alloc >& r )		{ return ft::lexicographical_compare(l.begin(), l.end(), r.begin(), r.end()); }
 
 	template <class T, class Alloc>
-	bool	operator <=  ( const map< T, Alloc >& l, const map< T, Alloc >& r )	{ return !(r < l); }
+	bool	operator <=  ( const map< T, Alloc >& l, const map< T, Alloc >& r )		{ return !(r < l); }
 
 	template <class T, class Alloc>
 	bool	operator >  ( const map< T, Alloc >& l, const map< T, Alloc >& r )		{ return r < l; }
 
 	template <class T, class Alloc>
-	bool	operator >=  ( const map< T, Alloc >& l, const map< T, Alloc >& r )	{ return !(l < r); }
+	bool	operator >=  ( const map< T, Alloc >& l, const map< T, Alloc >& r )		{ return !(l < r); }
 
 	template <class T, class Alloc>
 	void	swap( map< T, Alloc >& x, map< T, Alloc >& y) 							{ x.swap(y); }

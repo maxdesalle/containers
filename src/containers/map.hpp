@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/17 12:08:50 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/17 19:16:39 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ namespace ft
 
 		
 		public:
-		// member functions
+			// member functions
 			explicit map( key_compare& const comp = key_compare(),
 						allocator_type& const alloc = allocator_type()) :	_tree(),
 																			_compare(comp),

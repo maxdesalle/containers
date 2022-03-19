@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/19 11:34:07 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/19 17:42:50 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,58 @@ namespace ft
 				return *this;
 			}
 
+			// iterators
+			iterator begin()								{	return	_tree.begin();		};
+			const_iterator begin() const					{	return	_tree.begin();		};
+			iterator end()									{	return	_tree.end();		};
+			const_iterator end() const						{	return	_tree.end();		};
+			iterator rbegin()								{	return	_tree.rbegin();		};
+			const_iterator rbegin() const					{	return	_tree.rbegin();		};
+			iterator rend()									{	return	_tree.rend();		};
+			const_iterator rend() const						{	return	_tree.rend();		};
+
 			// capacity
-			bool			empty( void ) const				{	return	_tree.empty();	};
-			size_type 		size( void ) const				{	return	_tree.height();	};
+			bool			empty( void ) const				{	return	_tree.empty();		};
+			size_type 		size( void ) const				{	return	_tree.height();		};
 			size_type 		max_size() const				{	return	_tree.max_size();	};
 
 			// element access
-			mapped_type& operator[] ( const key_type& k )	{	return (*((this->insert(make_pair(k,mapped_type()))).first)).second;					};
-			mapped_type& at (const key_type& k)				{	try {	} catch (std::out_of_range const& e) {	std::cout << e.what() << '\n';    }};
-			const mapped_type& at (const key_type& k) const	{	try {	} catch (std::out_of_range const& e) {	std::cout << e.what() << '\n';    }};
+			mapped_type& operator[] ( const key_type& k )	{	return (*((this->insert(make_pair( k,mapped_type() ))).first)).second;			};
 
+			// modifiers : TO DO
+			// [ INSERT ]
+			pair< iterator,bool > 	insert(const value_type& val)						{	_tree.insert( val );			};
+			iterator 				insert(iterator position, const value_type& val)	{	_tree.insert( position, val );	};
+			template <class InputIterator>
+  			void insert (InputIterator first, InputIterator last)						{	_tree.insert( first, last );	};
+
+			// [ ERASE ]
+			void 					erase(iterator position);
+			size_type 				erase(const key_type& k);
+			void 					erase(iterator first, iterator last);
+
+			// [ SWAP ]
+			void 					swap(map& x)					{	if (this != &x)	_tree.swap(x._tree);	};
+
+			// [ CLEAR ]
+			void 					clear()							{	_tree.clear();	};
+			
 			// observers
-			key_compare 	key_comp() const				{	return _compare;				};
-			value_compare 	value_comp() const;				{	return value_compare(_compare);	};
+			key_compare 			key_comp() const				{	return this->_compare;					};
+			value_compare 			value_comp() const;				{	return value_compare(this->_compare);	};
+
+			// operations : TO DO
+
+			// [ FIND ]
+			// [ COUNT ]
+			// [ LOWER_BOUND ]
+			// [ UPPER_BOUND ]
+			// [ EQUAL_RANGE ]
+			ft::pair< const_iterator, const_iterator > equal_range (const key_type& k) const	{	};
+			ft::pair< iterator, iterator >             equal_range (const key_type& k)			{	};
 
 			// allocator
-			allocator_type	get_allocator( void ) const	{	return this->_alloc;	};
+			allocator_type			get_allocator( void ) const		{	return this->_alloc;	};
 
 			// public classes
 			class value_compare
@@ -115,9 +151,9 @@ namespace ft
 					key_compare		comp;
 					value_compare (key_compare c) : comp(c) {}  // constructed with map's comparison object
 				public:
-					typedef bool 			result_type;
-					typedef value_type 		first_argument_type;
-					typedef value_type 		second_argument_type;
+					// typedef bool 			result_type;
+					// typedef value_type 		first_argument_type;
+					// typedef value_type 		second_argument_type;
 					bool operator() ( const value_type& x, const value_type& y ) const { 		return comp(x.first, y.first);			};
 			}
 

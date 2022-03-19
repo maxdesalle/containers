@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/19 09:36:59 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/19 10:43:14 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ class RBTree {
                                     _height(t._height),
                                     _comp(t._comp),
                                     _alloc(t._alloc)    {};
+
         RBTree& operator = ( RBTree const &t )
         {
             if ( this != t)
@@ -94,6 +95,13 @@ class RBTree {
         }
 
         ~RBTree(void) { clear(); }
+
+        // ADD, DEL, CLEAR ELEMS
+
+        nodeTree    *addNode( value_type p )
+        {
+            
+        }
 
        // initializes the nodes with appropirate values
         // all the pointers are set to point to the null pointer

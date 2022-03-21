@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/21 14:34:32 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/21 14:56:17 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,22 @@ class RBTree
         // FIND
 
 
+        // CLEAR
+        void        clear( void )
+        {
+            if (_root)
+            {
+                treeNode*	left = _root->left;
+                treeNode*	right = _root->right;
+                _alloc.destroy(_root);
+                _alloc.deallocate(_root, 1);
+
+                if (left)   clear(left);
+                if (right)  clear(right);
+            }
+            _root = NULL;
+            _height = 0;
+        }
 
         
         // capacity
@@ -252,8 +268,6 @@ class RBTree
 
                 treeIterator&		operator -- ()
                 {
-                    treeNode	*ptr;
-
                     if (!_node)
                     {
                         _node = _tree->_root;
@@ -269,7 +283,7 @@ class RBTree
                     }
                     else
                     {
-                        ptr = _node->parent;
+                        treeNode	*ptr = _node->parent;
                         while (ptr && ptr->left == _node)
                         {
                             _node = ptr;

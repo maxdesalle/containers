@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/19 19:18:23 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/20 15:45:21 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <iterator>
 # include <algorithm>
 
-# include "RBTree.hpp"
+# include "../utilities/RBTree.hpp"
 # include "../utilities/type_traits.hpp"
 # include "../utilities/iterator.hpp"
 # include "../utilities/algorithm.hpp"

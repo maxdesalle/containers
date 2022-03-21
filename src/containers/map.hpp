@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/20 15:45:21 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/21 12:10:29 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,17 @@ namespace ft
                 class T,
                 class Compare = std::less< Key >,
                 class Alloc = std::allocator< ft::pair< const Key, T > >
-             >			 
+             >
+			 		 
 	class map
 	{
 		// VAR TYPES
 		public:
 			class 												value_compare; // defined at the very end
 
-			typedef	T											mapped_type;
+			typedef	T			 								mapped_type;
             typedef Key                                         key_type;
-            typedef std::pair<const Key, T>                     value_type;
+            typedef std::pair< const Key, T>                    value_type;
             typedef std::size_t									size_type;
             typedef std::ptrdiff_t							    difference_type;
             typedef Compare                                     key_compare;
@@ -109,10 +110,10 @@ namespace ft
 
 			// modifiers
 			// [ INSERT ]
-			pair< iterator,bool > 	insert(const value_type& val)						{	_tree.insert( val );			};
-			iterator 				insert(iterator position, const value_type& val)	{	_tree.insert( get_nodeptr(position), val );	};
+			ft::pair< iterator,bool > 	insert(const value_type& val)						{	_tree.insert( val );			};
+			iterator 					insert(iterator position, const value_type& val)	{	_tree.insert( get_nodeptr(position), val );	};
 			template <class InputIterator>
-  			void insert (InputIterator first, InputIterator last)						{	_tree.insert( first, last );	};
+  			void 						insert (InputIterator first, InputIterator last)						{	_tree.insert( first, last );	};
 
 			// [ ERASE ]
 			void 					erase(iterator position)							{	_tree.erase( get_nodeptr(position) );		};

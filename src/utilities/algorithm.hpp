@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algorithm.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxdesalle <mdesalle@student.s19.be>       +#+  +:+       +#+        */
+/*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 09:13:46 by maxdesall         #+#    #+#             */
-/*   Updated: 2021/12/08 14:16:59 by maxdesall        ###   ########.fr       */
+/*   Updated: 2022/03/21 10:42:44 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ namespace ft
 		}
 		return (first2!=last2);
 	}
-}
+};
 
 #endif

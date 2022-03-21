@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 10:41:03 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/03/18 10:35:46 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/21 10:42:23 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ namespace ft
 
 	template < typename T1, typename T2 >
 	bool	operator >= ( pair< T1, T2 > const & l, pair< T1, T2 > const & r )	{ return !(l < r); }
-}
+};
 
 #endif

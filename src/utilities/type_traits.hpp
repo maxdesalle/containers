@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   type_traits.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxdesalle <mdesalle@student.s19.be>       +#+  +:+       +#+        */
+/*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 09:34:30 by maxdesall         #+#    #+#             */
-/*   Updated: 2021/12/13 11:31:30 by maxdesall        ###   ########.fr       */
+/*   Updated: 2022/03/21 10:42:54 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPE_TRAITS
 # define TYPE_TRAITS
-
-
 
 namespace ft
 {
@@ -71,6 +69,6 @@ namespace ft
 		is_integral<char> : public true_type{};
 	template <> struct
 		is_integral<bool> : public true_type{};
-}
+};
 
 #endif

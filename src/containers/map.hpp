@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/21 12:10:29 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/21 19:11:21 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ namespace ft
 			typedef typename Alloc::pointer			        	pointer;
 			typedef typename Alloc::const_pointer		    	const_pointer;
 
-			typedef ft::rbtree::Iterator							iterator;
-			typedef const ft::rbtree::Iterator						const_iterator;
+			typedef ft::RBtree::treeIterator						iterator;
+			typedef const ft::RBtree::treeIterator					const_iterator;
 			typedef ft::reverse_iterator< iterator >				reverse_iterator;
 			typedef const ft::reverse_iterator< const_iterator >	const_reverse_iterator;
 			

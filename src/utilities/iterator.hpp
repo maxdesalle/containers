@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 10:14:41 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/03/21 10:42:39 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/22 09:00:37 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 namespace ft
 {
-	template <>
+	template < class Iterator >
 	struct iterator_traits
 	{
 		typedef typename Iterator::difference_type		difference_type;
@@ -29,8 +29,8 @@ namespace ft
 		typedef typename Iterator::iterator_category	iterator_category;
 	};
 
-	template <class T>
-	struct iterator_traits<T*>
+	template < class T >
+	struct iterator_traits< T* >
 	{
 		typedef ptrdiff_t								difference_type;
 		typedef T										value_type;
@@ -70,7 +70,11 @@ namespace ft
 			typedef typename iterator_traits<Iterator>::difference_type		difference_type;
 			typedef typename iterator_traits<Iterator>::pointer				pointer;
 			typedef typename iterator_traits<Iterator>::reference			reference;
+		
+		private:
+			Iterator		_it;
 
+		public:
 			reverse_iterator() {}
 			explicit			reverse_iterator(iterator_type it): _it(it) {}
 
@@ -92,13 +96,13 @@ namespace ft
 				return (*(--tmp));
 			}
 
-			reverse_iterator	operator+(difference_type n) const { return (reverse_iterator(this->base() - n)); }
+			reverse_iterator	operator+(difference_type n) const { return (reverse_iterator(this->base() - n)); };
 
-			reverse_iterator&	++operator()
+			reverse_iterator&	operator++()
 			{
 				this->_it -= 1;
 				return (*this);
-			}
+			};
 
 			reverse_iterator	operator++(int)
 			{
@@ -115,7 +119,7 @@ namespace ft
 
 			reverse_iterator	operator-(difference_type n) const { return (reverse_iterator(this->base() + n)); }
 
-			reverse_iterator&	--operator()
+			reverse_iterator&	operator--()
 			{
 				this->_it += 1;
 				return (*this);
@@ -138,9 +142,7 @@ namespace ft
 
 			reference			operator[] (difference_type n) const { return (this->base()[-n - 1]); }
 
-			private:
 
-				Iterator		_it;
 	};
 
 	template <class Iterator>

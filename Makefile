@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mdesalle <mdesalle@student.s19.be>         +#+  +:+       +#+         #
+#    By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/06 09:20:39 by mdesalle          #+#    #+#              #
-#    Updated: 2022/01/12 10:48:28 by maxdesall        ###   ########.fr        #
+#    Updated: 2022/03/22 08:26:09 by mlazzare         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,9 @@ vector:
 
 stack:
 	@$(CC) $(CFLAGS) tests/stack.cpp -o $(NAME)
+
+map:
+	@$(CC) $(CFLAGS) tests/map.cpp -o $(NAME)
 
 clean:
 	@rm -rf $(OBJ)

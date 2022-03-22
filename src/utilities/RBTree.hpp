@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/21 17:12:36 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/22 10:17:22 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,17 @@ class RBTree
         typedef typename allocator_type::const_pointer			        const_pointer;
         typedef typename allocator_type::reference				        reference;
         typedef typename allocator_type::const_reference		        const_reference;
-        typedef treeIterator< T >									    treeIterator;
+        typedef treeIterator< T >									    iterator;
         typedef treeIterator< const T >								    const_iterator;
-        typedef ft::reverse_iterator< treeIterator >				    reverse_iterator;
+        typedef ft::reverse_iterator< iterator >				        reverse_iterator;
         typedef ft::reverse_iterator< const_iterator >			        const_reverse_iterator;
         typedef std::size_t										        size_type;
-
-        typedef typename Allocator::template rebind< treeNode >::other	node_allocator;             // container's element allocator 
+        typedef treeNode< value_type >                                  node;
+        typedef typename allocator_type::template rebind< node >::other	node_allocator;             // container's element allocator 
     
     private:
         // TREE ELEMENTS
-        treeNode                _root;
+        node                    _root;
         size_type               _height;
         Compare                 _comp;
         node_allocator          _node_alloc;
@@ -94,17 +94,17 @@ class RBTree
         RBTree( RBTree const &t ) : _root(t._root),
                                     _height(t._height),
                                     _comp(t._comp),
-                                    _alloc(t._alloc)    {};
+                                    _node_alloc(t._node_alloc)    {};
 
         RBTree& operator = ( RBTree const &t )
         {
             if ( this != t)
             {
-                if (this._root)
-                    this.clear();
+                if (_root)
+                    this->clear();
                 _height(t._height);
                 _comp(t._comp);
-                _alloc(t._alloc);
+                _node_alloc(t._node_alloc);
             }
             return *this;
         };
@@ -112,57 +112,57 @@ class RBTree
         ~RBTree(void) { clear(); };
 
         // INSERT, DEL, CLEAR, SEARCH ELEMS
-        ft::pair<treeIterator, bool>    insert( treeNode  value_type pair )
+        ft::pair< iterator, bool>    insert( value_type pair )
         {
-            treeNode *curr = _root;
-            if (!curr)  curr = new treeNode( pair );
+            node *curr = _root;
+            if (!curr)  curr = new node( pair );
             else
             {
                 while (curr)
                 {
-                    if (_comp(newNode->value.first, curr->value.first))
+                    if (_comp(pair.first, curr->value.first))
                         curr = curr->left;
                     else
                         curr = curr->right;
                 }
-                if (_comp(newNode->value.first, curr->value.first))
-                    curr->left = new treeNode( pair );
+                if (_comp(pair.first, curr->value.first))
+                    curr->left = new node( pair );
                 else
-                    curr->right = new treeNode( pair );
+                    curr->right = new node( pair );
             }
             // balanceTree(); TO DO
             _height++;
-            return ft::make_pair(treeIterator(curr, this), true);
+            return ft::make_pair(iterator(curr, this), true);
         };
 
 		// [INSERT] : still TO DO
         //treeIterator 				insert(treeIterator position, const value_type& val)
 		//void insert (InputIterator first, InputIterator last)
 
-        void 					erase(treeIterator position)							//{	_tree.erase( get_nodeptr(position) );		};
-        {
-            try
-            {
-                treeNode *curr = _root;
-                if (!curr)  curr = new treeNode( pair );
-                else
-                {
-                    while (curr)
-                    {
-                        if (_comp(newNode->value.first, curr->value.first))
-                            curr = curr->left;
-                        else
-                            curr = curr->right;
-                    }
-                    if (_comp(newNode->value.first, curr->value.first))
-                        curr->left = new treeNode( pair );
-                    else
-                        curr->right = new treeNode( pair );
-                }
+        // void 					erase( iterator position)							//{	_tree.erase( get_nodeptr(position) );		};
+        // {
+        //     try
+        //     {
+        //         node *curr = _root;
+        //         if (!curr)  curr = new node( pair );
+        //         else
+        //         {
+        //             while (curr)
+        //             {
+        //                 if (_comp(newNode->value.first, curr->value.first))
+        //                     curr = curr->left;
+        //                 else
+        //                     curr = curr->right;
+        //             }
+        //             if (_comp(newNode->value.first, curr->value.first))
+        //                 curr->left = new node( pair );
+        //             else
+        //                 curr->right = new node( pair );
+        //         }
                     
-            }
-            catch( const RBTree::KeyNotFound & e )    {   std::cerr << e.what() << '\n';  }            
-        }
+        //     }
+        //     catch( const RBTree::KeyNotFound & e )    {   std::cerr << e.what() << '\n';  }            
+        // }
         
 		// size_type 				erase(const key_type& k)							{	_tree.erase( k );				};
 
@@ -176,10 +176,10 @@ class RBTree
         {
             if (_root)
             {
-                treeNode*	left    = _root->left;
-                treeNode*	right   = _root->right;
-                _alloc.destroy(_root);
-                _alloc.deallocate(_root, 1);
+                node*	left    = _root->left;
+                node*	right   = _root->right;
+                _node_alloc.destroy(_root);
+                _node_alloc.deallocate(_root, 1);
 
                 if (left)   clear(left);
                 if (right)  clear(right);
@@ -190,9 +190,9 @@ class RBTree
 
         
         // capacity
-        bool        empty( void )       {   return !_root;                  };
+        bool        empty( void )       {   return _height == 0;                  };
         size_type   size( void )        {   return _height;                 };
-	    size_type	max_size() const	{   return _alloc.max_size();       }
+	    size_type	max_size() const	{   return _node_alloc.max_size();       }
 
         // exceptions
 		class EmptyTree : public std::exception {
@@ -220,15 +220,16 @@ class RBTree
                 typedef U&								reference;
                 typedef std::ptrdiff_t					difference_type;
                 typedef std::bidirectional_iterator_tag	iterator_category;
+                typedef treeNode< value_type >          node;
 
             private:
-                treeNode*			_node;
+                node*			    _node;
                 const RBTree*	    _tree;
 
             public:
                 treeIterator( void ) :  _node(NULL),
                                         _tree(NULL) {};
-                treeIterator( treeNode* current, const RBTree *tree ) : _node(current),
+                treeIterator( node* current, const RBTree *tree ) : _node(current),
                                                                         _tree(tree) {};
                 treeIterator( treeIterator const& t ) : _node(t._node),
                                                         _tree(t._tree) {};
@@ -255,7 +256,7 @@ class RBTree
                     }
                     else
                     {
-                        treeNode	*ptr = _node->parent;
+                        node	*ptr = _node->parent;
                         while (ptr && ptr->right == _node)
                         {   _node = ptr;  ptr = ptr->parent;    }
                         _node = ptr;
@@ -278,7 +279,7 @@ class RBTree
                     }
                     else
                     {
-                        treeNode	*ptr = _node->parent;
+                        node	*ptr = _node->parent;
                         while (ptr && ptr->left == _node)
                         {   _node = ptr;  ptr = ptr->parent;    }
                         _node = ptr;

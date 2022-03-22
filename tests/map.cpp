@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/22 08:44:08 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/22 10:16:48 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,61 +28,100 @@ void	decorator(std::string title)
 	std::cout << std::endl;
 }
 
-// void	std_constructor(void)
-// {
-// 	std::vector<int> myvector (2,200);        // vector with 2 elements
+bool fncomp (char lhs, char rhs) {return lhs<rhs;}
 
-// 	std::map<int> first;                    // empty map
+struct classcomp {
+  bool operator() (const char& lhs, const char& rhs) const
+  {return lhs<rhs;}
+};
 
-// 	std::map<int,std::vector<int> > second;  // empty map using vector
-// 	std::map<int,std::vector<int> > third (myvector);
+void	std_constructor(void)
+{
+	std::map<char,int> first;
 
-// 	std::cout << "sizes: " << first.size() << ", " << second.size() << ", " << third.size();
-// }
+  	first['a']=10;
+  	first['b']=30;
+  	first['c']=50;
+  	first['d']=70;
 
-// void	ft_constructor(void)
-// {
-// 	ft::vector<int> myvector (2,200);        // vector with 2 elements
+ 	 std::map<char,int> second (first.begin(),first.end());
 
-// 	ft::map<int> first;                    // empty map
+  	std::map<char,int> third (second);
 
-// 	ft::map<int,ft::vector<int> > second;  // empty map using vector
-// 	ft::map<int,ft::vector<int> > third (myvector);
+  	std::map<char,int,classcomp> fourth;                 // class as Compare
 
-// 	std::cout << "sizes: " << first.size() << ", " << second.size() << ", " << third.size();
-// }
+  	bool(*fn_pt)(char,char) = fncomp;
+  	std::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
 
-// void	std_empty(void)
-// {
-// 	std::map<int> mymap;
-// 	int sum (0);
+	second=first;                // second now contains 3 ints
+  	first=std::map<char,int>();  // and first is now empty
 
-// 	for (int i=1;i<=10;i++) mymap.push(i);
+  	std::cout << "Size of first: " << first.size() << '\n';
+  	std::cout << "Size of second: " << second.size() << '\n';
+}
 
-// 	while (!mymap.empty())
-// 	{
-// 		sum += mymap.top();
-// 		mymap.pop();
-// 	}
+void	ft_constructor(void)
+{
+	ft::map< char,int > first;
+
+  	first['a']=10;
+  	first['b']=30;
+  	first['c']=50;
+  	first['d']=70;
+
+ 	ft::map<char,int> second ;//( first.begin(), first.end());
+
+  	ft::map<char,int> third (second);
+
+  	ft::map<char,int,classcomp> fourth;                 // class as Compare
+
+  	bool(*fn_pt)(char,char) = fncomp;
+  	ft::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
+
+	second=first;                // second now contains 3 ints
+  	first=ft::map<char,int>();  // and first is now empty
+
+  	std::cout << "Size of first: " << first.size() << '\n';
+  	std::cout << "Size of second: " << second.size() << '\n';
+}
+
+void	std_empty(void)
+{
+	std::map<char,int> mymap;
+
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;
+
+	while (!mymap.empty())
+	{
+		std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
+		mymap.erase(mymap.begin());
+	}
+
+	std::cout << "mymap.size() is " << mymap.size() << '\n';
+	std::cout << "mymap.max_size() is " << mymap.max_size() << '\n';
+}
+
+void	ft_empty(void)
+{
+	ft::map<char,int> mymap;
+
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;
+
+	while (!mymap.empty())
+	{
+		std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
+		mymap.erase(mymap.begin());
+	}
+
+	std::cout << "mymap.size() is " << mymap.size() << '\n';
+	std::cout << "mymap.max_size() is " << mymap.max_size() << '\n';
 
 // 	std::cout << "total: " << sum;
-// }
-
-// void	ft_empty(void)
-// {
-// 	ft::map<int> mymap;
-// 	int sum (0);
-
-// 	for (int i=1;i<=10;i++) mymap.push(i);
-
-// 	while (!mymap.empty())
-// 	{
-// 		sum += mymap.top();
-// 		mymap.pop();
-// 	}
-
-// 	std::cout << "total: " << sum;
-// }
+}
 
 // void	std_size(void)
 // {
@@ -236,7 +275,7 @@ void	decorator(std::string title)
 // 	swap(foo,bar);
 
 // 	std::cout << "size of foo and bar: " << foo.size() << ", " << bar.size();
-}
+// }
 
 void	caller(void (*f1)(void), void (*f2)(void), std::string title)
 {
@@ -247,13 +286,13 @@ void	caller(void (*f1)(void), void (*f2)(void), std::string title)
 	// std::chrono::steady_clock::time_point b1 = std::chrono::high_resolution_clock::now();
 	f1();
 	// std::chrono::steady_clock::time_point e1 = std::chrono::high_resolution_clock::now();
-	std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e1 - b1).count() << " microseconds)" << std::endl;
+	// std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e1 - b1).count() << " microseconds)" << std::endl;
 
 	std::cout << "\x1B[33mstd:\033[0m\t";
 	// std::chrono::steady_clock::time_point b2 = std::chrono::high_resolution_clock::now();
 	f2();
 	// std::chrono::steady_clock::time_point e2 = std::chrono::high_resolution_clock::now();
-	std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e2 - b2).count() << " microseconds)" << std::endl;
+	// std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e2 - b2).count() << " microseconds)" << std::endl;
 
 	std::cout << std::endl;
 }
@@ -262,12 +301,12 @@ void	test_start(void)
 {
 	caller(ft_constructor, std_constructor, "constructor");
 	caller(ft_empty, std_empty, "empty");
-	caller(ft_size, std_size, "size");
-	caller(ft_top, std_top, "top");
-	caller(ft_push, std_push, "push");
-	caller(ft_pop, std_pop, "pop");
-	caller(ft_relational_operators, std_relational_operators, "operators");
-	caller(ft_swaps, std_swaps, "swap (map)");
+	// caller(ft_size, std_size, "size");
+	// caller(ft_top, std_top, "top");
+	// caller(ft_push, std_push, "push");
+	// caller(ft_pop, std_pop, "pop");
+	// caller(ft_relational_operators, std_relational_operators, "operators");
+	// caller(ft_swaps, std_swaps, "swap (map)");
 }
 
 int	main(void)

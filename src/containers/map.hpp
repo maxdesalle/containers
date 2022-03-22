@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/21 19:11:21 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/22 10:07:23 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,32 +54,33 @@ namespace ft
 			typedef typename Alloc::pointer			        	pointer;
 			typedef typename Alloc::const_pointer		    	const_pointer;
 
-			typedef ft::RBtree::treeIterator						iterator;
-			typedef const ft::RBtree::treeIterator					const_iterator;
+			typedef typename rbtree::iterator						iterator;
+			typedef typename rbtree::const_iterator					const_iterator;
 			typedef ft::reverse_iterator< iterator >				reverse_iterator;
 			typedef const ft::reverse_iterator< const_iterator >	const_reverse_iterator;
+			typedef treeNode< value_type >                          node;
 			
 
 		private:
-			RBTree												_tree;
+			rbtree												_tree;
 			Compare												_compare;
-			Allocator											_alloc;
+			allocator_type										_alloc;
 
 		
 		public:
 			// member functions
-			explicit map( key_compare& const comp = key_compare(),
-						allocator_type& const alloc = allocator_type()) :	_tree(),
+			explicit map( key_compare const & comp = key_compare(),
+						allocator_type const & alloc = allocator_type()) :	_tree(),
 																			_compare(comp),
 																			_alloc(alloc) {};
 
-			map( map& const m ):	_tree(m._tree),
+			map( map const& m ):	_tree(m._tree),
 									_compare(m._compare),
 									_alloc(m._alloc) {};
 
 			~map() {}
 			
-			map& operator = ( map& const m)
+			map& operator = ( map const& m)
 			{
 				if (this != &m)
 				{
@@ -128,7 +129,7 @@ namespace ft
 			
 			// observers
 			key_compare 			key_comp() const				{	return this->_compare;					};
-			value_compare 			value_comp() const;				{	return value_compare(this->_compare);	};
+			value_compare 			value_comp() const				{	return value_compare(this->_compare);	};
 
 			// operations
 
@@ -165,11 +166,11 @@ namespace ft
 					// typedef value_type 		first_argument_type;
 					// typedef value_type 		second_argument_type;
 					bool operator() ( const value_type& x, const value_type& y ) const { 		return comp(x.first, y.first);			};
-			}
+			};
 
 			// helper functions
 			value_type	get_valuetype( const key_type& k )				{		return value(k, mapped_type());		}
-			treeNode	*get_nodeptr( iterator const & it )				{		return *reinterpret_cast<node * const *>(&it);	}
+			node		*get_nodeptr( iterator const & it )				{		return *reinterpret_cast<node * const *>(&it);	}
 
 	};
 

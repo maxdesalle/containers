@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/22 10:17:22 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/22 20:21:54 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,22 @@ enum nodeColor {    RED, BLACK  };
 
 template < typename T >
 struct treeNode {
+    T           *value;
 	treeNode    *parent, *left, *right;
-    T           *val;
 	bool        color;
 
-    treeNode( void )    :   val( nullptr ),
+    treeNode( void )    :   value( nullptr ),
                             parent (0), left(0), right(0),
                             color( BLACK ) {};
-    treeNode( T  *value )   :  val(value),
+    treeNode( T  *value )   :  value(value),
                                 parent (0), left(0), right(0),
                                 color( BLACK ) {};
-    treeNode( treeNode const& t )   :   val(t.value),
+    treeNode( treeNode const& t )   :   value(t.value),
                                         parent (t.parent), left(t.left), right(t.right),
                                         color( t.color ) {};
     treeNode const&     operator = ( treeNode const& t )
     {
-        this->val = t.val;
+        this->value = t.value;
         this->parent = t.parent;
         this->left = t.left;
         this->right = t.right;
@@ -75,17 +75,13 @@ class RBTree
     
     private:
         // TREE ELEMENTS
-        node                    _root;
+        node                    *_root;
         size_type               _height;
         Compare                 _comp;
         node_allocator          _node_alloc;
 
     public:
         // CONSTRUCTORS
-        RBTree( void ) : _root(nullptr),
-                         _height(0),
-                         _comp(),
-                         _node_alloc()    {};
         RBTree( Compare const &comp = Compare(), Alloc const &alloc = allocator_type() ) :  _root(nullptr),
                                                                                             _height(0),
                                                                                             _comp(comp),
@@ -98,18 +94,18 @@ class RBTree
 
         RBTree& operator = ( RBTree const &t )
         {
-            if ( this != t)
+            if ( this != &t)
             {
                 if (_root)
-                    this->clear();
-                _height(t._height);
-                _comp(t._comp);
-                _node_alloc(t._node_alloc);
+                    this->clear(_root);
+                _height = t._height;
+                _comp = t._comp;
+                _node_alloc = t._node_alloc;
             }
             return *this;
         };
 
-        ~RBTree(void) { clear(); };
+        ~RBTree(void) { clear(_root); };
 
         // INSERT, DEL, CLEAR, SEARCH ELEMS
         ft::pair< iterator, bool>    insert( value_type pair )
@@ -136,11 +132,12 @@ class RBTree
         };
 
 		// [INSERT] : still TO DO
-        //treeIterator 				insert(treeIterator position, const value_type& val)
+        //treeIterator 				insert(treeIterator position, const value_type& value)
 		//void insert (InputIterator first, InputIterator last)
 
-        // void 					erase( iterator position)							//{	_tree.erase( get_nodeptr(position) );		};
-        // {
+        void 					erase( iterator position )							//{	_tree.erase( get_nodeptr(position) );		};
+        {
+            (void)position;
         //     try
         //     {
         //         node *curr = _root;
@@ -162,7 +159,7 @@ class RBTree
                     
         //     }
         //     catch( const RBTree::KeyNotFound & e )    {   std::cerr << e.what() << '\n';  }            
-        // }
+        }
         
 		// size_type 				erase(const key_type& k)							{	_tree.erase( k );				};
 
@@ -172,27 +169,21 @@ class RBTree
 
 
         // CLEAR
-        void        clear( void )
+        void        delNode(node *node)        {    _node_alloc.destroy(node);  _node_alloc.deallocate(node, 1);  --_height;      }
+        void        clear(node *root)
         {
-            if (_root)
-            {
-                node*	left    = _root->left;
-                node*	right   = _root->right;
-                _node_alloc.destroy(_root);
-                _node_alloc.deallocate(_root, 1);
-
-                if (left)   clear(left);
-                if (right)  clear(right);
-            }
-            _root = NULL;
-            _height = 0;
+            if (!root)
+                return ;
+            clear(root->left);
+            clear(root->right);
+            delNode(root);
         }
 
         
         // capacity
-        bool        empty( void )       {   return _height == 0;                  };
-        size_type   size( void )        {   return _height;                 };
-	    size_type	max_size() const	{   return _node_alloc.max_size();       }
+        bool        empty( void ) const      {   return _height == 0;                     };
+        size_type   size( void )  const      {   return _height;                          };
+	    size_type	max_size() const	     {   return _node_alloc.max_size();           };
 
         // exceptions
 		class EmptyTree : public std::exception {
@@ -240,10 +231,10 @@ class RBTree
                     return *this;
                 }
 
-                reference		operator* () 							{   return _node->_value;    }
-                const_reference	operator* () const						{   return _node->_value;    }
-                pointer			operator->()							{   return &_node->_value;   }
-                const_pointer	operator->() const						{   return &_node->_value;   }
+                reference		operator* () 							{   return _node->value;    }
+                const_reference	operator* () const						{   return _node->value;    }
+                pointer			operator->()							{   return &_node->value;   }
+                const_pointer	operator->() const						{   return &_node->value;   }
 
                 treeIterator&		operator ++ ()
                 {

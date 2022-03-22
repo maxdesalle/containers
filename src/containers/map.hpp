@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/22 10:07:23 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/22 20:19:38 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ namespace ft
 		public:
 			// member functions
 			explicit map( key_compare const & comp = key_compare(),
-						allocator_type const & alloc = allocator_type()) :	_tree(),
+						allocator_type const & alloc = allocator_type()) :	_tree( ),
 																			_compare(comp),
 																			_alloc(alloc) {};
 
@@ -103,11 +103,9 @@ namespace ft
 
 			// capacity
 			bool			empty( void ) const				{	return	_tree.empty();		};
-			size_type 		size( void ) const				{	return	_tree.height();		};
+			size_type 		size( void ) const				{	return	_tree.size();		};
 			size_type 		max_size() const				{	return	_tree.max_size();	};
 
-			// element access
-			mapped_type& operator[] ( const key_type& k )	{	return (*((this->insert(make_pair( k,mapped_type() ))).first)).second;			};
 
 			// modifiers
 			// [ INSERT ]
@@ -127,6 +125,9 @@ namespace ft
 			// [ CLEAR ]
 			void 					clear()							{	_tree.clear();	};
 			
+			// element access
+			mapped_type& operator[] ( const key_type& k )	{	return (*((this->insert(make_pair( k,mapped_type() ))).first)).second;			};
+
 			// observers
 			key_compare 			key_comp() const				{	return this->_compare;					};
 			value_compare 			value_comp() const				{	return value_compare(this->_compare);	};
@@ -170,7 +171,7 @@ namespace ft
 
 			// helper functions
 			value_type	get_valuetype( const key_type& k )				{		return value(k, mapped_type());		}
-			node		*get_nodeptr( iterator const & it )				{		return *reinterpret_cast<node * const *>(&it);	}
+			node		get_nodeptr( iterator & it )				{		return *reinterpret_cast<node *>(&it);	}
 
 	};
 

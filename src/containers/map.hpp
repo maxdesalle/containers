@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/23 09:34:02 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/23 10:38:52 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ namespace ft
 			ft::pair< iterator,bool > 	insert(const value_type& val)						{	return _tree.insert( val );			};
 			iterator 					insert(iterator position, const value_type& val)	{	return _tree.insert( get_nodeptr(position), val );	};
 			template <class InputIterator>
-  			void 						insert (InputIterator first, InputIterator last)						{	_tree.insert( first, last );	};
+  			void 						insert (InputIterator first, InputIterator last)	{	_tree.insert( first, last );	};
 
 			// [ ERASE ]
-			void 					erase(iterator position)							{	_tree.erase( get_nodeptr(position) );		};
+			void 					erase(iterator position)							{	_tree.erase( position );		};
 			size_type 				erase(const key_type& k)							{	return _tree.erase( k );					};
 			void 					erase(iterator first, iterator last)				{	_tree.erase( first, last );					};
 

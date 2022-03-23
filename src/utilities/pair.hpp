@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 10:41:03 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/03/21 10:42:23 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/23 09:02:43 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ namespace ft
 				 second(second_t())	{};
 				 
 		template < typename U, typename V >
-		pair(pair< U,V > const & p):	first(p.first),
+		pair(const pair< U,V > & p):	first(p.first),
 										second(p.second) {};
 
-		pair(first_t const & a, second_t const & b):	first(a),
+		pair(const first_t & a, const second_t & b):	first(a),
 														second(b) {}
 
-		pair&		operator = ( pair const & p )
+		pair&		operator = ( const pair & p )
 		{
 			if ( *this != p )
 			{
@@ -49,22 +49,22 @@ namespace ft
 	pair< T1, T2 > make_pair ( T1 x, T2 y )										{	return pair< T1, T2 >( x, y );	}
 
 	template < typename T1, typename T2 >
-	bool	operator == ( pair< T1, T2 > const & l, pair< T1, T2 > const & r )	{ return l.first == r.first && l.second == r.second; }
+	bool	operator == ( const pair< T1, T2 > & l, const pair< T1, T2 > & r )	{ return l.first == r.first && l.second == r.second; }
 
 	template < typename T1, typename T2 >
-	bool	operator != ( pair< T1, T2 > const & l, pair< T1, T2 > const & r )	{ return !(l == r); }
+	bool	operator != ( const pair< T1, T2 > & l, const pair< T1, T2 > & r )	{ return !(l == r); }
 
 	template < typename T1, typename T2 >
-	bool	operator < ( pair< T1, T2 > const & l, pair< T1, T2 > const & r )	{ return l.first < r.first || (!(r.first < l.first) && l.second < r.second); }
+	bool	operator < ( const pair< T1, T2 > & l, const pair< T1, T2 > & r )	{ return l.first < r.first || (!(r.first < l.first) && l.second < r.second); }
 
 	template < typename T1, typename T2 >
-	bool	operator <= ( pair< T1, T2 > const & l, pair< T1, T2 > const & r )	{ return !(r < l); }
+	bool	operator <= ( const pair< T1, T2 > & l, const pair< T1, T2 > & r )	{ return !(r < l); }
 
 	template < typename T1, typename T2 >
-	bool	operator > ( pair< T1, T2 > const & l, pair< T1, T2 > const & r )	{ return r < l; }
+	bool	operator > ( const pair< T1, T2 > & l, const pair< T1, T2 > & r )	{ return r < l; }
 
 	template < typename T1, typename T2 >
-	bool	operator >= ( pair< T1, T2 > const & l, pair< T1, T2 > const & r )	{ return !(l < r); }
+	bool	operator >= ( const pair< T1, T2 > & l, const pair< T1, T2 > & r )	{ return !(l < r); }
 };
 
 #endif

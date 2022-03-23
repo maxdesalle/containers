@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/22 20:21:54 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/23 09:35:10 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,11 @@ class RBTree
             {
                 while (curr)
                 {
-                    if (_comp(pair.first, curr->value.first))
-                        curr = curr->left;
-                    else
-                        curr = curr->right;
+                    if (_comp(pair.first, curr->value.first))   curr = curr->left;
+                    else                                        curr = curr->right;
                 }
-                if (_comp(pair.first, curr->value.first))
-                    curr->left = new node( pair );
-                else
-                    curr->right = new node( pair );
+                if (_comp(pair.first, curr->value.first))       curr->left = new node( pair );
+                else                                            curr->right = new node( pair );
             }
             // balanceTree(); TO DO
             _height++;
@@ -233,7 +229,7 @@ class RBTree
 
                 reference		operator* () 							{   return _node->value;    }
                 const_reference	operator* () const						{   return _node->value;    }
-                pointer			operator->()							{   return &_node->value;   }
+                pointer			operator->()							{   return _node->value;   }
                 const_pointer	operator->() const						{   return &_node->value;   }
 
                 treeIterator&		operator ++ ()
@@ -285,6 +281,36 @@ class RBTree
 
                 operator            const_iterator () const						    {   return const_iterator(_node, _tree);    }
         };
+
+        // iterators
+        iterator				begin(void)
+        {
+            node*	first;
+
+            if (!_root)
+                return iterator(NULL, this);
+            first = _root;
+            while (first->left)
+                first = first->left;
+            return iterator(first, this);
+        }
+        const_iterator			begin() const
+        {
+            node*	first;
+
+            if (!_root)
+                return const_iterator(NULL, this);
+            first = _root;
+            while (first->left)
+                first = first->left;
+            return const_iterator(first, this);
+        }
+        iterator				end()				{ return iterator(NULL, this); }
+        const_iterator			end() const			{ return const_iterator(NULL, this); }
+        reverse_iterator		rbegin()			{ return reverse_iterator(end()); }
+        const_reverse_iterator	rbegin() const		{ return const_reverse_iterator(end()); }
+        reverse_iterator		rend()				{ return reverse_iterator(begin()); }
+        const_reverse_iterator	rend() const		{ return const_reverse_iterator(begin()); }
 
 
 

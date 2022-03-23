@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/23 09:46:00 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:42:24 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@
 enum nodeColor {    RED, BLACK  };
 
 template < typename T >
-struct treeNode {
+struct node {
     T           *value;
-	treeNode    *parent, *left, *right;
+	node    *parent, *left, *right;
 	bool        color;
 
-    treeNode( void )    :   value( nullptr ),
+    node( void )    :   value( nullptr ),
                             parent (0), left(0), right(0),
                             color( BLACK ) {};
-    treeNode( T  *value )   :  value(value),
+    node( T  *value )   :  value(value),
                                 parent (0), left(0), right(0),
                                 color( BLACK ) {};
-    treeNode( treeNode const& t )   :   value(t.value),
+    node( node const& t )   :   value(t.value),
                                         parent (t.parent), left(t.left), right(t.right),
                                         color( t.color ) {};
-    treeNode const&     operator = ( treeNode const& t )
+    node const&     operator = ( node const& t )
     {
         this->value = t.value;
         this->parent = t.parent;
@@ -48,7 +48,7 @@ struct treeNode {
         this->color = t.color;
         return *this;
     }
-    ~treeNode ();
+    // ~node ();
 };
 
 template <typename T, typename Compare, typename Alloc = std::allocator<T> >
@@ -59,26 +59,26 @@ class RBTree
         template <class U>
         class	treeIterator;
 
-        typedef T												        value_type;
-        typedef Alloc   										        allocator_type;             // container allocator
-        typedef typename allocator_type::pointer				        pointer;
-        typedef typename allocator_type::const_pointer			        const_pointer;
-        typedef typename allocator_type::reference				        reference;
-        typedef typename allocator_type::const_reference		        const_reference;
-        typedef treeIterator< T >									    iterator;
-        typedef treeIterator< const T >								    const_iterator;
-        typedef ft::reverse_iterator< iterator >				        reverse_iterator;
-        typedef ft::reverse_iterator< const_iterator >			        const_reverse_iterator;
-        typedef std::size_t										        size_type;
-        typedef treeNode< value_type >                                  node;
-        typedef typename allocator_type::template rebind< node >::other	node_allocator;             // container's element allocator 
+        typedef T												            value_type;
+        typedef Alloc   										            allocator_type;             // container allocator
+        typedef typename allocator_type::pointer				            pointer;
+        typedef typename allocator_type::const_pointer			            const_pointer;
+        typedef typename allocator_type::reference				            reference;
+        typedef typename allocator_type::const_reference		            const_reference;
+        typedef treeIterator< T >									        iterator;
+        typedef treeIterator< const T >								        const_iterator;
+        typedef ft::reverse_iterator< iterator >				            reverse_iterator;
+        typedef ft::reverse_iterator< const_iterator >			            const_reverse_iterator;
+        typedef std::size_t										            size_type;
+        typedef node< value_type >                                          treeNode;
+        typedef typename allocator_type::template rebind< treeNode >::other	node_allocator;             // container's element allocator 
     
     private:
         // TREE ELEMENTS
-        node                    *_root;
-        size_type               _height;
-        Compare                 _comp;
-        node_allocator          _node_alloc;
+        treeNode                    *_root;
+        size_type                   _height;
+        Compare                     _comp;
+        node_allocator              _node_alloc;
 
     public:
         // CONSTRUCTORS
@@ -109,19 +109,31 @@ class RBTree
 
         // INSERT, DEL, CLEAR, SEARCH ELEMS
         // [INSERT]
-        ft::pair< iterator, bool>    insert( const value_type &pair )
+        treeNode                    *newNode( value_type const& pair )
         {
-            node *curr = _root;
-            if (!curr)  curr = new node( pair );
+            treeNode    *newnode = _node_alloc.allocate(1);
+            _node_alloc.construct(newnode->value, pair);
+			newnode->parent = nullptr;
+			newnode->left = nullptr;
+			newnode->right = nullptr;
+			newnode->color = BLACK;
+			return newnode;
+
+        };
+
+        ft::pair< iterator, bool>    insert( value_type const&pair )
+        {
+            treeNode *curr = _root;
+            if (!curr)  curr = newNode( pair );
             else
             {
                 while (curr)
                 {
-                    if (_comp(pair.first, curr->value.first))   curr = curr->left;
+                    if (_comp(pair.first, curr->value->first))   curr = curr->left;
                     else                                        curr = curr->right;
                 }
-                if (_comp(pair.first, curr->value.first))       curr->left = new node( pair );
-                else                                            curr->right = new node( pair );
+                if (_comp(pair.first, curr->value->first))       curr->left = newNode( pair );
+                else                                            curr->right = newNode( pair );
             }
             // balanceTree(); TO DO
             _height++;
@@ -133,13 +145,13 @@ class RBTree
     	template <class InputIterator>
 	    void					insert(InputIterator first, InputIterator last)	    {       while (first != last)   insert(*first++);           };
 
-        void 					erase( iterator position )							//{	_tree.erase( get_nodeptr(position) );		};
+        void 					erase( iterator position )							//{	_tree.erase( get_treeNodeptr(position) );		};
         {
             (void)position;
         //     try
         //     {
-        //         node *curr = _root;
-        //         if (!curr)  curr = new node( pair );
+        //         treeNode *curr = _root;
+        //         if (!curr)  curr = new treeNode( pair );
         //         else
         //         {
         //             while (curr)
@@ -150,9 +162,9 @@ class RBTree
         //                     curr = curr->right;
         //             }
         //             if (_comp(newNode->value.first, curr->value.first))
-        //                 curr->left = new node( pair );
+        //                 curr->left = new treeNode( pair );
         //             else
-        //                 curr->right = new node( pair );
+        //                 curr->right = new treeNode( pair );
         //         }
                     
         //     }
@@ -167,11 +179,10 @@ class RBTree
 
 
         // CLEAR
-        void        delNode(node *node)        {    _node_alloc.destroy(node);  _node_alloc.deallocate(node, 1);  --_height;      }
-        void        clear(node *root)
+        void        delNode(treeNode *node)        {    _node_alloc.destroy(node);  _node_alloc.deallocate(node, 1);  --_height;      }
+        void        clear(treeNode *root)
         {
-            if (!root)
-                return ;
+            if (!root)  return ;
             clear(root->left);
             clear(root->right);
             delNode(root);
@@ -209,16 +220,16 @@ class RBTree
                 typedef U&								reference;
                 typedef std::ptrdiff_t					difference_type;
                 typedef std::bidirectional_iterator_tag	iterator_category;
-                typedef treeNode< value_type >          node;
+                typedef node< value_type >              treeNode;
 
             private:
-                node*			    _node;
-                const RBTree*	    _tree;
+                treeNode*			    _node;
+                const RBTree*	        _tree;
 
             public:
                 treeIterator( void ) :  _node(NULL),
                                         _tree(NULL) {};
-                treeIterator( node* current, const RBTree *tree ) : _node(current),
+                treeIterator( treeNode* current, const RBTree *tree ) : _node(current),
                                                                         _tree(tree) {};
                 treeIterator( treeIterator const& t ) : _node(t._node),
                                                         _tree(t._tree) {};
@@ -229,10 +240,10 @@ class RBTree
                     return *this;
                 }
 
-                reference		operator* () 							{   return _node->value;    }
-                const_reference	operator* () const						{   return _node->value;    }
+                reference		operator* () 							{   return *_node->value;    }
+                const_reference	operator* () const						{   return *_node->value;    }
                 pointer			operator->()							{   return _node->value;   }
-                const_pointer	operator->() const						{   return &_node->value;   }
+                const_pointer	operator->() const						{   return _node->value;   }
 
                 treeIterator&		operator ++ ()
                 {
@@ -245,7 +256,7 @@ class RBTree
                     }
                     else
                     {
-                        node	*ptr = _node->parent;
+                        treeNode	*ptr = _node->parent;
                         while (ptr && ptr->right == _node)
                         {   _node = ptr;  ptr = ptr->parent;    }
                         _node = ptr;
@@ -268,7 +279,7 @@ class RBTree
                     }
                     else
                     {
-                        node	*ptr = _node->parent;
+                        treeNode	*ptr = _node->parent;
                         while (ptr && ptr->left == _node)
                         {   _node = ptr;  ptr = ptr->parent;    }
                         _node = ptr;
@@ -287,34 +298,24 @@ class RBTree
         // iterators
         iterator				begin(void)
         {
-            node*	first;
-
-            if (!_root)
-                return iterator(NULL, this);
-            first = _root;
-            while (first->left)
-                first = first->left;
+            if (!_root)        return iterator(NULL, this);
+            treeNode* first = _root;
+            while (first->left) first = first->left;
             return iterator(first, this);
         }
         const_iterator			begin() const
         {
-            node*	first;
-
-            if (!_root)
-                return const_iterator(NULL, this);
-            first = _root;
-            while (first->left)
-                first = first->left;
+            if (!_root)        return const_iterator(NULL, this);
+            treeNode* first = _root;
+            while (first->left) first = first->left;
             return const_iterator(first, this);
         }
-        iterator				end()				{ return iterator(NULL, this); }
-        const_iterator			end() const			{ return const_iterator(NULL, this); }
-        reverse_iterator		rbegin()			{ return reverse_iterator(end()); }
-        const_reverse_iterator	rbegin() const		{ return const_reverse_iterator(end()); }
-        reverse_iterator		rend()				{ return reverse_iterator(begin()); }
-        const_reverse_iterator	rend() const		{ return const_reverse_iterator(begin()); }
-
-
+        iterator				end()				{       return iterator(NULL, this);                }
+        const_iterator			end() const			{       return const_iterator(NULL, this);          }
+        reverse_iterator		rbegin()			{       return reverse_iterator(end());             }
+        const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(end());       }
+        reverse_iterator		rend()				{       return reverse_iterator(begin());           }
+        const_reverse_iterator	rend() const		{       return const_reverse_iterator(begin());     }
 
 };
 

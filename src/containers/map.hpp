@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/23 10:38:52 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:32:46 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ namespace ft
 {
 	template <	class Key,
                 class T,
-                class Compare = std::less< Key >,
+                class Compare = std::less< const Key >,
                 class Alloc = std::allocator< ft::pair< const Key, T > >
              >
 			 		 
@@ -39,7 +39,7 @@ namespace ft
 
 			typedef	T			 								mapped_type;
             typedef Key                                         key_type;
-            typedef std::pair< const Key, T>                    value_type;
+            typedef ft::pair< const Key, T>                    value_type;
             typedef std::size_t									size_type;
             typedef std::ptrdiff_t							    difference_type;
             typedef Compare                                     key_compare;
@@ -58,7 +58,7 @@ namespace ft
 			typedef typename rbtree::const_iterator					const_iterator;
 			typedef ft::reverse_iterator< iterator >				reverse_iterator;
 			typedef const ft::reverse_iterator< const_iterator >	const_reverse_iterator;
-			typedef treeNode< value_type >                          node;
+			typedef node< value_type >                          	treeNode;
 			
 
 		private:
@@ -109,7 +109,7 @@ namespace ft
 
 			// modifiers
 			// [ INSERT ]
-			ft::pair< iterator,bool > 	insert(const value_type& val)						{	return _tree.insert( val );			};
+			ft::pair< iterator,bool > 	insert(value_type const & val)						{	return _tree.insert( val );			};
 			iterator 					insert(iterator position, const value_type& val)	{	return _tree.insert( get_nodeptr(position), val );	};
 			template <class InputIterator>
   			void 						insert (InputIterator first, InputIterator last)	{	_tree.insert( first, last );	};
@@ -126,7 +126,7 @@ namespace ft
 			void 					clear()							{	_tree.clear();	};
 			
 			// element access
-			mapped_type& operator[] ( const key_type& k )			{	return (insert(ft::make_pair( k,mapped_type() )).first).second;			};
+			mapped_type& operator[] ( const key_type& k )			{	return (*(insert(ft::make_pair( k,mapped_type() )).first)).second;			};
 
 			// observers
 			key_compare 			key_comp() const				{	return this->_compare;					};
@@ -171,7 +171,7 @@ namespace ft
 
 			// helper functions
 			value_type	get_valuetype( const key_type& k )				{		return value(k, mapped_type());		}
-			node		get_nodeptr( iterator & it )					{		return *reinterpret_cast<node *>(&it);	}
+			treeNode		get_nodeptr( iterator & it )					{		return *reinterpret_cast<treeNode *>(&it);	}
 
 	};
 

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 10:41:03 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/03/23 09:02:43 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:41:39 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,35 @@
 namespace ft
 {
 	template < typename T1, typename T2 >
-	struct pair
+	class pair
 	{
-		typedef T1	first_t;
-		typedef T2	second_t;
+		public: 
+			typedef T1	first_t;
+			typedef T2	second_t;
 
-		first_t				first;
-		second_t			second;
+			first_t				first;
+			second_t			second;
 
-		pair() : first(first_t()),
-				 second(second_t())	{};
-				 
-		template < typename U, typename V >
-		pair(const pair< U,V > & p):	first(p.first),
-										second(p.second) {};
+			pair()	:	first(),
+						second()	{};
+					
+			template < typename U, typename V >
+			pair(pair< U,V > const& p):	first(p.first),
+											second(p.second) {};
 
-		pair(const first_t & a, const second_t & b):	first(a),
-														second(b) {}
+			pair(const first_t & a, const second_t & b):	first(a),
+															second(b) {}
 
-		pair&		operator = ( const pair & p )
-		{
-			if ( *this != p )
+			pair&		operator = ( pair const& p )
 			{
-				this->first = p.first;
-				this->second = p.second;
+				if ( this != &p )
+				{
+					this->first = p.first;
+					this->second = p.second;
+				}
+				return *this;
 			}
-			return (*this);
-		}
+			// ~pair();
 	};
 
 	template < typename T1, typename T2 >

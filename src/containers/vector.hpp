@@ -6,7 +6,7 @@
 /*   By: maxdesalle <mdesalle@student.s19.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 11:03:03 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/01/12 10:43:17 by maxdesall        ###   ########.fr       */
+/*   Updated: 2022/03/23 14:11:20 by mdesalle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ namespace ft
 			typedef size_t										size_type;
 			typedef typename iterator::difference_type			difference_type;
 
-			explicit	vector(const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(nullptr), _size(0) {}
-			explicit	vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(nullptr), _size(0) { insert(begin(), n, val); }
+			explicit	vector(const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(NULL), _size(0) {}
+			explicit	vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(NULL), _size(0) { insert(begin(), n, val); }
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0): _alloc(alloc), _capacity(0), _elem(nullptr), _size(0) { insert(begin(), first, last); }
+			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0): _alloc(alloc), _capacity(0), _elem(NULL), _size(0) { insert(begin(), first, last); }
 
 			vector(const vector& x): _alloc(x._alloc), _capacity(x._capacity), _elem(_alloc.allocate(x._capacity)), _size(x._size)
 			{
@@ -132,20 +132,12 @@ namespace ft
 
 			iterator				erase(iterator first, iterator last)
 			{
-				size_type			val = first - begin();
 				size_type			diff = last - first;
 
-				for (size_type i = val; i < diff; i += 1)
-					_alloc.destroy(&_elem[i]);
+				while (diff-- > 0)
+					erase(begin() + diff);
 
-				_size -= diff;
-				for (size_type i = val; i < _size; i += 1)
-				{
-					_alloc.construct(&_elem[i], _elem[i + 1]);
-					_alloc.destroy(&_elem[i + 1]);
-				}
-
-				return (iterator(&_elem[val]));
+				return (first);
 			}
 
 			reference				front() { return (_elem[0]); }
@@ -283,7 +275,7 @@ namespace ft
 
 					pointer			base() const { return (_it); }
 
-					Iterator		operator=(const Iterator rhs)
+					Iterator		operator=(const Iterator& rhs)
 					{
 						this->_it = rhs.base();
 						return (*this);
@@ -300,7 +292,7 @@ namespace ft
 					Iterator	operator++(int)
 					{
 						Iterator(temp) = *this;
-						++(*this);
+						this->_it += 1;
 						return (temp);
 					}
 
@@ -321,7 +313,7 @@ namespace ft
 					Iterator	operator--(int)
 					{
 						reverse_iterator(temp) = *this;
-						--(*this);
+						this->_it -= 1;
 						return (temp);
 					}
 
@@ -344,10 +336,10 @@ namespace ft
 
 					friend bool				operator==(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() == rhs.base()); }
 					friend bool				operator!=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() != rhs.base()); }
-					friend bool				operator<(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() > rhs.base()); }
-					friend bool				operator<=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() >= rhs.base()); }
-					friend bool				operator>(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() < rhs.base()); }
-					friend bool 			operator>=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() <= rhs.base()); }
+					friend bool				operator<(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() < rhs.base()); }
+					friend bool				operator<=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() <= rhs.base()); }
+					friend bool				operator>(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() > rhs.base()); }
+					friend bool 			operator>=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() >= rhs.base()); }
 
 				private:
 

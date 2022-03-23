@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/23 16:42:24 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/24 00:33:53 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ enum nodeColor {    RED, BLACK  };
 
 template < typename T >
 struct node {
-    T           *value;
+    typedef T           value_type;
+    value_type          value;
 	node    *parent, *left, *right;
 	bool        color;
 
@@ -48,10 +49,10 @@ struct node {
         this->color = t.color;
         return *this;
     }
-    // ~node ();
+    ~node () {};
 };
 
-template <typename T, typename Compare, typename Alloc = std::allocator<T> >
+template < class T, class Compare = std::less< T >, class Alloc = std::allocator<T> >
 class RBTree
 {
     public:
@@ -60,7 +61,8 @@ class RBTree
         class	treeIterator;
 
         typedef T												            value_type;
-        typedef Alloc   										            allocator_type;             // container allocator
+        typedef Alloc   										            allocator_type;                // container allocator
+        typedef Compare                                                     value_compare;             
         typedef typename allocator_type::pointer				            pointer;
         typedef typename allocator_type::const_pointer			            const_pointer;
         typedef typename allocator_type::reference				            reference;
@@ -71,7 +73,7 @@ class RBTree
         typedef ft::reverse_iterator< const_iterator >			            const_reverse_iterator;
         typedef std::size_t										            size_type;
         typedef node< value_type >                                          treeNode;
-        typedef typename allocator_type::template rebind< treeNode >::other	node_allocator;             // container's element allocator 
+        typedef typename Alloc::template rebind< treeNode >::other	        node_allocator;             // container's element allocator 
     
     private:
         // TREE ELEMENTS
@@ -82,10 +84,10 @@ class RBTree
 
     public:
         // CONSTRUCTORS
-        RBTree( Compare const &comp = Compare(), Alloc const &alloc = allocator_type() ) :  _root(nullptr),
-                                                                                            _height(0),
-                                                                                            _comp(comp),
-                                                                                            _node_alloc(alloc)    {};
+        explicit RBTree( const value_compare &comp, const allocator_type &alloc) :  _root(nullptr),
+                                                                                    _height(0),
+                                                                                    _comp(comp),
+                                                                                    _node_alloc(alloc)    {};
 
         RBTree( RBTree const &t ) : _root(t._root),
                                     _height(t._height),
@@ -105,38 +107,37 @@ class RBTree
             return *this;
         };
 
-        ~RBTree(void) { clear(_root); };
+        ~RBTree(void) { };
 
         // INSERT, DEL, CLEAR, SEARCH ELEMS
         // [INSERT]
         treeNode                    *newNode( value_type const& pair )
         {
             treeNode    *newnode = _node_alloc.allocate(1);
-            _node_alloc.construct(newnode->value, pair);
 			newnode->parent = nullptr;
 			newnode->left = nullptr;
 			newnode->right = nullptr;
 			newnode->color = BLACK;
+            _node_alloc.construct(&(newnode->value), pair);
+            _height++;
 			return newnode;
 
         };
 
-        ft::pair< iterator, bool>    insert( value_type const&pair )
+        ft::pair< iterator, bool>    insert( value_type const& pair )
         {
+            if (!_root) { _root = newNode( pair ); return ft::make_pair(iterator(_root, this), true); }
             treeNode *curr = _root;
-            if (!curr)  curr = newNode( pair );
-            else
+            treeNode *parent;
+            while (curr)
             {
-                while (curr)
-                {
-                    if (_comp(pair.first, curr->value->first))   curr = curr->left;
-                    else                                        curr = curr->right;
-                }
-                if (_comp(pair.first, curr->value->first))       curr->left = newNode( pair );
-                else                                            curr->right = newNode( pair );
+                parent = curr;
+                if (_comp(pair, curr->value))   curr = curr->left;
+                else                            curr = curr->right;
             }
+            if (_comp(pair, parent->value))       curr = newNode( pair );
+            else                                  curr = newNode( pair );
             // balanceTree(); TO DO
-            _height++;
             return ft::make_pair(iterator(curr, this), true);
         };
 
@@ -240,10 +241,10 @@ class RBTree
                     return *this;
                 }
 
-                reference		operator* () 							{   return *_node->value;    }
-                const_reference	operator* () const						{   return *_node->value;    }
-                pointer			operator->()							{   return _node->value;   }
-                const_pointer	operator->() const						{   return _node->value;   }
+                reference		operator* () 							{   return _node->value;    }
+                const_reference	operator* () const						{   return _node->value;    }
+                pointer			operator->()							{   return &_node->value;   }
+                const_pointer	operator->() const						{   return &_node->value;   }
 
                 treeIterator&		operator ++ ()
                 {

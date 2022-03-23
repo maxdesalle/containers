@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/22 10:16:48 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/24 00:36:25 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,15 @@ void	std_empty(void)
 	mymap['b']=20;
 	mymap['c']=30;
 
-	while (!mymap.empty())
-	{
-		std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
-		mymap.erase(mymap.begin());
-	}
+	// while (!mymap.empty())
+	// {
+	// 	std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
+	// 	mymap.erase(mymap.begin());
+	// }
+
+	std::cout << mymap['a'] << std::endl;
+	std::cout << mymap['b'] << std::endl;
+	std::cout << mymap['c'] << std::endl;
 
 	std::cout << "mymap.size() is " << mymap.size() << '\n';
 	std::cout << "mymap.max_size() is " << mymap.max_size() << '\n';
@@ -111,11 +115,15 @@ void	ft_empty(void)
 	mymap['b']=20;
 	mymap['c']=30;
 
-	while (!mymap.empty())
-	{
-		std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
-		mymap.erase(mymap.begin());
-	}
+	// while (!mymap.empty())
+	// {
+	// 	std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
+	// 	mymap.erase(mymap.begin());
+	// }
+
+	std::cout << mymap['a'] << std::endl;
+	std::cout << mymap['b'] << std::endl;
+	std::cout << mymap['c'] << std::endl;
 
 	std::cout << "mymap.size() is " << mymap.size() << '\n';
 	std::cout << "mymap.max_size() is " << mymap.max_size() << '\n';

@@ -12,7 +12,7 @@
 
 NAME = container
 
-CC = clang++ #-fsanitize=address -g
+CC = clang++ -g #-fsanitize=address -g
 
 CFLAGS = -Wall -Wextra -Werror #-std=c++98
 

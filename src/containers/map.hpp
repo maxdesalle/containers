@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/23 16:32:46 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/24 00:32:31 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ namespace ft
 
 			typedef	T			 								mapped_type;
             typedef Key                                         key_type;
-            typedef ft::pair< const Key, T>                    value_type;
+            typedef ft::pair< const key_type, mapped_type >     value_type;
             typedef std::size_t									size_type;
             typedef std::ptrdiff_t							    difference_type;
             typedef Compare                                     key_compare;
 			typedef Alloc										allocator_type;
 
 		private:
-			typedef RBTree<value_type, key_compare, allocator_type>		rbtree;
+			typedef RBTree<value_type, value_compare, allocator_type>		rbtree;
 
 		public:
 			typedef value_type&			                        reference;
@@ -63,14 +63,28 @@ namespace ft
 
 		private:
 			rbtree												_tree;
-			Compare												_compare;
+			key_compare											_compare;
 			allocator_type										_alloc;
 
 		
 		public:
+			// public classes
+			class value_compare
+			{   
+				friend class map;
+				protected:
+					key_compare		comp;
+					value_compare (key_compare c) : comp(c) {}  // constructed with map's comparison object
+					
+				public:
+					typedef bool 			result_type;
+					typedef value_type 		first_argument_type;
+					typedef value_type 		second_argument_type;
+					bool operator() ( const value_type& x, const value_type& y ) const { 		return comp(x.first, y.first);			};
+			};
 			// member functions
-			explicit map( key_compare const & comp = key_compare(),
-						allocator_type const & alloc = allocator_type()) :	_tree( ),
+			explicit map( const key_compare & comp = key_compare(),
+						const allocator_type & alloc = allocator_type()) :	_tree(comp, alloc),
 																			_compare(comp),
 																			_alloc(alloc) {};
 
@@ -78,7 +92,7 @@ namespace ft
 									_compare(m._compare),
 									_alloc(m._alloc) {};
 
-			~map() {}
+			virtual ~map() {}
 			
 			map& operator = ( map const& m)
 			{
@@ -155,19 +169,6 @@ namespace ft
 
 			// allocator
 			allocator_type			get_allocator( void ) const		{	return this->_alloc;	};
-
-			// public classes
-			class value_compare
-			{   
-				protected:
-					key_compare		comp;
-					value_compare (key_compare c) : comp(c) {}  // constructed with map's comparison object
-				public:
-					// typedef bool 			result_type;
-					// typedef value_type 		first_argument_type;
-					// typedef value_type 		second_argument_type;
-					bool operator() ( const value_type& x, const value_type& y ) const { 		return comp(x.first, y.first);			};
-			};
 
 			// helper functions
 			value_type	get_valuetype( const key_type& k )				{		return value(k, mapped_type());		}

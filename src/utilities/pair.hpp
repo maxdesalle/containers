@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 10:41:03 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/03/23 16:41:39 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/23 23:17:04 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,28 @@ namespace ft
 	class pair
 	{
 		public: 
-			typedef T1	first_t;
-			typedef T2	second_t;
+			typedef T1	first_type;
+			typedef T2	second_type;
 
-			first_t				first;
-			second_t			second;
+			first_type				first;
+			second_type			second;
 
 			pair()	:	first(),
 						second()	{};
 					
 			template < typename U, typename V >
-			pair(pair< U,V > const& p):	first(p.first),
+			pair(const pair< U,V > & p):	first(p.first),
 											second(p.second) {};
 
-			pair(const first_t & a, const second_t & b):	first(a),
-															second(b) {}
+			pair(const first_type & a, const second_type & b):	first(a),
+																second(b) {}
 
 			pair&		operator = ( pair const& p )
 			{
-				if ( this != &p )
-				{
-					this->first = p.first;
-					this->second = p.second;
-				}
+				if ( this != &p )	{	first = p.first; second = p.second;		}
 				return *this;
 			}
-			// ~pair();
+			~pair() {};
 	};
 
 	template < typename T1, typename T2 >

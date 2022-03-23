@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/23 09:35:10 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/23 09:46:00 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ class RBTree
         ~RBTree(void) { clear(_root); };
 
         // INSERT, DEL, CLEAR, SEARCH ELEMS
-        ft::pair< iterator, bool>    insert( value_type pair )
+        // [INSERT]
+        ft::pair< iterator, bool>    insert( const value_type &pair )
         {
             node *curr = _root;
             if (!curr)  curr = new node( pair );
@@ -127,9 +128,10 @@ class RBTree
             return ft::make_pair(iterator(curr, this), true);
         };
 
-		// [INSERT] : still TO DO
-        //treeIterator 				insert(treeIterator position, const value_type& value)
-		//void insert (InputIterator first, InputIterator last)
+        iterator 				insert(iterator position, const value_type& value)  {       return insert(value).first; (void)position;         }
+		
+    	template <class InputIterator>
+	    void					insert(InputIterator first, InputIterator last)	    {       while (first != last)   insert(*first++);           };
 
         void 					erase( iterator position )							//{	_tree.erase( get_nodeptr(position) );		};
         {

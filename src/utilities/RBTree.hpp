@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/24 17:00:43 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/24 19:26:48 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ class RBTree
 
         ~RBTree(void) { };
 
-        // INSERT, DEL, CLEAR, SEARCH ELEMS
-        // [INSERT]
+        // [INSERT] ( + addNode() )
         treeNode                    *newNode( value_type const& pair )
         {
             printf("here\n");
@@ -101,7 +100,7 @@ class RBTree
             treeNode *parent;
             while (curr)
             {
-                            // printf("curr\n");
+                printf("curr\n");
                 parent = curr;
                 if (_comp(pair, curr->value))   curr = curr->left;
                 else                            curr = curr->right;
@@ -112,23 +111,24 @@ class RBTree
             return ft::make_pair(iterator(curr), true);
         };
 
-        iterator 				insert(iterator position, const value_type& value)  {       return insert(value).first; (void)position;         }
+        iterator 				insert(iterator position, const value_type& value)      {       return insert(value).first; (void)position;         }
 		
-    	template <class InputIterator>
-	    void					insert(InputIterator first, InputIterator last)	    {       while (first != last)   insert(*first++);           };
+        template <class InputIterator>
+	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   insert(*first++);           };
 
-        void 					erase( iterator position )							//{	_tree.erase( get_treeNodeptr(position) );		};
+        // [ERASE]
+        void 					erase( iterator position )                              {       erase( *position );                                 };
+        
+        size_type 				erase(const key_type& k)
         {
             try
             {
-                   (void)position; 
+                (void)position;
+                return 1;
             }
-            catch( const RBTree::KeyNotFound & e )    {   std::cerr << e.what() << '\n';  }            
-        }
-        
-		// size_type 				erase(const key_type& k)							{	_tree.erase( k );				};
-
-		// void 					erase(treeIterator first, treeIterator last)				{	_tree.erase( first, last );		};
+            catch( const RBTree::KeyNotFound & e )    {   std::cerr << e.what() << '\n'; return 0;  }       
+        };
+		void 					erase(iterator first, iterator last)				            {	while (first != last)   erase(*first++); 	        };
 
         // FIND
 
@@ -179,20 +179,17 @@ class RBTree
             while (first->left) first = first->left;
             return const_iterator(first);
         }
-        iterator				end()				{       return iterator(nullptr);                      }
-        const_iterator			end() const			{       return const_iterator(nullptr);                }
-        reverse_iterator		rbegin()			{       return reverse_iterator(end());             }
-        const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(end());       }
-        reverse_iterator		rend()				{       return reverse_iterator(begin());           }
-        const_reverse_iterator	rend() const		{       return const_reverse_iterator(begin());     }
+        iterator				end()				{       return iterator(max());                         }
+        const_iterator			end() const			{       return const_iterator(max());                   }
+        reverse_iterator		rbegin()			{       return reverse_iterator(end());                 }
+        const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(end());           }
+        reverse_iterator		rend()				{       return reverse_iterator(begin());               }
+        const_reverse_iterator	rend() const		{       return const_reverse_iterator(begin());         }
 
-        // reference		operator* () 				{       return _node->value;                        };
-        // const_reference	operator* () const			{       return _node->value;                        };
-        // pointer			operator->()				{       return &_node->value;                       };
-        // const_pointer	operator->() const			{       return &_node->value;                       };
+        // min, max
 
-        // operator            const_iterator () const						    {   return const_iterator(_node);    }
-
+        treeNode    *min(treeNode*_root) const      {       while (_root)   { _root = _root->left; }  return _root;         };
+        treeNode    *max(treeNode*_root) const      {       while (_root)   { _root = _root->right; }  return _root;        };
 };
 
 #endif

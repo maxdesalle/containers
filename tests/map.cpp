@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/24 00:36:25 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:52:46 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	std_constructor(void)
   	first['c']=50;
   	first['d']=70;
 
- 	 std::map<char,int> second (first.begin(),first.end());
+ 	std::map<char,int> second (first.begin(),first.end());
 
   	std::map<char,int> third (second);
 
@@ -93,15 +93,11 @@ void	std_empty(void)
 	mymap['b']=20;
 	mymap['c']=30;
 
-	// while (!mymap.empty())
-	// {
-	// 	std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
-	// 	mymap.erase(mymap.begin());
-	// }
-
-	std::cout << mymap['a'] << std::endl;
-	std::cout << mymap['b'] << std::endl;
-	std::cout << mymap['c'] << std::endl;
+	while (!mymap.empty())
+	{
+		std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
+		mymap.erase(mymap.begin());
+	}
 
 	std::cout << "mymap.size() is " << mymap.size() << '\n';
 	std::cout << "mymap.max_size() is " << mymap.max_size() << '\n';
@@ -115,15 +111,11 @@ void	ft_empty(void)
 	mymap['b']=20;
 	mymap['c']=30;
 
-	// while (!mymap.empty())
-	// {
-	// 	std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
-	// 	mymap.erase(mymap.begin());
-	// }
-
-	std::cout << mymap['a'] << std::endl;
-	std::cout << mymap['b'] << std::endl;
-	std::cout << mymap['c'] << std::endl;
+	while (!mymap.empty())
+	{
+		std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
+		mymap.erase(mymap.begin());
+	}
 
 	std::cout << "mymap.size() is " << mymap.size() << '\n';
 	std::cout << "mymap.max_size() is " << mymap.max_size() << '\n';
@@ -307,7 +299,7 @@ void	caller(void (*f1)(void), void (*f2)(void), std::string title)
 
 void	test_start(void)
 {
-	caller(ft_constructor, std_constructor, "constructor");
+	// caller(ft_constructor, std_constructor, "constructor");
 	caller(ft_empty, std_empty, "empty");
 	// caller(ft_size, std_size, "size");
 	// caller(ft_top, std_top, "top");

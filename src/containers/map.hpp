@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/24 00:32:31 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:13:27 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,14 @@ namespace ft
 			// modifiers
 			// [ INSERT ]
 			ft::pair< iterator,bool > 	insert(value_type const & val)						{	return _tree.insert( val );			};
-			iterator 					insert(iterator position, const value_type& val)	{	return _tree.insert( get_nodeptr(position), val );	};
+			iterator 					insert(iterator position, const value_type& val)	{	return _tree.insert( position, val );	};
 			template <class InputIterator>
   			void 						insert (InputIterator first, InputIterator last)	{	_tree.insert( first, last );	};
 
 			// [ ERASE ]
-			void 					erase(iterator position)							{	_tree.erase( position );		};
-			size_type 				erase(const key_type& k)							{	return _tree.erase( k );					};
-			void 					erase(iterator first, iterator last)				{	_tree.erase( first, last );					};
+			void 						erase(iterator position)							{	_tree.erase( position );					};
+			size_type 					erase(const key_type& k)							{	return _tree.erase( get_valuetype(k) );		};
+			void 						erase(iterator first, iterator last)				{	_tree.erase( first, last );					};
 
 			// [ SWAP ]
 			void 					swap(map& x)					{	if (this != &x)	_tree.swap(x._tree);	};
@@ -140,7 +140,7 @@ namespace ft
 			void 					clear()							{	_tree.clear();	};
 			
 			// element access
-			mapped_type& operator[] ( const key_type& k )			{	return (*(insert(ft::make_pair( k,mapped_type() )).first)).second;			};
+			mapped_type& operator[] ( const key_type& k )			{	return (*(insert(get_valuetype(k)).first)).second;				};
 
 			// observers
 			key_compare 			key_comp() const				{	return this->_compare;					};
@@ -171,8 +171,9 @@ namespace ft
 			allocator_type			get_allocator( void ) const		{	return this->_alloc;	};
 
 			// helper functions
-			value_type	get_valuetype( const key_type& k )				{		return value(k, mapped_type());		}
+			value_type		get_valuetype( const key_type& k )				{		return ft::make_pair( k, mapped_type() );		}
 			treeNode		get_nodeptr( iterator & it )					{		return *reinterpret_cast<treeNode *>(&it);	}
+			// mapped_type& 	operator[]( const key_type& k )					{		return (*(insert(get_valuetype(k)).first)).second;			};
 
 	};
 

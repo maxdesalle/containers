@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/25 11:02:07 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:32:13 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ class RBTree
         {
             treeNode    *newnode = _node_alloc.allocate(1);
             _node_alloc.construct(&(newnode->value), pair);
-            newnode->left = nullptr;
-            newnode->right = nullptr;
+            newnode->left = newnode->right = nullptr;
             newnode->parent = parent;
             newnode->color = BLACK;
             _height++;
@@ -93,16 +92,14 @@ class RBTree
 
         ft::pair< iterator, bool>    insert( value_type const& pair )
         {
-                        // printf("begin\n");
             if (!_root) { _root = newNode( pair, nullptr ); return ft::make_pair(iterator(_root), true); }
             treeNode *curr = _root;
             treeNode *parent;
             while (curr)
             {
-                printf("curr\n");
                 parent = curr;
-                if (_comp(pair, curr->value))   {curr = curr->left; printf("left\n");}
-                else                            {curr = curr->right; printf("right\n");}
+                if (_comp(pair, curr->value))   {       curr = curr->left;             }
+                else                            {       curr = curr->right;            }
             }
             curr = newNode( pair, parent );
             if (_comp(pair, parent->value))       {     parent->left = curr;          }
@@ -117,22 +114,28 @@ class RBTree
 	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   insert(*first++);           };
 
         // [ERASE]
-         size_type 				erase(treeNode *node)
+        size_type 				erase(treeNode *node)
         {
-            try
-            {
-                (void)node;
-                return 1;
-            }
-            catch( const RBTree::KeyNotFound & e )    {   std::cerr << e.what() << '\n'; return 0;  }       
+            if (find(node->value))                          {         delNode(node); rebalanceTree(); return 1;              }
+            throw RBTree::KeyNotFound ();           return 0;
         };
 		void 					erase(iterator first, iterator last)                    {	while (first != last)   erase(*first++); 	        };
 
         // FIND
-
+        treeNode                *find(const value_type &val)
+        {
+            if (!_root) return _root;
+            while (_comp(_root->value, val) || _comp(val, _root->value))
+            {
+                find(_root->left->value);
+                find(_root->right->value);
+            }
+            return _root;
+        }
 
         // CLEAR
-        void        delNode(treeNode *node)        {    _node_alloc.destroy(node);  _node_alloc.deallocate(node, 1);  --_height;      }
+        void        delNode(treeNode *node)        {   if (!node) return ; _node_alloc.destroy(node);  _node_alloc.deallocate(node, 1);  --_height;     }
+        // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
             if (!root)  return ;
@@ -189,11 +192,20 @@ class RBTree
         treeNode    *min(treeNode*_root) const      {       while (_root)   { _root = _root->left; }  return _root;         };
         treeNode    *max(treeNode*_root) const      {       while (_root)   { _root = _root->right; }  return _root;        };
 
-        void inorder(treeNode*_root) {
-        if (_root != NULL) {
-            inorder(_root->left);
-        std::cout<<_root->value.second <<" ";
-        inorder(_root->right);           }};
+        void inorder(treeNode*_root)
+        {
+            if (_root)
+            {
+                inorder(_root->left);
+                std::cout<<_root->value.second <<" ";
+                inorder(_root->right);          
+            }
+        };
+
+        void rebalanceTree()
+        {
+
+        };
 
         treeNode    *get_root()         { return _root;     };
 };

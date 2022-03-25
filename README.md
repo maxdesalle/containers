@@ -30,6 +30,7 @@ Next, execute the following command to run the tests:
 - [Red Black Trees introduction](https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/)
 - [SFINAE](https://www.youtube.com/watch?v=Vkck4EU2lOU)  
 - [using VS typedef](https://www.internalpointers.com/post/differences-between-using-and-typedef-modern-c)
+- [Inorder, preorder, postorder trasversal](https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/)
 ## Warning
 The structure of this repository does **not** necessarily follow the guidelines.
 

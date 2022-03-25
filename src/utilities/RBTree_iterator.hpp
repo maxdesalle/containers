@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/24 17:05:22 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/25 10:52:54 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ template < typename T >
 struct node {
     typedef T           value_type;
     value_type          value;
-	node    *parent, *left, *right;
-	bool        color;
+	node                *parent, *left, *right;
+	bool                color;
 
     node( void )    :   value( nullptr ),
                             parent (0), left(0), right(0),

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/24 16:13:27 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/25 10:01:27 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ namespace ft
   			void 						insert (InputIterator first, InputIterator last)	{	_tree.insert( first, last );	};
 
 			// [ ERASE ]
-			void 						erase(iterator position)							{	_tree.erase( position );					};
+			void 						erase(iterator position)							{	_tree.erase( get_nodeptr(position) );					};
 			size_type 					erase(const key_type& k)							{	return _tree.erase( get_valuetype(k) );		};
 			void 						erase(iterator first, iterator last)				{	_tree.erase( first, last );					};
 
@@ -172,8 +172,9 @@ namespace ft
 
 			// helper functions
 			value_type		get_valuetype( const key_type& k )				{		return ft::make_pair( k, mapped_type() );		}
-			treeNode		get_nodeptr( iterator & it )					{		return *reinterpret_cast<treeNode *>(&it);	}
+			treeNode		*get_nodeptr( iterator & it )					{		return reinterpret_cast<treeNode * >(&it);	}
 			// mapped_type& 	operator[]( const key_type& k )					{		return (*(insert(get_valuetype(k)).first)).second;			};
+			void inorder( void ) {		_tree.inorder(_tree.get_root()); }
 
 	};
 

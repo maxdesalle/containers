@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/24 19:08:44 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/25 10:56:23 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,10 @@ void	ft_empty(void)
 	mymap['b']=20;
 	mymap['c']=30;
 
-	while (!mymap.empty())
-	{
-		std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
-		mymap.erase(mymap.begin());
-	}
+	mymap.inorder();
+	// for (auto i : mymap)
+    //     std::cout << i.first << "   " << i.second
+    //          << std::endl;
 
 	std::cout << "mymap.size() is " << mymap.size() << '\n';
 	std::cout << "mymap.max_size() is " << mymap.max_size() << '\n';

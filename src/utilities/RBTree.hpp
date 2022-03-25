@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/24 19:26:48 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/25 11:02:07 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class RBTree
     // VAR TYPES
         typedef T												            value_type;
         typedef Alloc   										            allocator_type;                // container allocator
-        typedef Compare                                                     value_compare;             
+        typedef Compare                                                     value_compare;                     
         typedef typename allocator_type::pointer				            pointer;
         typedef typename allocator_type::const_pointer			            const_pointer;
         typedef typename allocator_type::reference				            reference;
@@ -78,15 +78,14 @@ class RBTree
         ~RBTree(void) { };
 
         // [INSERT] ( + addNode() )
-        treeNode                    *newNode( value_type const& pair )
+        treeNode                    *newNode( value_type const& pair, treeNode *parent )
         {
-            printf("here\n");
             treeNode    *newnode = _node_alloc.allocate(1);
-			newnode->parent = nullptr;
-			newnode->left = nullptr;
-			newnode->right = nullptr;
-			newnode->color = BLACK;
             _node_alloc.construct(&(newnode->value), pair);
+            newnode->left = nullptr;
+            newnode->right = nullptr;
+            newnode->parent = parent;
+            newnode->color = BLACK;
             _height++;
 			return newnode;
 
@@ -95,18 +94,19 @@ class RBTree
         ft::pair< iterator, bool>    insert( value_type const& pair )
         {
                         // printf("begin\n");
-            if (!_root) { _root = newNode( pair ); return ft::make_pair(iterator(_root), true); }
+            if (!_root) { _root = newNode( pair, nullptr ); return ft::make_pair(iterator(_root), true); }
             treeNode *curr = _root;
             treeNode *parent;
             while (curr)
             {
                 printf("curr\n");
                 parent = curr;
-                if (_comp(pair, curr->value))   curr = curr->left;
-                else                            curr = curr->right;
+                if (_comp(pair, curr->value))   {curr = curr->left; printf("left\n");}
+                else                            {curr = curr->right; printf("right\n");}
             }
-            if (_comp(pair, parent->value))       curr = newNode( pair );
-            else                                  curr = newNode( pair );
+            curr = newNode( pair, parent );
+            if (_comp(pair, parent->value))       {     parent->left = curr;          }
+            else                                  {     parent->right = curr;          }
             // balanceTree(); TO DO
             return ft::make_pair(iterator(curr), true);
         };
@@ -117,18 +117,16 @@ class RBTree
 	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   insert(*first++);           };
 
         // [ERASE]
-        void 					erase( iterator position )                              {       erase( *position );                                 };
-        
-        size_type 				erase(const key_type& k)
+         size_type 				erase(treeNode *node)
         {
             try
             {
-                (void)position;
+                (void)node;
                 return 1;
             }
             catch( const RBTree::KeyNotFound & e )    {   std::cerr << e.what() << '\n'; return 0;  }       
         };
-		void 					erase(iterator first, iterator last)				            {	while (first != last)   erase(*first++); 	        };
+		void 					erase(iterator first, iterator last)                    {	while (first != last)   erase(*first++); 	        };
 
         // FIND
 
@@ -179,8 +177,8 @@ class RBTree
             while (first->left) first = first->left;
             return const_iterator(first);
         }
-        iterator				end()				{       return iterator(max());                         }
-        const_iterator			end() const			{       return const_iterator(max());                   }
+        iterator				end()				{       return iterator(max(_root));                         }
+        const_iterator			end() const			{       return const_iterator(max(_root));                   }
         reverse_iterator		rbegin()			{       return reverse_iterator(end());                 }
         const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(end());           }
         reverse_iterator		rend()				{       return reverse_iterator(begin());               }
@@ -190,6 +188,14 @@ class RBTree
 
         treeNode    *min(treeNode*_root) const      {       while (_root)   { _root = _root->left; }  return _root;         };
         treeNode    *max(treeNode*_root) const      {       while (_root)   { _root = _root->right; }  return _root;        };
+
+        void inorder(treeNode*_root) {
+        if (_root != NULL) {
+            inorder(_root->left);
+        std::cout<<_root->value.second <<" ";
+        inorder(_root->right);           }};
+
+        treeNode    *get_root()         { return _root;     };
 };
 
 #endif

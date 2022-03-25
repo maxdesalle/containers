@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/25 13:32:13 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:47:58 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ class RBTree
             _node_alloc.construct(&(newnode->value), pair);
             newnode->left = newnode->right = nullptr;
             newnode->parent = parent;
-            newnode->color = BLACK;
+            newnode->color = RED;
             _height++;
 			return newnode;
 
@@ -92,7 +92,7 @@ class RBTree
 
         ft::pair< iterator, bool>    insert( value_type const& pair )
         {
-            if (!_root) { _root = newNode( pair, nullptr ); return ft::make_pair(iterator(_root), true); }
+            if (!_root) { _root = newNode( pair, nullptr ); recolorNode(_root); return ft::make_pair(iterator(_root), true); }
             treeNode *curr = _root;
             treeNode *parent;
             while (curr)
@@ -104,7 +104,7 @@ class RBTree
             curr = newNode( pair, parent );
             if (_comp(pair, parent->value))       {     parent->left = curr;          }
             else                                  {     parent->right = curr;          }
-            // balanceTree(); TO DO
+            rebalanceTree(curr);
             return ft::make_pair(iterator(curr), true);
         };
 
@@ -202,12 +202,68 @@ class RBTree
             }
         };
 
-        void rebalanceTree()
+        void    leftRotate(treeNode    *node)
         {
-
+            
+        }        
+        void    rightRotate(treeNode *node)
+        {
+            
+        }
+        void    recolorNode(treeNode *node)              {           node->color = RED ? red->color = BLACK : node->color = RED;             }
+  
+        void    rebalanceTree(treeNode *node)
+        {
+            while (node->parent->color == RED)
+            {
+                treeNode    *grandmaNode = node->parent->parent;
+                if (node->parent == grandmaNode->right)
+                {
+                    treeNode    *uncleNode = node->parent->parent->left;
+                    if (uncle->color == RED)
+                    {
+                        recolorNode(uncleNode);
+                        recolorNode(node->parent);
+                        recolorNode(grandmaNode);
+                        node = grandmaNode;
+                    }
+                    else if (node == node->parent->left)
+                    {
+                        node = node->parent;
+                        leftRotate(node);
+                    }
+                    if (node->parent->color != BLACK)
+                        recolorNode(node->parent);
+                    if (grandmaNode->color != RED)
+                        recolorNode(grandmaNode);
+                    rightRotate(grandmaNode);
+                }
+                else
+                {
+                    treeNode    *uncleNode = node->parent->parent->right;
+                    if (uncle->color == RED)
+                    {
+                        recolorNode(uncleNode);
+                        recolorNode(node->parent);
+                        recolorNode(grandmaNode);
+                        node = grandmaNode;
+                    }
+                    else if (node == node->parent->right)
+                    {
+                        node = node->parent;
+                        rightRotate(node);
+                    }
+                    if (node->parent->color != BLACK)
+                        recolorNode(node->parent);
+                    if (grandmaNode->color != RED)
+                        recolorNode(grandmaNode);
+                    leftRotate(grandmaNode);
+                }
+                
+            }
         };
 
-        treeNode    *get_root()         { return _root;     };
+        treeNode    *get_root()                             {           return _root;     };
 };
 
 #endif

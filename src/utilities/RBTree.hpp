@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/26 16:52:34 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/26 16:59:34 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,12 +203,38 @@ class RBTree
 
         void    leftRotate(treeNode    *node)
         {
-            (void)node;
-        }        
+            treeNode    *tmp = node->right;
+            node->right = tmp->left;
+            if (tmp->left)
+                tmp->left->parent = node;
+            tmp->parent = node->parent;
+            if (!node->parent)
+                _root = tmp;
+            else if (node == node->parent->left)
+                node->parent->left = tmp;
+            else
+                node->parent->right = tmp;
+            tmp->left = node;
+            node->parent = tmp;
+        }
+
         void    rightRotate(treeNode *node)
         {
-            (void)node;
+            treeNode    *tmp = node->left;
+            node->left = tmp->right;
+            if (tmp->right)
+                tmp->right->parent = node;
+            tmp->parent = node->parent;
+            if (!node->parent)
+                _root = tmp;
+            else if (node == node->parent->right)
+                node->parent->right = tmp;
+            else
+                node->parent->left = tmp;
+            tmp->right = node;
+            node->parent = tmp;
         }
+        
         void    recolorNode(treeNode *node)              {          node->color == RED ? node->color = BLACK : node->color = RED;             };
         void    swapNode(treeNode *a, treeNode *b)       {          treeNode* tmp;  tmp = a; a = b; b = tmp; b->parent = a; a->parent = tmp->parent;    };
   

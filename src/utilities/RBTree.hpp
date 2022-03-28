@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/26 16:59:34 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/28 21:32:47 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ class RBTree
                 else                            {       curr = curr->right;            }
             }
             curr = newNode( pair, parent );
-            if (_comp(pair, parent->value))       {     parent->left = curr;          }
+            if (_comp(pair, parent->value))       {     parent->left = curr;           }
             else                                  {     parent->right = curr;          }
             rebalanceTree4insert(curr);
             return ft::make_pair(iterator(curr), true);
@@ -113,10 +113,44 @@ class RBTree
         template <class InputIterator>
 	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   insert(*first++);           };
 
-        // [ERASE]
+        // [ERASE] ( + delNode() )
         size_type 				erase(treeNode *node)
         {
-            if (find(node->value))                          {         delNode(node); rebalanceTree4erase(node); return 1;              }
+            if (find(node->value))
+            {
+                bool originColor = node->color;
+                if (node->left == nullptr)
+                {
+                    treeNode    *tmp = node->right;
+                    transplantNode(node, tmp);
+                }
+                else if (node->right == nullptr)
+                {
+                    treeNode    *tmp = node->left;
+                    transplantNode(node, tmp);
+                }
+                else
+                {
+                    treeNode    *tmp = successor(node->right); //min
+                    originColor = tmp->color;
+                    treeNode    *sibling = tmp->right;
+                    if (tmp->parent == node) sibling->parent = tmp;
+                    else
+                    {
+                        transplantNode(tmp, tmp->right);
+                        tmp->right = node->right;
+                        tmp->right->parent = tmp;
+                    }
+                    transplantNode(node, tmp);
+                    tmp->left = node->left;
+                    tmp->left->parent = tmp;
+                    tmp->color = node->color;
+                }
+                delNode(node);
+                if (originColor == BLACK)
+                    rebalanceTree4erase(node);
+                --_height;
+            }                                         {         delNode(node); rebalanceTree4erase(node); return 1;              }
             throw RBTree::KeyNotFound ();           return 0;
         };
 		void 					erase(iterator first, iterator last)                    {	while (first != last)   erase(*first++); 	        };
@@ -125,11 +159,10 @@ class RBTree
         treeNode                *find(const value_type &val)
         {
             if (!_root) return _root;
-            while (_comp(_root->value, val) || _comp(val, _root->value))
-            {
-                find(_root->left->value);
-                find(_root->right->value);
-            }
+            if (_comp(val, _root->value))
+                return find(_root->left->value);
+            if (_comp(_root->value, val))
+                return find(_root->right->value);
             return _root;
         }
 
@@ -235,15 +268,23 @@ class RBTree
             node->parent = tmp;
         }
         
-        void    recolorNode(treeNode *node)              {          node->color == RED ? node->color = BLACK : node->color = RED;             };
-        void    swapNode(treeNode *a, treeNode *b)       {          treeNode* tmp;  tmp = a; a = b; b = tmp; b->parent = a; a->parent = tmp->parent;    };
+        void        recolorNode(treeNode *node)                     {          node->color == RED ? node->color = BLACK : node->color = RED;                        };
+        void        transplantNode(treeNode *a, treeNode *b)
+        {
+            if (a->parent == nullptr)       _root = b;
+            else if (a == a->parent->left)  a->parent->left = b;
+            else                            a->parent->right = b;
+            b->parent   = a->parent;
+        };
+        // find first node which has no left child
+        treeNode    *successor(treeNode *n)                             {          treeNode *tmp = n; while (tmp->left != NULL) tmp = tmp->left;   return tmp;          };
   
         void    rebalanceTree4insert(treeNode *node)
         {
             while (node != _root && node->parent->color == RED)
             {
                 treeNode    *grandmaNode = node->parent->parent;
-                if (node->parent == grandmaNode->right)
+                if (grandmaNode && node->parent == grandmaNode->right)
                 {
                     treeNode    *uncleNode = node->parent->parent->left;
                     if (uncleNode->color == RED)

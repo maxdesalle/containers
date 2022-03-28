@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/28 21:32:47 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/28 21:56:41 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ class RBTree
 
         ~RBTree(void) { };
 
-        // [INSERT] ( + addNode() )
+        // [INSERT] ( + newNode() )
         treeNode                    *newNode( value_type const& pair, treeNode *parent )
         {
             treeNode    *newnode = _node_alloc.allocate(1);
@@ -98,12 +98,13 @@ class RBTree
             while (curr)
             {
                 parent = curr;
-                if (_comp(pair, curr->value))   {       curr = curr->left;             }
-                else                            {       curr = curr->right;            }
+                if (_comp(pair, curr->value))           {       curr = curr->left;             }
+                else if (_comp(curr->value, pair))      {       curr = curr->right;            }
+                else                                    ft::make_pair(iterator(curr), false);                          
             }
             curr = newNode( pair, parent );
-            if (_comp(pair, parent->value))       {     parent->left = curr;           }
-            else                                  {     parent->right = curr;          }
+            if (_comp(pair, parent->value))             {     parent->left = curr;           }
+            else                                        {     parent->right = curr;          }
             rebalanceTree4insert(curr);
             return ft::make_pair(iterator(curr), true);
         };
@@ -116,7 +117,7 @@ class RBTree
         // [ERASE] ( + delNode() )
         size_type 				erase(treeNode *node)
         {
-            if (find(node->value))
+            if (1)
             {
                 bool originColor = node->color;
                 if (node->left == nullptr)
@@ -131,7 +132,7 @@ class RBTree
                 }
                 else
                 {
-                    treeNode    *tmp = successor(node->right); //min
+                    treeNode    *tmp = min(node->right); //min
                     originColor = tmp->color;
                     treeNode    *sibling = tmp->right;
                     if (tmp->parent == node) sibling->parent = tmp;
@@ -221,8 +222,8 @@ class RBTree
 
         // min, max
 
-        treeNode    *min(treeNode*_root) const      {       while (_root)   { _root = _root->left; }  return _root;         };
-        treeNode    *max(treeNode*_root) const      {       while (_root)   { _root = _root->right; }  return _root;        };
+        treeNode    *min(treeNode* node) const      {       while (node->left)   { node = node->left; }  return node;         };
+        treeNode    *max(treeNode* node) const      {       while (node->right)   { node = node->right; }  return node;        };
 
         void inorder(treeNode*_root)
         {
@@ -286,7 +287,7 @@ class RBTree
                 treeNode    *grandmaNode = node->parent->parent;
                 if (grandmaNode && node->parent == grandmaNode->right)
                 {
-                    treeNode    *uncleNode = node->parent->parent->left;
+                    treeNode    *uncleNode = grandmaNode->left;
                     if (uncleNode->color == RED)
                     {
                         recolorNode(uncleNode);

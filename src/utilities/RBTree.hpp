@@ -282,7 +282,7 @@ class RBTree
                         if (node == node->parent->right)
                         {
                             node = node->parent;
-                            rightRotate(node);
+                            leftRotate(node);
                         }
                         if (node->parent->color != BLACK)
                             recolorNode(node->parent);

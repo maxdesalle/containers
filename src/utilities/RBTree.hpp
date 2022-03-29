@@ -118,7 +118,7 @@ class RBTree
         // [ERASE] ( + delNode() )
         size_type 				erase(treeNode *node)
         {
-            if (1) //find(node)
+            if (find(node)) //find(node)
             {
                 bool originColor = node->color;
                 if (node->left == nullptr)
@@ -160,12 +160,13 @@ class RBTree
         // FIND
         treeNode                *find(const value_type &val)
         {
-            if (!_root) return _root;
-            if (_comp(val, _root->value))
-                return find(_root->left->value);
-            if (_comp(_root->value, val))
-                return find(_root->right->value);
-            return _root;
+            while (_root) 
+	    {
+		    if (_comp(val, _root->value))              	_root = _root->left;
+		    else if (_comp(_root->value, val))         	_root = _root->right;
+            	    else					return _root;
+	    }
+	    return nullptr;
         }
 
         // CLEAR

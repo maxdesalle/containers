@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/28 21:56:41 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/29 07:07:04 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,12 @@ class RBTree
 
         ft::pair< iterator, bool>    insert( value_type const& pair )
         {
-            if (!_root) { _root = newNode( pair, nullptr ); recolorNode(_root); return ft::make_pair(iterator(_root), true); }
+            if (!_root) { _root = newNode( pair, nullptr ); _root->color = BLACK; return ft::make_pair(iterator(_root), true); }
             treeNode *curr = _root;
             treeNode *parent;
             while (curr)
             {
+                printf("here\n");
                 parent = curr;
                 if (_comp(pair, curr->value))           {       curr = curr->left;             }
                 else if (_comp(curr->value, pair))      {       curr = curr->right;            }
@@ -117,7 +118,7 @@ class RBTree
         // [ERASE] ( + delNode() )
         size_type 				erase(treeNode *node)
         {
-            if (1)
+            if (1) //find(node)
             {
                 bool originColor = node->color;
                 if (node->left == nullptr)
@@ -242,7 +243,7 @@ class RBTree
             if (tmp->left)
                 tmp->left->parent = node;
             tmp->parent = node->parent;
-            if (!node->parent)
+            if (node->parent == nullptr)
                 _root = tmp;
             else if (node == node->parent->left)
                 node->parent->left = tmp;
@@ -259,7 +260,7 @@ class RBTree
             if (tmp->right)
                 tmp->right->parent = node;
             tmp->parent = node->parent;
-            if (!node->parent)
+            if (node->parent == nullptr)
                 _root = tmp;
             else if (node == node->parent->right)
                 node->parent->right = tmp;
@@ -290,7 +291,7 @@ class RBTree
                     treeNode    *uncleNode = grandmaNode->left;
                     if (uncleNode->color == RED)
                     {
-                        recolorNode(uncleNode);
+                        recolorNode(uncleNode); // BLACK
                         recolorNode(node->parent); // BLACK
                         recolorNode(grandmaNode); // RED
                         node = grandmaNode;

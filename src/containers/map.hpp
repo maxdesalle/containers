@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/25 10:01:27 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/30 19:41:24 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ namespace ft
 			void 					clear()							{	_tree.clear();	};
 			
 			// element access
-			mapped_type& operator[] ( const key_type& k )			{	return (*(insert(get_valuetype(k)).first)).second;				};
+			mapped_type& operator[] ( const key_type& k )			{	return (*(insert(ft::make_pair( k, mapped_type() )).first)).second;				};
 
 			// observers
 			key_compare 			key_comp() const				{	return this->_compare;					};
@@ -171,10 +171,10 @@ namespace ft
 			allocator_type			get_allocator( void ) const		{	return this->_alloc;	};
 
 			// helper functions
-			value_type		get_valuetype( const key_type& k )				{		return ft::make_pair( k, mapped_type() );		}
-			treeNode		*get_nodeptr( iterator & it )					{		return reinterpret_cast<treeNode * >(&it);	}
+			value_type				get_valuetype( const key_type& k )			{		return ft::make_pair( k, mapped_type() );					}
+			treeNode				*get_nodeptr( iterator & it )				{		return reinterpret_cast<treeNode * >(&it);					}
 			// mapped_type& 	operator[]( const key_type& k )					{		return (*(insert(get_valuetype(k)).first)).second;			};
-			void inorder( void ) {		_tree.inorder(_tree.get_root()); }
+			void					inorder( void ) 							{		_tree.inorder(_tree.get_root());							}
 
 	};
 

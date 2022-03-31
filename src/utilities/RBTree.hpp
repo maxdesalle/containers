@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/30 20:18:34 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/31 07:43:52 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ class RBTree
         explicit RBTree( const value_compare &comp, const allocator_type &alloc) :  _root(nullptr),
                                                                                     _height(0),
                                                                                     _comp(comp),
-                                                                                    _node_alloc(alloc)    {};
+                                                                                    _alloc(alloc)    {};
 
         RBTree( RBTree const &t ) : _root(t._root),
                                     _height(t._height),
                                     _comp(t._comp),
-                                    _node_alloc(t._node_alloc)    {};
+                                    _alloc(t._alloc)    {};
 
         RBTree& operator = ( RBTree const &t )
         {
@@ -71,7 +71,7 @@ class RBTree
                     this->clear(_root);
                 _height = t._height;
                 _comp = t._comp;
-                _node_alloc = t._node_alloc;
+                _alloc = t._alloc;
             }
             return *this;
         };
@@ -79,10 +79,10 @@ class RBTree
         ~RBTree(void) { };
 
         // [INSERT] ( + newNode() )
-        treeNode                    *newNode( value_type const& pair, treeNode *parent )
+        treeNode                    *newNode( value_type const& value, treeNode *parent )
         {
             treeNode    *newnode = _node_alloc.allocate(1);
-            _node_alloc.construct(&(newnode->value), pair);
+            _alloc.construct(&(newnode->value), value);
             newnode->left  = nullptr;
             newnode->right = nullptr;
             newnode->parent = parent;
@@ -92,14 +92,10 @@ class RBTree
 
         };
 
-        ft::pair< iterator, bool>    insert( value_type const& pair )
+        ft::pair< iterator, bool>    insert( value_type const& value )
         {
-            if (_root == nullptr) { printf("root\n"); _root = newNode( pair, nullptr );
+            if (_root == nullptr) { printf("root\n"); _root = newNode( value, nullptr );
                                     _root->color = BLACK;
-                                    std::cout << _root->value.first << std::endl;
-                                    std::cout << _root->value.second << std::endl;
-                                    inorder(_root);
-                                    std::cout << "-------------" << std::endl;
                                     return ft::make_pair(iterator(_root), true); }
             treeNode *curr = _root;
             treeNode *parent;
@@ -107,19 +103,15 @@ class RBTree
             {
                 
                 parent = curr;
-                if (_comp(pair, curr->value))           {       curr = curr->left; printf("left\n");            }
-                else if (_comp(curr->value, pair))      {       curr = curr->right; printf("right\n");           }
+                if (_comp(value, curr->value))           {       curr = curr->left; printf("left\n");            }
+                else if (_comp(curr->value, value))      {       curr = curr->right; printf("right\n");           }
                 else                                    ft::make_pair(iterator(curr), false);                          
             }
-            curr = newNode( pair, parent );
-            if (_comp(pair, parent->value))             {     parent->left = curr;              }
+            curr = newNode( value, parent );
+            if (_comp(value, parent->value))             {     parent->left = curr;              }
             else                                        {     parent->right = curr;             }
-            curr->parent = parent;
-                                    std::cout << curr->value.first << std::endl;
-                                    std::cout << curr->value.second << std::endl;
+            // curr->parent = parent;
             rebalanceTree4insert(curr);
-            inorder(_root);
-            std::cout << "-------------" << std::endl;
             return ft::make_pair(iterator(curr), true);
         };
 
@@ -129,45 +121,56 @@ class RBTree
 	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   insert(*first++);           };
 
         // [ERASE] ( + delNode() )
+
+        size_type 				erase(value_type const &val)
+        {
+            treeNode	*to_del = _search(_root, val);
+			if (!to_del || !_equals(val, to_del->val))
+				return 0;
+			erase(to_del);
+			return 1;
+        }
+
         size_type 				erase(treeNode *node)
         {
-            if (search(node, node->value)) //find(node)
+            if (node) //find(node)
             {
-                // treeNode    *tmp;
-                // bool originColor = node->color;
-                // if (!node->left)
-                // {
-                //     tmp = node->right;
-                //     transplantNode(node, tmp);
-                // }
-                // else if (!node->right)
-                // {
-                //     tmp = node->left;
-                //     transplantNode(node, tmp);
-                // }
-                // else if (node->right && node->left)
-                // {
-                //     tmp = min(node->right); //min
-                //     originColor = tmp->color;
-                //     treeNode    *sibling = tmp->right;
-                //     if (tmp->parent == node) sibling->parent = tmp;
-                //     else
-                //     {
-                //         transplantNode(tmp, tmp->right);
-                //         tmp->right = node->right;
-                //         tmp->right->parent = tmp;
-                //     }
-                //     transplantNode(node, tmp);
-                //     tmp->left = node->left;
-                //     tmp->left->parent = tmp;
-                //     tmp->color = node->color;
-                // }
+                treeNode    *to_del = node;
+                treeNode    *to_fix;
+                bool originColor = node->color;
+                if (node->left == nullptr)
+                {
+                    to_fix = node->right;
+                    transplantNode(node, node->right);
+                }
+                else if (node->right == nullptr)
+                {
+                    to_fix = node->left;
+                    transplantNode(node, node->left);
+                }
+                else if (node->right && node->left)
+                {
+                    to_del = min(node->right); //min
+                    originColor = to_del->color;
+                    to_fix = to_del->right;
+                    if (to_del->parent == node) to_fix->parent = to_del;
+                    else
+                    {
+                        transplantNode(to_del, to_del->right);
+                        to_del->right = node->right;
+                        to_del->right->parent = to_del;
+                    }
+                    transplantNode(node, to_del);
+                    to_del->left = node->left;
+                    to_del->left->parent = to_del;
+                    to_del->color = node->color;
+                }
                 delNode(node);
-                // if (originColor == BLACK)
-                //     rebalanceTree4erase(node);
+                if (originColor == BLACK)
+                    rebalanceTree4erase(to_fix);
                 _height--;
                 return 1;
-            }                                    
+            }                               
             //throw RBTree::KeyNotFound ();           
             return 0;
         };
@@ -195,7 +198,7 @@ class RBTree
         }
 
         // CLEAR
-        void        delNode(treeNode *node)        {   _node_alloc.destroy(node);  _node_alloc.deallocate(node, 1);  }
+        void        delNode(treeNode *node)        {   _alloc.destroy(&(node->value));  _node_alloc.deallocate(node, 1);  }
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
@@ -309,60 +312,61 @@ class RBTree
   
         void    rebalanceTree4insert(treeNode *node)
         {
-                (void)node;
-        //     while (node != _root && node->parent->color == RED)
-        //     {
-        //         treeNode    *grandmaNode = node->parent->parent;
-        //         if (grandmaNode && node->parent == grandmaNode->right)
-        //         {
-        //             treeNode    *uncleNode = grandmaNode->left;
-        //             if (uncleNode->color == RED)
-        //             {
-        //                 recolorNode(uncleNode); // BLACK
-        //                 recolorNode(node->parent); // BLACK
-        //                 recolorNode(grandmaNode); // RED
-        //                 node = grandmaNode;
-        //             }
-        //             else
-        //             {
-        //                 if (node == node->parent->left)
-        //                 {
-        //                     node = node->parent;
-        //                     rightRotate(node);
-        //                 }
-        //                 if (node->parent->color != BLACK)
-        //                     recolorNode(node->parent);
-        //                 if (grandmaNode->color != RED)
-        //                     recolorNode(grandmaNode);
-        //                 leftRotate(grandmaNode);
-        //             }
-        //         }
-        //         else
-        //         {
-        //             treeNode    *uncleNode = node->parent->parent->right;
-        //             if (uncleNode->color == RED)
-        //             {
-        //                 recolorNode(uncleNode);
-        //                 recolorNode(node->parent);
-        //                 recolorNode(grandmaNode);
-        //                 node = grandmaNode;
-        //             }
-        //             else
-        //             {
-        //                 if (node == node->parent->right)
-        //                 {
-        //                     node = node->parent;
-        //                     leftRotate(node);
-        //                 }
-        //                 if (node->parent->color != BLACK)
-        //                     recolorNode(node->parent);
-        //                 if (grandmaNode->color != RED)
-        //                     recolorNode(grandmaNode);
-        //                 rightRotate(grandmaNode);
-        //             }
-        //         }                
-        //     }
-        //     _root->color = BLACK;
+            while (node != _root && node->parent->color == RED)
+            {
+                treeNode    *grandmaNode = node->parent->parent;
+                if (grandmaNode && node->parent == grandmaNode->right)
+                {
+                    treeNode    *uncleNode = grandmaNode->left;
+                    if (uncleNode && uncleNode->color == RED)
+                    {
+                        recolorNode(uncleNode); // BLACK
+                        recolorNode(node->parent); // BLACK
+                        recolorNode(grandmaNode); // RED
+                        node = grandmaNode;
+                    }
+                    else
+                    {
+                        if (node == node->parent->left)
+                        {
+                            node = node->parent;
+                            rightRotate(node);
+                        }
+                        if (node->parent->color != BLACK)
+                            recolorNode(node->parent);
+                        if (grandmaNode->color != RED)
+                            recolorNode(grandmaNode);
+                        leftRotate(grandmaNode);
+                    }
+                }
+                else
+                {
+                    treeNode    *uncleNode = grandmaNode->right;
+                    if (uncleNode->color == RED)
+                    {
+                        recolorNode(uncleNode);
+                        recolorNode(node->parent);
+                        recolorNode(grandmaNode);
+                        node = grandmaNode;
+                    }
+                    else
+                    {
+                        if (node == node->parent->right)
+                        {
+                            node = node->parent;
+                            leftRotate(node);
+                        }
+                        if (node->parent->color != BLACK)
+                            recolorNode(node->parent);
+                        if (grandmaNode->color != RED)
+                            recolorNode(grandmaNode);
+                        rightRotate(grandmaNode);
+                    }
+                }                
+            }
+            inorder(_root);
+            std::cout << "-------------" << std::endl;
+            _root->color = BLACK;
         };
 
         void    rebalanceTree4erase(treeNode *node)

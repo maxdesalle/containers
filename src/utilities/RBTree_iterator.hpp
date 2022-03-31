@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/28 19:50:39 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/30 20:54:09 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ struct node {
     node( void )    :   value( nullptr ),
                             parent (0), left(0), right(0),
                             color( RED ), doubleBlack(0) {};
-    node( T  *value )   :  value(value),
-                                parent (0), left(0), right(0),
-                                color( RED ), doubleBlack(0) {};
+    node( T const& value, node *parent )   :    value(value),
+                                                parent (parent), left(0), right(0),
+                                                color( RED ), doubleBlack(0) {};
     node( node const& t )   :   value(t.value),
                                         parent (t.parent), left(t.left), right(t.right),
                                         color( t.color ), doubleBlack(0) {};

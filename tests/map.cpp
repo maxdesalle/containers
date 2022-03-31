@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/30 19:52:20 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/03/30 21:25:42 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	ft_empty(void)
 	mymap['b']=20;
 	mymap['c']=30;
 
+	
 	while (!mymap.empty())
 	{
 		std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';

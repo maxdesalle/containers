@@ -306,6 +306,14 @@ class RBTree
             else                            a->parent->right = b;
             b->parent   = a->parent;
         };
+
+	treeNode	*replaceNode(treeNode *node)
+        {
+            if (!node || (!node->left && !node->right))         return nullptr;
+            if (node->left && node->right)  			return successor(node->right);
+	    if (node->right)  return node->left;
+            return node->right;
+        };
         // find first node which has no left child
         treeNode    *successor(treeNode *n)                             {          treeNode *tmp = n; while (tmp->left != NULL) tmp = tmp->left;   return tmp;          };
   

@@ -124,11 +124,10 @@ class RBTree
 
         size_type 				erase(value_type const &val)
         {
-            treeNode	*to_del = _search(_root, val);
-			if (!to_del || !_equals(val, to_del->val))
-				return 0;
-			erase(to_del);
-			return 1;
+            	treeNode	*to_del = _search(_root, val);
+		if (!to_del)	return 0;
+		erase(to_del);
+		return 1;
         }
 
         size_type 				erase(treeNode *node)

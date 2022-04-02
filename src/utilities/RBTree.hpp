@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/31 07:43:52 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/02 23:24:39 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ class RBTree
     private:
         // TREE ELEMENTS
         treeNode                    *_root;
+        treeNode                    NIL;
         size_type                   _height;
         Compare                     _comp;
         node_allocator              _node_alloc;
@@ -54,11 +55,13 @@ class RBTree
     public:
         // CONSTRUCTORS
         explicit RBTree( const value_compare &comp, const allocator_type &alloc) :  _root(nullptr),
+                                                                                    NIL(newNode(nullptr, nullptr)),
                                                                                     _height(0),
                                                                                     _comp(comp),
                                                                                     _alloc(alloc)    {};
 
         RBTree( RBTree const &t ) : _root(t._root),
+                                    NIL(t.NIL),
                                     _height(t._height),
                                     _comp(t._comp),
                                     _alloc(t._alloc)    {};
@@ -69,6 +72,7 @@ class RBTree
             {
                 if (_root)
                     this->clear(_root);
+                NIL = t.NIL;
                 _height = t._height;
                 _comp = t._comp;
                 _alloc = t._alloc;
@@ -164,9 +168,10 @@ class RBTree
                     to_del->left->parent = to_del;
                     to_del->color = node->color;
                 }
-                delNode(node);
+                
                 if (originColor == BLACK)
                     rebalanceTree4erase(to_fix);
+                delNode(node);
                 _height--;
                 return 1;
             }                               
@@ -251,8 +256,8 @@ class RBTree
 
         // min, max
 
-        treeNode    *min(treeNode* node) const      {       while (node && node->left)   { node = node->left; }  return node;         };
-        treeNode    *max(treeNode* node) const      {       while (node && node->right)   { node = node->right; }  return node;        };
+        treeNode    *min(treeNode* node) const      {       while (node)   { node = node->left; }  return node;         };
+        treeNode    *max(treeNode* node) const      {       while (node)   { node = node->right; }  return node;        };
 
         void inorder(treeNode* root)
         {
@@ -304,16 +309,16 @@ class RBTree
             if (a->parent == nullptr)       _root = b;
             else if (a == a->parent->left)  a->parent->left = b;
             else                            a->parent->right = b;
-            b->parent   = a->parent;
+            b->parent = a->parent;
         };
 
-	treeNode	*replaceNode(treeNode *node)
-        {
-            if (!node || (!node->left && !node->right))         return nullptr;
-            if (node->left && node->right)  			return successor(node->right);
-	    if (node->right)  return node->left;
-            return node->right;
-        };
+        treeNode	*replaceNode(treeNode *node)
+            {
+                if (!node || (!node->left && !node->right))         return nullptr;
+                if (node->left && node->right)  			return successor(node->right);
+            if (node->right)  return node->left;
+                return node->right;
+            };
         // find first node which has no left child
         treeNode    *successor(treeNode *n)                             {          treeNode *tmp = n; while (tmp->left != NULL) tmp = tmp->left;   return tmp;          };
   
@@ -378,71 +383,71 @@ class RBTree
 
         void    rebalanceTree4erase(treeNode *node)
         {
-        //     while (node != _root && node->color == BLACK)
-        //     {
-        //         if( node == node->parent->left)
-        //         {
-        //             treeNode *sibling = node->parent->right;
-        //             if (sibling->color == RED)
-        //             {
-        //                 recolorNode(sibling);
-        //                 recolorNode(node->parent);
-        //                 leftRotate(node->parent);
-        //                 sibling = node->parent->right;
-        //                 if (sibling->left->color == BLACK && sibling->right->color == BLACK)
-        //                 {
-        //                     recolorNode(sibling);
-        //                     node = node->parent;
-        //                 }
-        //                 else
-        //                 {
-        //                     if (sibling->right->color == BLACK)
-        //                     {
-        //                         sibling->left->color = BLACK;
-        //                         recolorNode(sibling);
-        //                         rightRotate(sibling);
-        //                         sibling = sibling->parent->right;
-        //                     }
-        //                     sibling->color = node->parent->color;
-        //                     node->parent->color = BLACK;
-        //                     sibling->right->color = BLACK;
-        //                     leftRotate(node->parent);
-        //                     node = _root;
-        //                 }
-        //             }
-        //         }
-        //         else
-        //         {
-        //             treeNode *sibling = node->parent->left;
-        //             if (sibling->color == RED)
-        //             {
-        //                 recolorNode(sibling);
-        //                 node->parent->color = RED;
-        //                 rightRotate(node->parent);
-        //                 sibling = node->parent->left;
-        //                 if (sibling->right->color == BLACK && sibling->left->color == BLACK)
-        //                 {
-        //                     recolorNode(sibling);
-        //                     node = node->parent;
-        //                 }
-        //                 else 
-        //                 {
-        //                     if (sibling->left->color == BLACK)
-        //                     {
-        //                         sibling->right->color = BLACK;
-        //                         recolorNode(sibling); // RED
-        //                         leftRotate(sibling);
-        //                         sibling = sibling->parent->left;
-        //                     }
-        //                     sibling->color = node->parent->left;
-        //                     node->parent->color = BLACK;
-        //                     sibling->left->color = BLACK;
-        //                     rightRotate(node->parent);
-        //                     node = _root;
-        //                 }
-        //             }
-        //         }
-        //     }
+            while (node != _root && node->color == BLACK)
+            {
+                if( node == node->parent->left)
+                {
+                    treeNode *sibling = node->parent->right;
+                    if (sibling->color == RED)
+                    {
+                        recolorNode(sibling);
+                        recolorNode(node->parent);
+                        leftRotate(node->parent);
+                        sibling = node->parent->right;
+                    }
+                    if (sibling->left->color == BLACK && sibling->right->color == BLACK)
+                    {
+                        recolorNode(sibling);
+                        node = node->parent;
+                    }
+                    else
+                    {
+                        if (sibling->right->color == BLACK)
+                        {
+                            sibling->left->color = BLACK;
+                            recolorNode(sibling);
+                            rightRotate(sibling);
+                            sibling = node->parent->right;
+                        }
+                        sibling->color = node->parent->color;
+                        node->parent->color = BLACK;
+                        sibling->right->color = BLACK;
+                        leftRotate(node->parent);
+                        node = _root;
+                    }
+                }
+                else
+                {
+                    treeNode *sibling = node->parent->left;
+                    if (sibling->color == RED)
+                    {
+                        recolorNode(sibling);
+                        node->parent->color = RED;
+                        rightRotate(node->parent);
+                        sibling = node->parent->left;
+                        if (sibling->right->color == BLACK && sibling->left->color == BLACK)
+                        {
+                            recolorNode(sibling); //red
+                            node = node->parent;
+                        }
+                        else 
+                        {
+                            if (sibling->left->color == BLACK)
+                            {
+                                sibling->right->color = BLACK;
+                                recolorNode(sibling); // RED
+                                leftRotate(sibling);
+                                sibling = node->parent->left;
+                            }
+                            sibling->color = node->parent->color;
+                            node->parent->color = BLACK;
+                            sibling->left->color = BLACK;
+                            rightRotate(node->parent);
+                            node = _root;
+                        }
+                    }
+                }
+            }
             node->color = BLACK;
         };
 

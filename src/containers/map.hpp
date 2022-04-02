@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/30 19:41:24 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/02 20:41:46 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ namespace ft
   			void 						insert (InputIterator first, InputIterator last)	{	_tree.insert( first, last );	};
 
 			// [ ERASE ]
-			void 						erase(iterator position)							{	_tree.erase( get_nodeptr(position) );					};
+			void 						erase(iterator position)							{	_tree.erase( position.node() );				};
 			size_type 					erase(const key_type& k)							{	return _tree.erase( get_valuetype(k) );		};
 			void 						erase(iterator first, iterator last)				{	_tree.erase( first, last );					};
 
@@ -203,6 +203,6 @@ namespace ft
 
 	template <class T, class Alloc>
 	void	swap( map< T, Alloc >& x, map< T, Alloc >& y) 							{ x.swap(y); }
-}
+};
 
 #endif

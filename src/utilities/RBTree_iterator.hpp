@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/02 20:44:53 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/04 22:47:42 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ struct node {
     typedef T           value_type;
     value_type          value;
 	node                *parent, *left, *right;
-	bool                color, doubleBlack;
+	int                color, doubleBlack;
 
     node( void )    :   value( nullptr ),
                             parent (0), left(0), right(0),

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/10 12:12:36 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 21:38:48 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ struct node {
     typedef T           value_type;
     value_type          value;
 	node                *parent, *left, *right;
-	int                color, doubleBlack;
+	int                color, end;
 
     node( void )    :   value( nullptr ),
                             parent (0), left(0), right(0),
-                            color( RED ), doubleBlack(0) {};
+                            color( RED ), end(0) {};
     node( T const& value, node *parent )   :    value(value),
                                                 parent (parent), left(0), right(0),
-                                                color( RED ), doubleBlack(0) {};
+                                                color( RED ), end(0) {};
     node( node const& t )   :   value(t.value),
                                         parent (t.parent), left(t.left), right(t.right),
-                                        color( t.color ), doubleBlack(0) {};
+                                        color( t.color ), end(0) {};
     node const&     operator = ( node const& t )
     {
         this->value = t.value;
@@ -47,7 +47,7 @@ struct node {
         this->left = t.left;
         this->right = t.right;
         this->color = t.color;
-        this->doubleBlack = t.doubleBlack;
+        this->end = t.end;
         return *this;
     }
     ~node () {};

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/10 15:31:52 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 19:35:03 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,6 @@ namespace ft
 
 			// helper functions
 			value_type				get_valuetype( const key_type& k )			{		return ft::make_pair( k, mapped_type() );					}
-			treeNode				*get_nodeptr( iterator & it )				{		return reinterpret_cast<treeNode * >(&it);					}
-			// mapped_type& 	operator[]( const key_type& k )					{		return (*(insert(get_valuetype(k)).first)).second;			};
 			void					inorder( void ) 							{		_tree.inorder(_tree.get_root());							}
 
 	};

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/10 15:32:42 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 21:51:13 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,18 @@ class RBTree
             return *this;
         };
 
-        ~RBTree( void ) {      };
+        ~RBTree( void ) {   clear(_root);   };
 
         // [INSERT] ( + newNode() )
         treeNode                    *newNode( value_type const& value, treeNode *parent )
         {
             treeNode    *newnode = _node_alloc.allocate(1);
             _alloc.construct(&(newnode->value), value);
-            newnode->left  = nullptr;
-            newnode->right = nullptr;
+            newnode->left  = NIL;
+            newnode->right = NIL;
             newnode->parent = parent;
             newnode->color = RED;
+            newnode->end = 0;
             _height++;
 			return newnode;
 
@@ -97,30 +98,24 @@ class RBTree
 
         ft::pair< iterator, bool>    insert( value_type const& value )
         {
-   
+            if (_root == NIL) { _root = newNode( value, NIL );
+                                _root->color = BLACK;
+                                return ft::make_pair(iterator(_root), true); }
             treeNode    *parent = NIL;
             treeNode    *curr = _root;
-            // if (_root == nullptr) { printf("root\n"); _root = newNode( value, nullptr );
-            //                         _root->color = BLACK;
-            //                         return ft::make_pair(iterator(_root), true); }
-            // treeNode *curr = _root;
-            // treeNode *parent;
             while (curr != NIL)
             { 
                 parent = curr;
-                if (_comp(value, curr->value))           {       curr = curr->left;               }
-                else if (_comp(curr->value, value))      {       curr = curr->right;              }
-                else                                    ft::make_pair(iterator(curr), false);                          
+                if (_comp(value, curr->value))              
+                    curr = curr->left;
+                else if (_comp(curr->value, value))
+                    curr = curr->right;
+                else                                        
+                    return ft::make_pair(iterator(curr), false);                         
             }
             curr = newNode( value, parent );
-            curr->left = NIL;
-            curr->right = NIL;
-            if (parent != NIL)
-            {
-                if (_comp(value, parent->value))             {     parent->left = curr;              }
-                else                                         {     parent->right = curr;             }
-            }
-            else _root = curr; 
+            if (_comp(value, parent->value))             parent->left = curr;
+            else                                         parent->right = curr;
             rebalanceTree4insert(curr);
             return ft::make_pair(iterator(curr), true);
         };
@@ -128,7 +123,7 @@ class RBTree
         iterator 				insert(iterator position, const value_type& value)      {       return insert(value).first; (void)position;         }
 		
         template <class InputIterator>
-	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   insert(*first++);           };
+	    void					insert(InputIterator first, InputIterator last)	        {       printf("range\n");while (first != last)   insert(*first++);           };
 
         // [ERASE] ( + delNode() )
 
@@ -211,10 +206,12 @@ class RBTree
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
-            if (root == NIL)  return ;
-            clear(root->left);
-            clear(root->right);
-            delNode(root);
+            if (root)
+            {
+                // clear(root->left);
+                // clear(root->right);
+                // delNode(root);
+            }
         }
         
         // capacity

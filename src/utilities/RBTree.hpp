@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/10 21:51:13 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 22:51:00 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ class RBTree
 
     public:
         // CONSTRUCTORS
-        explicit RBTree( const value_compare &comp, const allocator_type &alloc) :  NIL(newNode(ft::make_pair(0, 0), nullptr)),
+        explicit RBTree( const value_compare &comp, const allocator_type &alloc) :  NIL(newNode(ft::make_pair(0, 0), nullptr, 1)),
                                                                                     _height(0),
                                                                                     _comp(comp),
-                                                                                    _alloc(alloc)    {     NIL->color = BLACK; _root = NIL;        };
+                                                                                    _alloc(alloc)    {     NIL->color = BLACK; _root = NIL;       };
 
         RBTree( RBTree const &t ) : NIL(t.NIL),
                                     _root(t._root),                                    
@@ -82,7 +82,7 @@ class RBTree
         ~RBTree( void ) {   clear(_root);   };
 
         // [INSERT] ( + newNode() )
-        treeNode                    *newNode( value_type const& value, treeNode *parent )
+        treeNode                    *newNode( value_type const& value, treeNode *parent, int end )
         {
             treeNode    *newnode = _node_alloc.allocate(1);
             _alloc.construct(&(newnode->value), value);
@@ -90,7 +90,7 @@ class RBTree
             newnode->right = NIL;
             newnode->parent = parent;
             newnode->color = RED;
-            newnode->end = 0;
+            newnode->end = end;
             _height++;
 			return newnode;
 
@@ -98,7 +98,7 @@ class RBTree
 
         ft::pair< iterator, bool>    insert( value_type const& value )
         {
-            if (_root == NIL) { _root = newNode( value, NIL );
+            if (_root == NIL) { _root = newNode( value, NIL, 0 );
                                 _root->color = BLACK;
                                 return ft::make_pair(iterator(_root), true); }
             treeNode    *parent = NIL;
@@ -113,7 +113,7 @@ class RBTree
                 else                                        
                     return ft::make_pair(iterator(curr), false);                         
             }
-            curr = newNode( value, parent );
+            curr = newNode( value, parent, 0 );
             if (_comp(value, parent->value))             parent->left = curr;
             else                                         parent->right = curr;
             rebalanceTree4insert(curr);
@@ -123,7 +123,7 @@ class RBTree
         iterator 				insert(iterator position, const value_type& value)      {       return insert(value).first; (void)position;         }
 		
         template <class InputIterator>
-	    void					insert(InputIterator first, InputIterator last)	        {       printf("range\n");while (first != last)   insert(*first++);           };
+	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   {insert(*first++); printf("%d %d\n", (first.node())->value.second, (last.node())->value.second); }           };
 
         // [ERASE] ( + delNode() )
 
@@ -259,7 +259,7 @@ class RBTree
         // min, max
 
         treeNode    *min(treeNode* node) const      {       while (node != NIL)          { node = node->left; }  return node;         };
-        treeNode    *max(treeNode* node) const      {       while (node != NIL)          { node = node->right; }  return node;        };
+        treeNode    *max(treeNode* node) const      {       while (node->right != nullptr)          { node = node->right; }  return node;        };
 
         void inorder(treeNode* root)
         {

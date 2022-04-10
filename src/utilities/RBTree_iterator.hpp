@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/10 21:38:48 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 22:51:54 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ struct node {
 
     node( void )    :   value( nullptr ),
                             parent (0), left(0), right(0),
-                            color( RED ), end(0) {};
+                            color( RED )        {};
     node( T const& value, node *parent )   :    value(value),
                                                 parent (parent), left(0), right(0),
-                                                color( RED ), end(0) {};
+                                                color( RED )         {};
     node( node const& t )   :   value(t.value),
                                         parent (t.parent), left(t.left), right(t.right),
-                                        color( t.color ), end(0) {};
+                                        color( t.color ), end(t.end) {};
     node const&     operator = ( node const& t )
     {
         this->value = t.value;
@@ -83,12 +83,15 @@ class treeIterator
             if (_node->right)
             {
                 _node = _node->right;
+                printf("piu piu\n");
                 while (_node->left) _node = _node->left;
             }
             else
             {
-                treeNode	*ptr = _node->parent;
-                while (ptr && ptr->right == _node)  {   _node = ptr;  ptr = ptr->parent;    };
+                while (_node->parent && _node->parent->parent)  {   
+                    if (_node->parent->left == _node) break ;
+                    _node = _node->parent;    
+                };
             }
             return *this;
         }
@@ -97,13 +100,14 @@ class treeIterator
         {
             if (_node->left)
             {
-                _node = _node->left;
-                while (_node->right)  _node = _node->right;
+                while (_node->right->end == 0)  _node = _node->right;
             }
             else
             {
-                treeNode	*ptr = _node->parent;
-                while (ptr && ptr->left == _node)   {   _node = ptr;  ptr = ptr->parent;    };
+                while (_node->parent)  {   
+                    if (_node->parent->right == _node) break ;
+                    _node = _node->parent;    
+                };
             }
             return *this;
         }

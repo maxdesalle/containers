@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/02 20:41:46 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 15:31:52 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,14 @@ namespace ft
 			map( map const& m ):	_tree(m._tree),
 									_compare(m._compare),
 									_alloc(m._alloc) {};
+			
+			template < typename InputIterator >
+			map(	InputIterator first, InputIterator last, 
+					key_compare const & comp = key_compare(),
+					allocator_type const & alloc = allocator_type()):		_tree(comp, alloc),
+																			_compare(comp)				{	_tree.insert(first, last);	};
 
-			virtual ~map() {}
+			virtual ~map() {		};
 			
 			map& operator = ( map const& m)
 			{
@@ -105,7 +111,7 @@ namespace ft
 				return *this;
 			}
 
-			// iterators
+			// InputIteratorerators
 			iterator begin()								{	return	_tree.begin();		};
 			const_iterator begin() const					{	return	_tree.begin();		};
 			iterator end()									{	return	_tree.end();		};
@@ -126,7 +132,7 @@ namespace ft
 			ft::pair< iterator,bool > 	insert(value_type const & val)						{	return _tree.insert( val );			};
 			iterator 					insert(iterator position, const value_type& val)	{	return _tree.insert( position, val );	};
 			template <class InputIterator>
-  			void 						insert (InputIterator first, InputIterator last)	{	_tree.insert( first, last );	};
+  			void 						insert (InputIterator first, InputIterator last)	{	while ( first != last ) _tree.insert( *first++ );	};
 
 			// [ ERASE ]
 			void 						erase(iterator position)							{	_tree.erase( position.node() );				};

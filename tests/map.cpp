@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/10 12:06:40 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 15:30:56 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_constructor(void)
   	first['c']=50;
   	first['d']=70;
 
- 	ft::map<char,int> second ;//( first.begin(), first.end());
+ 	ft::map<char,int> second (first.begin(), first.end());
 
   	ft::map<char,int> third (second);
 
@@ -258,13 +258,13 @@ void	caller(void (*f1)(void), void (*f2)(void), std::string title)
 	std::cout << std::endl;
 	decorator(title);
 
-	std::cout << "\x1B[36mft:\033[0m\t";
+	std::cout << "\x1B[36mft:\033[0m\t\n";
 	// std::chrono::steady_clock::time_point b1 = std::chrono::high_resolution_clock::now();
 	f1();
 	// std::chrono::steady_clock::time_point e1 = std::chrono::high_resolution_clock::now();
 	// std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e1 - b1).count() << " microseconds)" << std::endl;
 
-	std::cout << "\x1B[33mstd:\033[0m\t";
+	std::cout << "\x1B[33mstd:\033[0m\t\n";
 	// std::chrono::steady_clock::time_point b2 = std::chrono::high_resolution_clock::now();
 	f2();
 	// std::chrono::steady_clock::time_point e2 = std::chrono::high_resolution_clock::now();
@@ -275,8 +275,8 @@ void	caller(void (*f1)(void), void (*f2)(void), std::string title)
 
 void	test_start(void)
 {
-	// caller(ft_constructor, std_constructor, "constructor");
-	caller(ft_empty, std_empty, "empty");
+	caller(ft_constructor, std_constructor, "constructor");
+	caller(ft_empty, std_empty, "empty and size");
 	// caller(ft_size, std_size, "size");
 	// caller(ft_top, std_top, "top");
 	// caller(ft_push, std_push, "push");

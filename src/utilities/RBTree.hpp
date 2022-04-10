@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/10 12:11:10 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 15:32:42 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ class RBTree
             return *this;
         };
 
-        ~RBTree(void) { };
+        ~RBTree( void ) {      };
 
         // [INSERT] ( + newNode() )
         treeNode                    *newNode( value_type const& value, treeNode *parent )
@@ -211,7 +211,7 @@ class RBTree
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
-            if (!root)  return ;
+            if (root == NIL)  return ;
             clear(root->left);
             clear(root->right);
             delNode(root);

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/03/30 21:25:42 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 12:06:40 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,30 +122,6 @@ void	ft_empty(void)
 	std::cout << "mymap.max_size() is " << mymap.max_size() << '\n';
 
 }
-
-// void	std_size(void)
-// {
-// 	std::map<int> myints;
-// 	std::cout << "sizes: " << myints.size();
-
-// 	for (int i=0; i<5; i++) myints.push(i);
-// 	std::cout << ", " << myints.size();
-
-// 	myints.pop();
-// 	std::cout << ", " << myints.size();
-// }
-
-// void	ft_size(void)
-// {
-// 	ft::map<int> myints;
-// 	std::cout << "sizes: " << myints.size();
-
-// 	for (int i=0; i<5; i++) myints.push(i);
-// 	std::cout << ", " << myints.size();
-
-// 	myints.pop();
-// 	std::cout << ", " << myints.size();
-// }
 
 // void	std_top(void)
 // {

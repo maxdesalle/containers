@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/04 23:07:21 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/10 12:11:10 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,24 +106,21 @@ class RBTree
             // treeNode *curr = _root;
             // treeNode *parent;
             while (curr != NIL)
-            {
-                
-                
+            { 
                 parent = curr;
-                if (_comp(value, curr->value))           {       curr = curr->left; printf("left\n");             }
-                else if (_comp(curr->value, value))      {       curr = curr->right; printf("right\n");           }
+                if (_comp(value, curr->value))           {       curr = curr->left;               }
+                else if (_comp(curr->value, value))      {       curr = curr->right;              }
                 else                                    ft::make_pair(iterator(curr), false);                          
             }
             curr = newNode( value, parent );
-
-            if (parent != NIL)
-            {printf("root no\n");
-                if (_comp(value, parent->value))             {     parent->left = curr;              }
-                else                                         {     parent->right = curr;             }
             curr->left = NIL;
             curr->right = NIL;
+            if (parent != NIL)
+            {
+                if (_comp(value, parent->value))             {     parent->left = curr;              }
+                else                                         {     parent->right = curr;             }
             }
-            else { _root = curr; _root->left = NIL; _root->right = NIL;} 
+            else _root = curr; 
             rebalanceTree4insert(curr);
             return ft::make_pair(iterator(curr), true);
         };
@@ -137,7 +134,7 @@ class RBTree
 
         size_type 				erase(value_type const &val)
         {
-            printf("search\n"); 
+            // printf("search\n"); 
             	treeNode	*to_del = _search(_root, val);
 		        if (!to_del)	return 0;
 		        erase(to_del);
@@ -146,19 +143,19 @@ class RBTree
 
         void 				erase(treeNode *node)
         {
-            printf("erase\n"); 
-                     if (node == _root)
-                printf("root\n"); 
+            // printf("value %d\n", node->value.second); 
+            //          if (node == _root)
+            //     printf("root\n"); 
                 treeNode    *to_del = node;
                 treeNode    *to_fix;
                 int originColor = node->color;
                 if (node->left == NIL)
-                {printf("left\n"); 
+                {
                     to_fix = node->right;
                     transplantNode(node, node->right);
                 }
                 else if (node->right == NIL)
-                {printf("right\n"); 
+                {
                     to_fix = node->left;
                     transplantNode(node, node->left);
                 }
@@ -245,14 +242,14 @@ class RBTree
         {
             if (_root == NIL)        return iterator(nullptr);
             treeNode* first = _root;
-            while (first->left) first = first->left;
+            while (first->left != NIL) { first = first->left; }
             return iterator(first);
         }
         const_iterator			begin( void ) const
         {
             if (_root == NIL)        return const_iterator(nullptr);
             treeNode* first = _root;
-            while (first->left) first = first->left;
+            while (first->left != NIL) first = first->left;
             return const_iterator(first);
         }
         iterator				end()				{       return iterator(max(_root));                         }
@@ -264,8 +261,8 @@ class RBTree
 
         // min, max
 
-        treeNode    *min(treeNode* node) const      {       while (node != NIL && node->left != NIL)   { node = node->left; }  return node;         };
-        treeNode    *max(treeNode* node) const      {       while (node != NIL && node->right != NIL)   { node = node->right; }  return node;        };
+        treeNode    *min(treeNode* node) const      {       while (node != NIL)          { node = node->left; }  return node;         };
+        treeNode    *max(treeNode* node) const      {       while (node != NIL)          { node = node->right; }  return node;        };
 
         void inorder(treeNode* root)
         {
@@ -334,16 +331,15 @@ class RBTree
         {
             while (node != _root && node->parent->color == RED)
             {
-                printf("rebalance\n");
                 treeNode    *grandmaNode = node->parent->parent;
                 if (node->parent == grandmaNode->right)
                 {
                     treeNode    *uncleNode = grandmaNode->left;
                     if (uncleNode->color == RED)
                     {
-                        recolorNode(uncleNode); // BLACK
-                        recolorNode(node->parent); // BLACK
-                        recolorNode(grandmaNode); // RED
+                        uncleNode->color = BLACK;
+                        node->parent->color = BLACK;
+                        grandmaNode->color = RED;
                         node = grandmaNode;
                     }
                     else
@@ -353,10 +349,8 @@ class RBTree
                             node = node->parent;
                             rightRotate(node);
                         }
-                        if (node->parent->color != BLACK)
-                            recolorNode(node->parent);
-                        if (grandmaNode->color != RED)
-                            recolorNode(grandmaNode);
+                        node->parent->color = BLACK;
+                        grandmaNode->color = RED;
                         leftRotate(grandmaNode);
                     }
                 }
@@ -365,9 +359,9 @@ class RBTree
                     treeNode    *uncleNode = grandmaNode->right;
                     if (uncleNode->color == RED)
                     {
-                        recolorNode(uncleNode);
-                        recolorNode(node->parent);
-                        recolorNode(grandmaNode);
+                        uncleNode->color = BLACK;
+                        node->parent->color = BLACK;
+                        grandmaNode->color = RED;
                         node = grandmaNode;
                     }
                     else
@@ -377,16 +371,12 @@ class RBTree
                             node = node->parent;
                             leftRotate(node);
                         }
-                        if (node->parent->color != BLACK)
-                            recolorNode(node->parent);
-                        if (grandmaNode->color != RED)
-                            recolorNode(grandmaNode);
+                        node->parent->color = BLACK;
+                        grandmaNode->color = RED;
                         rightRotate(grandmaNode);
                     }
                 }                
             }
-            // inorder(_root);
-            // std::cout << "-------------" << std::endl;
             _root->color = BLACK;
         };
 

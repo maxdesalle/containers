@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/13 19:27:08 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/13 19:54:08 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ class RBTree
         // min, max
 
         treeNode    *min(treeNode* node) const      {       while (node != NIL)          { node = node->left; }  return node;         };
-        treeNode    *max(treeNode* node) const      {       while (node != NIL && node->right != NIL)          { node = node->right; }  return node;        };
+        treeNode    *max(treeNode* node) const      {       while (node != NIL)          { node = node->right; }  return node;        };
 
         void inorder(treeNode* root)
         {

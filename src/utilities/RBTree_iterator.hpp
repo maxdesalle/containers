@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/10 22:51:54 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/13 19:27:58 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <memory> // std::allocator
 # include <cmath>
 
+# include "RBTree_iterator.hpp"
 # include "type_traits.hpp"
 # include "iterator.hpp"
 # include "algorithm.hpp"
@@ -29,17 +30,17 @@ struct node {
     typedef T           value_type;
     value_type          value;
 	node                *parent, *left, *right;
-	int                color, end;
+	int                color, leaf;
 
     node( void )    :   value( nullptr ),
                             parent (0), left(0), right(0),
                             color( RED )        {};
-    node( T const& value, node *parent )   :    value(value),
-                                                parent (parent), left(0), right(0),
-                                                color( RED )         {};
+    node( T const& value, node *parent, int leaf )   :      value(value),
+                                                            parent (parent), left(0), right(0),
+                                                            color( RED ), leaf(leaf)         {};
     node( node const& t )   :   value(t.value),
                                         parent (t.parent), left(t.left), right(t.right),
-                                        color( t.color ), end(t.end) {};
+                                        color( t.color ), leaf(t.leaf) {};
     node const&     operator = ( node const& t )
     {
         this->value = t.value;
@@ -47,13 +48,13 @@ struct node {
         this->left = t.left;
         this->right = t.right;
         this->color = t.color;
-        this->end = t.end;
+        this->leaf = t.leaf;
         return *this;
     }
     ~node () {};
 };
 
-template< typename U>
+template< typename U >
 class treeIterator
 {
     public:
@@ -80,18 +81,16 @@ class treeIterator
 
         treeIterator&		operator ++ ()
         {
-            if (_node->right)
+            if (_node->right && _node->right->leaf)
             {
                 _node = _node->right;
-                printf("piu piu\n");
-                while (_node->left) _node = _node->left;
+                while (_node->left && _node->left->leaf) _node = _node->left;
             }
             else
             {
-                while (_node->parent && _node->parent->parent)  {   
-                    if (_node->parent->left == _node) break ;
-                    _node = _node->parent;    
-                };
+                while (_node->parent->left == _node)
+                    _node = _node->parent;
+                       
             }
             return *this;
         }

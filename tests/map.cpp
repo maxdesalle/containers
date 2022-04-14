@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 08:06:41 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 09:07:06 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -650,39 +650,39 @@ void	ft_insert(void)
 // 	std::cout << ret.second->first << " => " << ret.second->second << '\n';
 // }
 
-// void	std_allocator(void)
-// {
-// 	int psize;
-// 	std::map<char,int> mymap;
-// 	std::pair<const char,int>* p;
+void	std_allocator(void)
+{
+	int psize;
+	std::map<char,int> mymap;
+	std::pair<const char,int>* p;
 
-// 	// allocate an array of 5 elements using mymap's allocator:
-// 	p=mymap.get_allocator().allocate(5);
+	// allocate an array of 5 elements using mymap's allocator:
+	p=mymap.get_allocator().allocate(5);
 
-// 	// assign some values to array
-// 	psize = sizeof(std::map<char,int>::value_type)*5;
+	// assign some values to array
+	psize = sizeof(std::map<char,int>::value_type)*5;
 
-// 	std::cout << "The allocated array has a size of " << psize << " bytes.\n";
+	std::cout << "The allocated array has a size of " << psize << " bytes.\n";
 
-// 	mymap.get_allocator().deallocate(p,5);
-// }
+	mymap.get_allocator().deallocate(p,5);
+}
 
-// void	ft_allocator(void)
-// {
-// 	int psize;
-// 	ft::map<char,int> mymap;
-// 	ft::pair<const char,int>* p;
+void	ft_allocator(void)
+{
+	int psize;
+	ft::map<char,int> mymap;
+	ft::pair<const char,int>* p;
 
-// 	// allocate an array of 5 elements using mymap's allocator:
-// 	p=mymap.get_allocator().allocate(5);
+	// allocate an array of 5 elements using mymap's allocator:
+	p=mymap.get_allocator().allocate(5);
 
-// 	// assign some values to array
-// 	psize = sizeof(std::map<char,int>::value_type)*5;
+	// assign some values to array
+	psize = sizeof(std::map<char,int>::value_type)*5;
 
-// 	std::cout << "The allocated array has a size of " << psize << " bytes.\n";
+	std::cout << "The allocated array has a size of " << psize << " bytes.\n";
 
-// 	mymap.get_allocator().deallocate(p,5);
-// }
+	mymap.get_allocator().deallocate(p,5);
+}
 
 void	caller(void (*f1)(void), void (*f2)(void), std::string title)
 {
@@ -720,7 +720,7 @@ void	test_start(void)
 	// caller(ft_count, std_count, "count"); // operations
 	// caller(ft_bounds, std_bounds, "lower and upper bound"); // operations
 	// caller(ft_equalrange, std_equalrange, "equal_range"); // operations
-	// caller(ft_allocator, std_allocator, "allocator"); // allocator
+	caller(ft_allocator, std_allocator, "allocator"); // allocator
 }
 
 int	main(void)

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 10:14:41 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/03/22 09:00:37 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 18:03:50 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,14 @@ namespace ft
 
 			reverse_iterator&	operator++()
 			{
-				this->_it -= 1;
+				--_it; // THIS IS TO CHECK WITH MAX
 				return (*this);
 			};
 
 			reverse_iterator	operator++(int)
 			{
 				reverse_iterator(temp) = *this;
-				++(*this);
+				--(*this);
 				return (temp);
 			}
 

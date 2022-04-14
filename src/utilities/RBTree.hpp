@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 16:10:10 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 16:22:07 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ class RBTree
                 if (originColor == BLACK)
                     rebalanceTree4erase(to_fix);
                 delNode(node);
-                _height--;
         };
 		void 					erase(iterator first, iterator last)                    {	while (first != last)   erase(*first++); 	        };
 
@@ -217,16 +216,19 @@ class RBTree
         }
 
         // CLEAR
-        void        delNode(treeNode *node)        {   _alloc.destroy(&(node->value));  _node_alloc.deallocate(node, 1);  }
+        void        delNode(treeNode *node)        {   _alloc.destroy(&(node->value));  _node_alloc.deallocate(node, 1); _height--; }
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
-            if (root->leaf)
+            printf("num %d\n", root->value.second);
+        	if (root && root->leaf)
             {
+                printf("clr\n");
                 clear(root->left);
                 clear(root->right);
                 delNode(root);
             }
+            
         }
         
         // capacity

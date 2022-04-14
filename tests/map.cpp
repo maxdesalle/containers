@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 16:13:34 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 16:23:15 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,9 +172,9 @@ void	ft_iterators(void)
 	rmap['z'] = 300;
 
 	// show content:
-	// ft::map<char,int>::reverse_iterator rit;
-	// for (rit=rmap.rbegin(); rit!=rmap.rend(); ++rit)
-	// std::cout << rit->first << " => " << rit->second << '\n';
+	ft::map<char,int>::reverse_iterator rit;
+	for (rit=rmap.rbegin(); rit!=rmap.rend(); ++rit)
+	std::cout << rit->first << " => " << rit->second << '\n';
 }
 
 void	std_insert(void)

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 08:57:45 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 12:29:13 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ class RBTree
         {
             if ( this != &t)
             {
-                if (_root)
-                    this->clear(_root);
+                clear(_root);
                 NIL = t.NIL;
+                _root = t._root;
                 _height = t._height;
                 _comp = t._comp;
                 _alloc = t._alloc;
@@ -208,9 +208,9 @@ class RBTree
         {
             if (root)
             {
-                // clear(root->left);
-                // clear(root->right);
-                // delNode(root);
+                clear(root->left);
+                clear(root->right);
+                delNode(root);
             }
         }
         

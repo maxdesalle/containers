@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 09:07:06 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 09:08:38 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -374,47 +374,47 @@ void	ft_insert(void)
 // 	std::cout << it->first << " => " << it->second << '\n';
 // }
 
-// void	std_clear(void)
-// {
-// 	std::map<char,int> mymap;
+void	std_clear(void)
+{
+	std::map<char,int> mymap;
 
-// 	mymap['x']=100;
-// 	mymap['y']=200;
-// 	mymap['z']=300;
+	mymap['x']=100;
+	mymap['y']=200;
+	mymap['z']=300;
 
-// 	std::cout << "mymap contains:\n";
-// 	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-// 		std::cout << it->first << " => " << it->second << '\n';
+	std::cout << "mymap contains:\n";
+	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
 
-// 	mymap.clear();
-// 	mymap['a']=1101;
-// 	mymap['b']=2202;
+	mymap.clear();
+	mymap['a']=1101;
+	mymap['b']=2202;
 
-// 	std::cout << "mymap contains:\n";
-// 	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-// 	std::cout << it->first << " => " << it->second << '\n';
-// }
+	std::cout << "mymap contains:\n";
+	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+	std::cout << it->first << " => " << it->second << '\n';
+}
 
-// void	ft_clear(void)
-// {
-// 	ft::map<char,int> mymap;
+void	ft_clear(void)
+{
+	ft::map<char,int> mymap;
 
-// 	mymap['x']=100;
-// 	mymap['y']=200;
-// 	mymap['z']=300;
+	mymap['x']=100;
+	mymap['y']=200;
+	mymap['z']=300;
 
-// 	std::cout << "mymap contains:\n";
-// 	for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-// 		std::cout << it->first << " => " << it->second << '\n';
+	std::cout << "mymap contains:\n";
+	for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
 
-// 	mymap.clear();
-// 	mymap['a']=1101;
-// 	mymap['b']=2202;
+	mymap.clear();
+	mymap['a']=1101;
+	mymap['b']=2202;
 
-// 	std::cout << "mymap contains:\n";
-// 	for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-// 	std::cout << it->first << " => " << it->second << '\n';
-// }
+	std::cout << "mymap contains:\n";
+	for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+	std::cout << it->first << " => " << it->second << '\n';
+}
 
 // void	std_keycomp(void)
 // {
@@ -713,7 +713,7 @@ void	test_start(void)
 	caller(ft_insert, std_insert, "insert"); // modifiers
 	// caller(ft_erase, std_erase, "erase"); // modifiers
 	// caller(ft_swap, std_swap, "swap"); // modifiers
-	// caller(ft_clear, std_clear, "clear"); // modifiers
+	caller(ft_clear, std_clear, "clear"); // modifiers
 	// caller(ft_keycomp, std_keycomp, "key_comp"); // observers
 	// caller(ft_valuecomp, std_valuecomp, "value_comp"); // observers
 	// caller(ft_find, std_find, "find"); // operations

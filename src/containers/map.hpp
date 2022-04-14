@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 08:07:42 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 12:28:02 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ namespace ft
 			void 					swap(map& x)					{	if (this != &x)	_tree.swap(x._tree);	};
 
 			// [ CLEAR ]
-			void 					clear()							{	_tree.clear();	};
+			void 					clear()							{	printf("root value %d\n", _tree.get_root()->value.second); _tree.clear(_tree.get_root());	};
 			
 			// element access
 			mapped_type& operator[] ( const key_type& k )			{	return (*(insert(ft::make_pair( k, mapped_type() )).first)).second;				};

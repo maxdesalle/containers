@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/10 19:35:03 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 08:07:42 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,10 @@ namespace ft
 			const_iterator begin() const					{	return	_tree.begin();		};
 			iterator end()									{	return	_tree.end();		};
 			const_iterator end() const						{	return	_tree.end();		};
-			iterator rbegin()								{	return	_tree.rbegin();		};
-			const_iterator rbegin() const					{	return	_tree.rbegin();		};
-			iterator rend()									{	return	_tree.rend();		};
-			const_iterator rend() const						{	return	_tree.rend();		};
+			reverse_iterator rbegin()								{	return	_tree.rbegin();		};
+			const_reverse_iterator rbegin() const					{	return	_tree.rbegin();		};
+			reverse_iterator rend()									{	return	_tree.rend();		};
+			const_reverse_iterator rend() const						{	return	_tree.rend();		};
 
 			// capacity
 			bool			empty( void ) const				{	return	_tree.empty();		};

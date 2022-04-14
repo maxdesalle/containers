@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/13 19:27:08 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 08:57:45 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ class RBTree
         iterator 				insert(iterator position, const value_type& value)      {       return insert(value).first; (void)position;         }
 		
         template <class InputIterator>
-	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   {printf("%d %d\n", (first.node())->value.second, (last.node())->value.second); insert(*first++);  }           };
+	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   { insert(*first++);  }           }; // printf("%d %d\n", (first.node())->value.second, (last.node())->value.second); 
 
         // [ERASE] ( + delNode() )
 
@@ -258,8 +258,8 @@ class RBTree
 
         // min, max
 
-        treeNode    *min(treeNode* node) const      {       while (node != NIL)          { node = node->left; }  return node;         };
-        treeNode    *max(treeNode* node) const      {       while (node != NIL && node->right != NIL)          { node = node->right; }  return node;        };
+        treeNode    *min(treeNode* node) const      {       while (node && node->leaf)          { node = node->left; }  return node;         };
+        treeNode    *max(treeNode* node) const      {       while (node && node->leaf)          { node = node->right; }  return node;        };
 
         void inorder(treeNode* root)
         {

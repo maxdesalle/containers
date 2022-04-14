@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 09:05:26 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 14:46:15 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ class treeIterator
         typedef node< value_type >              treeNode;
 
         treeIterator( void ) :  _node(NULL)                     {};
-        treeIterator( treeNode* current ) : _node(current)      {};
-        treeIterator( treeIterator const& t ) : _node(t._node)  {};
-        treeIterator		operator = ( treeIterator t )       {       _node = t._node; return *this;                              };
+        treeIterator( treeNode * current ) : _node(current)      {};
+        treeIterator( treeIterator const& t ) : _node(t.node())  {};
+        treeIterator		operator = ( treeIterator t )       {       _node = t.node(); return *this;                              };
         treeNode            *node( void )                       {       return _node;                                               };
         treeNode            *node( void )   const               {       return _node;                                               };
 

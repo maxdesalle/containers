@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 12:29:13 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 16:10:10 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,21 +65,36 @@ class RBTree
                                     _comp(t._comp),
                                     _alloc(t._alloc)    {};
 
-        RBTree& operator = ( RBTree const &t )
+        RBTree& operator = ( const RBTree &t )
         {
             if ( this != &t)
             {
                 clear(_root);
-                NIL = t.NIL;
-                _root = t._root;
-                _height = t._height;
+                // NIL = t.NIL;
+                _root = copytree(t.get_root(), NIL);
+                // _height = t._height;
                 _comp = t._comp;
                 _alloc = t._alloc;
             }
             return *this;
         };
 
-        ~RBTree( void ) {   clear(_root);   };
+        ~RBTree( void ) {      };
+
+
+        treeNode    *copytree(treeNode *src, treeNode *parent)
+        {
+            printf("num %d\n", src->value.second);
+        	if (src && src->leaf)
+            {
+                printf("src\n");
+                treeNode* leaf = newNode(src->value, parent, src->leaf);
+                leaf->left = copytree(src->left, leaf);
+                leaf->right = copytree(src->right, leaf);
+                return leaf;
+            }
+            return nullptr;
+        }
 
         // [INSERT] ( + newNode() )
         treeNode                    *newNode( value_type const& value, treeNode *parent, int leaf )
@@ -123,7 +138,7 @@ class RBTree
         iterator 				insert(iterator position, const value_type& value)      {       return insert(value).first; (void)position;         }
 		
         template <class InputIterator>
-	    void					insert(InputIterator first, InputIterator last)	        {       while (first != last)   { insert(*first++);  }           }; // printf("%d %d\n", (first.node())->value.second, (last.node())->value.second); 
+	    void					insert(InputIterator first, InputIterator last)     {    while (first != last)   { insert(*first); first++; }           }; // printf("%d %d\n", (first.node())->value.second, (last.node())->value.second); 
 
         // [ERASE] ( + delNode() )
 
@@ -206,7 +221,7 @@ class RBTree
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
-            if (root)
+            if (root->leaf)
             {
                 clear(root->left);
                 clear(root->right);
@@ -447,8 +462,8 @@ class RBTree
             node->color = BLACK;
         };
 
-        treeNode    *get_root()                             {           return _root;     };
-        treeNode    *get_end()                              {           return NIL;       };
+        treeNode    *get_root()    const                         {           return _root;     };
+        treeNode    *get_end()     const                         {           return NIL;       };
 };
 
 #endif

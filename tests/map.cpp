@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 09:08:38 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/14 16:13:34 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,8 @@ void	ft_insert(void)
 	mymap.insert (it, ft::pair<char,int>('c',400));  // no max efficiency inserting
 
 	// third insert function version (range insertion):
-	ft::map<char,int> anothermap;
-	anothermap.insert(mymap.begin(), mymap.find('c'));
+	// ft::map<char,int> anothermap;
+	// anothermap.insert(mymap.begin(), mymap.find('c'));
 
 	// showing contents:
 	std::cout << "mymap contains:\n";
@@ -241,8 +241,8 @@ void	ft_insert(void)
 		std::cout << it->first << " => " << it->second << '\n';
 
 	// std::cout << "anothermap contains:\n";
-	for (it=anothermap.begin(); it!=anothermap.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
+	// for (it=anothermap.begin(); it!=anothermap.end(); ++it)
+	// 	std::cout << it->first << " => " << it->second << '\n';
 }
 
 
@@ -713,7 +713,7 @@ void	test_start(void)
 	caller(ft_insert, std_insert, "insert"); // modifiers
 	// caller(ft_erase, std_erase, "erase"); // modifiers
 	// caller(ft_swap, std_swap, "swap"); // modifiers
-	caller(ft_clear, std_clear, "clear"); // modifiers
+	// caller(ft_clear, std_clear, "clear"); // modifiers
 	// caller(ft_keycomp, std_keycomp, "key_comp"); // observers
 	// caller(ft_valuecomp, std_valuecomp, "value_comp"); // observers
 	// caller(ft_find, std_find, "find"); // operations

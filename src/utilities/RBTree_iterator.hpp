@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/13 20:09:46 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/13 19:27:58 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,32 +88,24 @@ class treeIterator
             }
             else
             {
-                treeNode	*curr = _node;
-			    _node = _node->parent;
-                while (_node->right == curr)
-                {
-                    curr = _node;
+                while (_node->parent->left == _node)
                     _node = _node->parent;
-                }  
+                       
             }
             return *this;
         }
 
         treeIterator&		operator -- ()
         {
-            if (_node->left && _node->left->leaf)
+            if (_node->left)
             {
-                _node = _node->left;
-                while (_node->right && _node->right->leaf) _node = _node->right;
+                while (_node->right->end == 0)  _node = _node->right;
             }
             else
             {
-                treeNode	curr = _node;
-                _node = _node->parent;
-                while (_node->left == curr)
-                {
-                    curr = _node;
-                    _node = _node->parent;
+                while (_node->parent)  {   
+                    if (_node->parent->right == _node) break ;
+                    _node = _node->parent;    
                 };
             }
             return *this;

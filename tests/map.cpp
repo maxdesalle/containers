@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 14:06:12 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 16:59:31 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -715,7 +715,7 @@ void	test_start(void)
 	caller(ft_insert, std_insert, "insert"); // modifiers
 	caller(ft_erase, std_erase, "erase"); // modifiers
 	// caller(ft_swap, std_swap, "swap"); // modifiers
-	// caller(ft_clear, std_clear, "clear"); // modifiers
+	caller(ft_clear, std_clear, "clear"); // modifiers
 	// caller(ft_keycomp, std_keycomp, "key_comp"); // observers
 	// caller(ft_valuecomp, std_valuecomp, "value_comp"); // observers
 	caller(ft_find, std_find, "find"); // operations

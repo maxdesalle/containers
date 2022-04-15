@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 14:39:50 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 17:06:17 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,10 @@ class RBTree
         }
 
         // CLEAR
-        void        delNode(treeNode *node)        {   _alloc.destroy(&(node->value));  _node_alloc.deallocate(node, 1); _height--; }
+        void        delNode(treeNode *node)        {              
+            _alloc.destroy(&(node->value));  
+            _node_alloc.deallocate(node, 1); 
+            _height--; }
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
@@ -222,6 +225,7 @@ class RBTree
                 clear(root->right);
                 delNode(root);
             }
+            _root = NIL;
             
         }
         

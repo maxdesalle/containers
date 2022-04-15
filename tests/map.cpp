@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 13:52:46 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 14:04:58 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -494,47 +494,47 @@ void	ft_clear(void)
 // 	} while ( mymap.value_comp()(*it++, highest) );
 // }
 
-// void	std_find(void)
-// {
-// 	std::map<char,int> mymap;
-// 	std::map<char,int>::iterator it;
+void	std_find(void)
+{
+	std::map<char,int> mymap;
+	std::map<char,int>::iterator it;
 
-// 	mymap['a']=50;
-// 	mymap['b']=100;
-// 	mymap['c']=150;
-// 	mymap['d']=200;
+	mymap['a']=50;
+	mymap['b']=100;
+	mymap['c']=150;
+	mymap['d']=200;
 
-// 	it = mymap.find('b');
-// 	if (it != mymap.end())
-// 		mymap.erase (it);
+	it = mymap.find('b');
+	if (it != mymap.end())
+		mymap.erase (it);
 
-// 	// print content:
-// 	std::cout << "elements in mymap:" << '\n';
-// 	std::cout << "a => " << mymap.find('a')->second << '\n';
-// 	std::cout << "c => " << mymap.find('c')->second << '\n';
-// 	std::cout << "d => " << mymap.find('d')->second << '\n';
-// }
+	// print content:
+	std::cout << "elements in mymap:" << '\n';
+	std::cout << "a => " << mymap.find('a')->second << '\n';
+	std::cout << "c => " << mymap.find('c')->second << '\n';
+	std::cout << "d => " << mymap.find('d')->second << '\n';
+}
 
-// void	ft_find(void)
-// {
-// 	ft::map<char,int> mymap;
-// 	ft::map<char,int>::iterator it;
+void	ft_find(void)
+{
+	ft::map<char,int> mymap;
+	ft::map<char,int>::iterator it;
 
-// 	mymap['a']=50;
-// 	mymap['b']=100;
-// 	mymap['c']=150;
-// 	mymap['d']=200;
+	mymap['a']=50;
+	mymap['b']=100;
+	mymap['c']=150;
+	mymap['d']=200;
 
-// 	it = mymap.find('b');
-// 	if (it != mymap.end())
-// 		mymap.erase (it);
+	it = mymap.find('b');
+	if (it != mymap.end())
+		mymap.erase (it);
 
-// 	// print content:
-// 	std::cout << "elements in mymap:" << '\n';
-// 	std::cout << "a => " << mymap.find('a')->second << '\n';
-// 	std::cout << "c => " << mymap.find('c')->second << '\n';
-// 	std::cout << "d => " << mymap.find('d')->second << '\n';
-// }
+	// print content:
+	std::cout << "elements in mymap:" << '\n';
+	std::cout << "a => " << mymap.find('a')->second << '\n';
+	std::cout << "c => " << mymap.find('c')->second << '\n';
+	std::cout << "d => " << mymap.find('d')->second << '\n';
+}
 
 // void	std_count(void)
 // {
@@ -718,7 +718,7 @@ void	test_start(void)
 	// caller(ft_clear, std_clear, "clear"); // modifiers
 	// caller(ft_keycomp, std_keycomp, "key_comp"); // observers
 	// caller(ft_valuecomp, std_valuecomp, "value_comp"); // observers
-	// caller(ft_find, std_find, "find"); // operations
+	caller(ft_find, std_find, "find"); // operations
 	// caller(ft_count, std_count, "count"); // operations
 	// caller(ft_bounds, std_bounds, "lower and upper bound"); // operations
 	// caller(ft_equalrange, std_equalrange, "equal_range"); // operations

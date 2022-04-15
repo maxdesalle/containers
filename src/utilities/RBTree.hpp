@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 13:29:13 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 14:01:51 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ class RBTree
 
         ft::pair< iterator, bool>    insert( value_type const& value )
         {
-            if (_root == NIL) { printf("insert root 2\n"); _root = newNode( value, NIL, 2 );
+            if (_root == NIL) { _root = newNode( value, NIL, 2 );
                                 _root->color = BLACK;
                                 return ft::make_pair(iterator(_root), true); }
             treeNode    *parent = NIL;
@@ -143,7 +143,7 @@ class RBTree
         size_type 				erase(value_type const &val)
         {
             // printf("search\n"); 
-            	treeNode	*to_del = _search(_root, val);
+            	treeNode	*to_del = search(_root, val);
 		        if (!to_del)	return 0;
 		        erase(to_del);
 		        return 1;
@@ -151,9 +151,6 @@ class RBTree
 
         void 				erase(treeNode *node)
         {
-            // printf("value %d\n", node->value.second); 
-            //          if (node == _root)
-            //     printf("root\n"); 
                 treeNode    *to_del = node;
                 treeNode    *to_fix;
                 int originColor = node->color;
@@ -273,7 +270,7 @@ class RBTree
 
         // min, max
 
-        treeNode    *min(treeNode* node) const      {       while (node && node->leaf)          { node = node->left;  }  return node;         };
+        treeNode    *min(treeNode* node) const      {       while (node->left != NIL)          { node = node->left;  }  return node;         };
         treeNode    *max(treeNode* node) const      {       while (node && node->leaf)          { /*printf("returned %d\n", node->parent->leaf); */ node = node->right; }   return node;        };
 
 

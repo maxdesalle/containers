@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 13:29:59 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 13:52:46 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,57 +280,57 @@ void	ft_insert(void)
 // 	std::cout << "mymap now contains " << mymap.size() << " elements.\n";
 // }
 
-// void	std_erase(void)
-// {
-// 	std::map<char,int> mymap;
-// 	std::map<char,int>::iterator it;
+void	std_erase(void)
+{
+	std::map<char,int> mymap;
+	std::map<char,int>::iterator it;
 
-// 	// insert some values:
-// 	mymap['a']=10;
-// 	mymap['b']=20;
-// 	mymap['c']=30;
-// 	mymap['d']=40;
-// 	mymap['e']=50;
-// 	mymap['f']=60;
+	// insert some values:
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;
+	mymap['d']=40;
+	mymap['e']=50;
+	mymap['f']=60;
 
-// 	it=mymap.find('b');
-// 	mymap.erase (it);                   // erasing by iterator
+	it=mymap.find('b');
+	mymap.erase (it);                   // erasing by iterator
 
-// 	mymap.erase ('c');                  // erasing by key
+	mymap.erase ('c');                  // erasing by key
 
-// 	it=mymap.find ('e');
-// 	mymap.erase ( it, mymap.end() );    // erasing by range
+	it=mymap.find ('e');
+	mymap.erase ( it, mymap.end() );    // erasing by range
 
-// 	// show content:
-// 	for (it=mymap.begin(); it!=mymap.end(); ++it)
-// 	std::cout << it->first << " => " << it->second << '\n';
-// }
+	// show content:
+	for (it=mymap.begin(); it!=mymap.end(); ++it)
+	std::cout << it->first << " => " << it->second << '\n';
+}
 
-// void	ft_erase(void)
-// {
-// 	ft::map<char,int> mymap;
-// 	ft::map<char,int>::iterator it;
+void	ft_erase(void)
+{
+	ft::map<char,int> mymap;
+	ft::map<char,int>::iterator it;
 
-// 	// insert some values:
-// 	mymap['a']=10;
-// 	mymap['b']=20;
-// 	mymap['c']=30;
-// 	mymap['d']=40;
-// 	mymap['e']=50;
-// 	mymap['f']=60;
+	// insert some values:
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;
+	mymap['d']=40;
+	mymap['e']=50;
+	mymap['f']=60;
 
-// 	it=mymap.find('b');
-// 	mymap.erase (it);                   // erasing by iterator
+	it = mymap.find('b');
+	mymap.erase(it);                   // erasing by iterator
 
-// 	mymap.erase ('c');                  // erasing by key
+	mymap.erase ('c');                  // erasing by key
 
-// 	it=mymap.find ('e');
-// 	mymap.erase ( it, mymap.end() );    // erasing by range
+	it=mymap.find ('e');
+	mymap.erase ( it, mymap.end() );    // erasing by range
 
-// 	// show content:
-// 	for (it=mymap.begin(); it!=mymap.end(); ++it)
-// 	std::cout << it->first << " => " << it->second << '\n';
-// }
+	// show content:
+	for (it=mymap.begin(); it!=mymap.end(); ++it)
+	std::cout << it->first << " => " << it->second << '\n';
+}
 
 // void	std_swap(void)
 // {
@@ -713,7 +713,7 @@ void	test_start(void)
 	caller(ft_empty, std_empty, "empty and size"); // capacity
 	// caller(ft_access, std_access, "element access");
 	caller(ft_insert, std_insert, "insert"); // modifiers
-	// caller(ft_erase, std_erase, "erase"); // modifiers
+	caller(ft_erase, std_erase, "erase"); // modifiers
 	// caller(ft_swap, std_swap, "swap"); // modifiers
 	// caller(ft_clear, std_clear, "clear"); // modifiers
 	// caller(ft_keycomp, std_keycomp, "key_comp"); // observers

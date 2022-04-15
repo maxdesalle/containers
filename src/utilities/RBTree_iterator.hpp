@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 09:36:16 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 13:20:31 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,12 @@ class treeIterator
             }
             else
             {
+                // printf("num %d\n", _node->value.second);
                 treeNode	*curr = _node;
                 _node = _node->parent;
                 while (_node->left == curr)
                 {
+                    // printf("-- %d\n", _node->value.second);
                     curr = _node;
                     _node = _node->parent;
                 };

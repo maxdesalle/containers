@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 10:14:41 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/04/15 07:51:08 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 13:26:59 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,13 @@ namespace ft
 			Iterator		_it;
 
 		public:
-			reverse_iterator() {}
+			reverse_iterator(): _it() {}
 			explicit			reverse_iterator(iterator_type it): _it(it) {}
 
 			template <class Iter>
 			reverse_iterator(const reverse_iterator<Iter>& rev_it): _it(rev_it.base()) {}
+
+			reverse_iterator(const reverse_iterator& rev_it): _it(rev_it.base()) {}
 
 			template <class U>
 			reverse_iterator& operator=(const reverse_iterator<U>& other)
@@ -92,7 +94,7 @@ namespace ft
 
 			reference			operator*() const
 			{
-				iterator_type	tmp(this->base());
+				iterator_type	tmp = _it;
 				return *(--tmp);
 			}
 
@@ -106,8 +108,8 @@ namespace ft
 
 			reverse_iterator	operator++(int)
 			{
-				reverse_iterator(temp) = *this;
-				--(*this);
+				reverse_iterator temp = *this;
+				--_it;
 				return (temp);
 			}
 
@@ -121,14 +123,14 @@ namespace ft
 
 			reverse_iterator&	operator--()
 			{
-				this->_it += 1;
+				++_it;
 				return (*this);
 			}
 
 			reverse_iterator	operator--(int)
 			{
-				reverse_iterator(temp) = *this;
-				--(*this);
+				reverse_iterator temp = *this;
+				--_it;
 				return (temp);
 			}
 

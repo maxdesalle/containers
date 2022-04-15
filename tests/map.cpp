@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 09:03:02 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 13:29:59 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ void	std_iterators(void)
 
 	// show content:
 	std::map<char,int>::reverse_iterator rit;
+	 std::cout << "rbeg: " << rmap.rbegin()->second << '\n';
+	 std::cout << "rend: " << rmap.rend()->second << '\n';
 	for (rit=rmap.rbegin(); rit!=rmap.rend(); ++rit)
 	std::cout << rit->first << " => " << rit->second << '\n';
 }
@@ -170,9 +172,9 @@ void	ft_iterators(void)
 	rmap['z'] = 300;
 
 	// show content:
-	ft::map<char,int>::reverse_iterator rit;
-	 std::cout << "rbeg: " << rmap.rbegin()->second << '\n';
-	 std::cout << "rend: " << rmap.rend()->second << '\n';
+	// ft::map<char,int>::reverse_iterator rit;
+	//  std::cout << "rbeg: " << rmap.rbegin()->second << '\n';
+	//  std::cout << "rend: " << rmap.rend()->second << '\n';
 	// for (rit=rmap.rbegin(); rit!=rmap.rend(); ++rit)
 	// std::cout << rit->first << " => " << rit->second << '\n';
 }
@@ -231,18 +233,18 @@ void	ft_insert(void)
 	mymap.insert (it, ft::pair<char,int>('b',300));  // max efficiency inserting
 	mymap.insert (it, ft::pair<char,int>('c',400));  // no max efficiency inserting
 
-	// third insert function version (range insertion):
-	// ft::map<char,int> anothermap;
-	// anothermap.insert(mymap.begin(), mymap.find('c'));
+	//third insert function version (range insertion):
+	ft::map<char,int> anothermap;
+	anothermap.insert(mymap.begin(), mymap.find('c'));
 
 	// showing contents:
 	std::cout << "mymap contains:\n";
 	for (it=mymap.begin(); it!=mymap.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
 
-	// std::cout << "anothermap contains:\n";
-	// for (it=anothermap.begin(); it!=anothermap.end(); ++it)
-	// 	std::cout << it->first << " => " << it->second << '\n';
+	std::cout << "anothermap contains:\n";
+	for (it=anothermap.begin(); it!=anothermap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
 }
 
 

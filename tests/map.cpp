@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 14:04:58 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 14:06:12 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -536,43 +536,43 @@ void	ft_find(void)
 	std::cout << "d => " << mymap.find('d')->second << '\n';
 }
 
-// void	std_count(void)
-// {
-// 	std::map<char,int> mymap;
-// 	char c;
+void	std_count(void)
+{
+	std::map<char,int> mymap;
+	char c;
 
-// 	mymap ['a']=101;
-// 	mymap ['c']=202;
-// 	mymap ['f']=303;
+	mymap ['a']=101;
+	mymap ['c']=202;
+	mymap ['f']=303;
 
-// 	for (c='a'; c<'h'; c++)
-// 	{
-// 		std::cout << c;
-// 		if (mymap.count(c)>0)
-// 		std::cout << " is an element of mymap.\n";
-// 		else 
-// 		std::cout << " is not an element of mymap.\n";
-// 	}
-// }
+	for (c='a'; c<'h'; c++)
+	{
+		std::cout << c;
+		if (mymap.count(c)>0)
+		std::cout << " is an element of mymap.\n";
+		else 
+		std::cout << " is not an element of mymap.\n";
+	}
+}
 
-// void	ft_count(void)
-// {
-// 	ft::map<char,int> mymap;
-// 	char c;
+void	ft_count(void)
+{
+	ft::map<char,int> mymap;
+	char c;
 
-// 	mymap ['a']=101;
-// 	mymap ['c']=202;
-// 	mymap ['f']=303;
+	mymap ['a']=101;
+	mymap ['c']=202;
+	mymap ['f']=303;
 
-// 	for (c='a'; c<'h'; c++)
-// 	{
-// 		std::cout << c;
-// 		if (mymap.count(c)>0)
-// 		std::cout << " is an element of mymap.\n";
-// 		else 
-// 		std::cout << " is not an element of mymap.\n";
-// 	}
-// }
+	for (c='a'; c<'h'; c++)
+	{
+		std::cout << c;
+		if (mymap.count(c)>0)
+		std::cout << " is an element of mymap.\n";
+		else 
+		std::cout << " is not an element of mymap.\n";
+	}
+}
 
 // void	std_bounds(void)
 // {
@@ -719,7 +719,7 @@ void	test_start(void)
 	// caller(ft_keycomp, std_keycomp, "key_comp"); // observers
 	// caller(ft_valuecomp, std_valuecomp, "value_comp"); // observers
 	caller(ft_find, std_find, "find"); // operations
-	// caller(ft_count, std_count, "count"); // operations
+	caller(ft_count, std_count, "count"); // operations
 	// caller(ft_bounds, std_bounds, "lower and upper bound"); // operations
 	// caller(ft_equalrange, std_equalrange, "equal_range"); // operations
 	caller(ft_allocator, std_allocator, "allocator"); // allocator

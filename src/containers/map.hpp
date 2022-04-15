@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 13:47:40 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 14:35:29 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ namespace ft
 			typedef typename rbtree::iterator						iterator;
 			typedef typename rbtree::const_iterator					const_iterator;
 			typedef ft::reverse_iterator< iterator >				reverse_iterator;
-			typedef const ft::reverse_iterator< const_iterator >	const_reverse_iterator;
+			typedef ft::reverse_iterator< const_iterator >			const_reverse_iterator;
 			typedef node< value_type >                          	treeNode;
 			
 
@@ -159,7 +159,7 @@ namespace ft
 			const_iterator	find(const key_type& k) const	{	return _tree.find(get_valuetype(k));	};
 			
 			// [ COUNT ]
-			size_type 		count(key_type const & k) const	{	return !(_tree.find(get_valuetype(k)) == _tree.end());	};
+			size_type 		count(key_type const & k) const	{	return _tree.search(_tree.get_root(),get_valuetype(k)) ? 1 : 0;	};
 
 			// [ LOWER_BOUND ]
 			iterator lower_bound(key_type const & k)		{	return _tree.lower_bound(get_valuetype(k));				};
@@ -177,8 +177,8 @@ namespace ft
 			allocator_type			get_allocator( void ) const		{	return this->_alloc;	};
 
 			// helper functions
-			value_type				get_valuetype( const key_type& k )			{		return ft::make_pair( k, mapped_type() );					}
-			void					inorder( void ) 							{		_tree.inorder(_tree.get_root());							}
+			value_type				get_valuetype( const key_type& k ) const			{		return ft::make_pair( k, mapped_type() );					}
+			void					inorder( void ) 									{		_tree.inorder(_tree.get_root());							}
 
 	};
 

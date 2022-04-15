@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 14:01:51 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 14:39:50 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,9 +192,8 @@ class RBTree
 
         treeNode*	search(treeNode* to_find, const value_type& val) const
         {
-            while (to_find) 
+            while (to_find != NIL) 
             {
-
                 if (_comp(val, to_find->value))              	to_find = to_find->left;
                 else if (_comp(to_find->value, val))         	to_find = to_find->right;
                 else					                        return to_find;
@@ -202,7 +201,7 @@ class RBTree
             return nullptr;
         }
 
-        iterator    find(const value_type& val)
+        iterator    find(const value_type& val) const
         {
             treeNode*	node = search(_root, val);
             if (node)

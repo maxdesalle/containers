@@ -31,6 +31,13 @@ Next, execute the following command to run the tests:
 - [SFINAE](https://www.youtube.com/watch?v=Vkck4EU2lOU)  
 - [using VS typedef](https://www.internalpointers.com/post/differences-between-using-and-typedef-modern-c)
 - [Inorder, preorder, postorder trasversal](https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/)
+
+## debugging
+
+'this' argument to member function 'find' has type 'const ft::map<char, int, std::less<const char>,
+      std::allocator<ft::pair<const char, int> > >::rbtree' (aka 'const RBTree<pair<const char, int>, ft::map<char, int, std::less<const char>,
+      std::allocator<ft::pair<const char, int> > >::value_compare, std::allocator<ft::pair<const char, int> > >'), but function is not marked const
+      
 ## Warning
 The structure of this repository does **not** necessarily follow the guidelines.
 

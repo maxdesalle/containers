@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 16:22:07 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 09:37:37 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ class RBTree
 
         treeNode    *copytree(treeNode *src, treeNode *parent)
         {
-            printf("num %d\n", src->value.second);
+            // printf("num %d\n", src->value.second);
         	if (src && src->leaf)
             {
-                printf("src\n");
+                // printf("src\n");
                 treeNode* leaf = newNode(src->value, parent, src->leaf);
                 leaf->left = copytree(src->left, leaf);
                 leaf->right = copytree(src->right, leaf);
@@ -220,10 +220,10 @@ class RBTree
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
-            printf("num %d\n", root->value.second);
+            // printf("num %d\n", root->value.second);
         	if (root && root->leaf)
             {
-                printf("clr\n");
+                // printf("clr\n");
                 clear(root->left);
                 clear(root->right);
                 delNode(root);
@@ -268,15 +268,16 @@ class RBTree
         }
         iterator				end()				{       return iterator(max(_root));                         }
         const_iterator			end() const			{       return const_iterator(max(_root));                   }
-        reverse_iterator		rbegin()			{       return reverse_iterator(end());                 }
-        const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(end());           }
+        reverse_iterator		rbegin()			{       return reverse_iterator(last(_root));                 }
+        const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(last(_root));           }
         reverse_iterator		rend()				{       return reverse_iterator(begin());               }
         const_reverse_iterator	rend() const		{       return const_reverse_iterator(begin());         }
 
         // min, max
 
-        treeNode    *min(treeNode* node) const      {       while (node && node->leaf)          { node = node->left; }  return node;         };
+        treeNode    *min(treeNode* node) const      {       while (node && node->leaf)          { node = node->left;  }  return node;         };
         treeNode    *max(treeNode* node) const      {       while (node && node->leaf)          { node = node->right; }  return node;        };
+        treeNode    *last(treeNode* node) const     {       while (node->right != NIL)          { node = node->right; }  return node;        };
 
         void inorder(treeNode* root)
         {

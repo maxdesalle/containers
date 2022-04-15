@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/14 16:23:15 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/15 09:03:02 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	std_constructor(void)
   	first['d']=70;
 
  	std::map<char,int> second (first.begin(),first.end());
-	 std::cout << "first: " << first.begin()->second << '\n';
-	 std::cout << "end: " << first.end()->second << '\n';
 	std::cout << "Size of second: " << second.size() << '\n';
 
   	std::map<char,int> third (second);
@@ -173,8 +171,10 @@ void	ft_iterators(void)
 
 	// show content:
 	ft::map<char,int>::reverse_iterator rit;
-	for (rit=rmap.rbegin(); rit!=rmap.rend(); ++rit)
-	std::cout << rit->first << " => " << rit->second << '\n';
+	 std::cout << "rbeg: " << rmap.rbegin()->second << '\n';
+	 std::cout << "rend: " << rmap.rend()->second << '\n';
+	// for (rit=rmap.rbegin(); rit!=rmap.rend(); ++rit)
+	// std::cout << rit->first << " => " << rit->second << '\n';
 }
 
 void	std_insert(void)

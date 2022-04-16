@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/15 17:06:17 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/16 09:50:06 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ class RBTree
                                                                                     _comp(comp),
                                                                                     _alloc(alloc)    {     NIL->color = BLACK; _root = NIL;       };
 
-        RBTree( RBTree const &t ) : NIL(t.NIL),
-                                    _root(t._root),                                    
+        RBTree( RBTree const &t ) : NIL(newNode(t.NIL->value, t.NIL->parent, t.NIL->leaf)),
+                                    _root(copytree(t._root, t.NIL)),                                    
                                     _height(t._height),
                                     _comp(t._comp),
                                     _alloc(t._alloc)    {};
@@ -70,16 +70,15 @@ class RBTree
             if ( this != &t)
             {
                 clear(_root);
-                // NIL = t.NIL;
+
                 _root = copytree(t.get_root(), NIL);
-                // _height = t._height;
                 _comp = t._comp;
                 _alloc = t._alloc;
             }
             return *this;
         };
 
-        ~RBTree( void ) {      };
+        ~RBTree( void ) {   clear(_root); delNode(NIL); };
 
 
         treeNode    *copytree(treeNode *src, treeNode *parent)
@@ -217,16 +216,13 @@ class RBTree
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
-            // printf("num %d\n", root->value.second);
         	if (root && root->leaf)
             {
-                // printf("clr\n");
                 clear(root->left);
                 clear(root->right);
                 delNode(root);
             }
-            _root = NIL;
-            
+            _root = NIL;            
         }
         
         // capacity

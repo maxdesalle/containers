@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/16 17:18:17 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/16 17:20:21 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -614,41 +614,41 @@ void	ft_bounds(void)
 		std::cout << it->first << " => " << it->second << '\n';
 }
 
-// void	std_equalrange(void)
-// {
-// 	std::map<char,int> mymap;
+void	std_equalrange(void)
+{
+	std::map<char,int> mymap;
 
-// 	mymap['a']=10;
-// 	mymap['b']=20;
-// 	mymap['c']=30;
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;
 
-// 	std::pair<std::map<char,int>::iterator,std::map<char,int>::iterator> ret;
-// 	ret = mymap.equal_range('b');
+	std::pair<std::map<char,int>::iterator,std::map<char,int>::iterator> ret;
+	ret = mymap.equal_range('b');
 
-// 	std::cout << "lower bound points to: ";
-// 	std::cout << ret.first->first << " => " << ret.first->second << '\n';
+	std::cout << "lower bound points to: ";
+	std::cout << ret.first->first << " => " << ret.first->second << '\n';
 
-// 	std::cout << "upper bound points to: ";
-// 	std::cout << ret.second->first << " => " << ret.second->second << '\n';
-// }
+	std::cout << "upper bound points to: ";
+	std::cout << ret.second->first << " => " << ret.second->second << '\n';
+}
 
-// void	ft_equalrange(void)
-// {
-// 	ft::map<char,int> mymap;
+void	ft_equalrange(void)
+{
+	ft::map<char,int> mymap;
 
-// 	mymap['a']=10;
-// 	mymap['b']=20;
-// 	mymap['c']=30;
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;
 
-// 	ft::pair<std::map<char,int>::iterator,std::map<char,int>::iterator> ret;
-// 	ret = mymap.equal_range('b');
+	ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> ret;
+	ret = mymap.equal_range('b');
 
-// 	std::cout << "lower bound points to: ";
-// 	std::cout << ret.first->first << " => " << ret.first->second << '\n';
+	std::cout << "lower bound points to: ";
+	std::cout << ret.first->first << " => " << ret.first->second << '\n';
 
-// 	std::cout << "upper bound points to: ";
-// 	std::cout << ret.second->first << " => " << ret.second->second << '\n';
-// }
+	std::cout << "upper bound points to: ";
+	std::cout << ret.second->first << " => " << ret.second->second << '\n';
+}
 
 void	std_allocator(void)
 {
@@ -719,7 +719,7 @@ void	test_start(void)
 	caller(ft_find, std_find, "find"); // operations
 	caller(ft_count, std_count, "count"); // operations
 	caller(ft_bounds, std_bounds, "lower and upper bound"); // operations
-	// caller(ft_equalrange, std_equalrange, "equal_range"); // operations
+	caller(ft_equalrange, std_equalrange, "equal_range"); // operations
 	caller(ft_allocator, std_allocator, "allocator"); // allocator
 }
 

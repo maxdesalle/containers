@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/16 09:50:26 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/16 17:18:17 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ void	ft_constructor(void)
   	first['d']=70;
 
  	ft::map<char,int> second (first.begin(), first.end());
-	 std::cout << "first: " << first.begin()->second << '\n';
-	 std::cout << "end: " << first.end()->second << '\n';
 	std::cout << "Size of second: " << second.size() << '\n';
 
   	ft::map<char,int> third (second);
@@ -574,47 +572,47 @@ void	ft_count(void)
 	}
 }
 
-// void	std_bounds(void)
-// {
-// 	std::map<char,int> mymap;
-// 	std::map<char,int>::iterator itlow,itup;
+void	std_bounds(void)
+{
+	std::map<char,int> mymap;
+	std::map<char,int>::iterator itlow,itup;
 
-// 	mymap['a']=20;
-// 	mymap['b']=40;
-// 	mymap['c']=60;
-// 	mymap['d']=80;
-// 	mymap['e']=100;
+	mymap['a']=20;
+	mymap['b']=40;
+	mymap['c']=60;
+	mymap['d']=80;
+	mymap['e']=100;
 
-// 	itlow=mymap.lower_bound ('b');  // itlow points to b
-// 	itup=mymap.upper_bound ('d');   // itup points to e (not d!)
+	itlow=mymap.lower_bound ('b');  // itlow points to b
+	itup=mymap.upper_bound ('d');   // itup points to e (not d!)
 
-// 	mymap.erase(itlow,itup);        // erases [itlow,itup)
+	mymap.erase(itlow,itup);        // erases [itlow,itup)
 
-// 	// print content:
-// 	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-// 		std::cout << it->first << " => " << it->second << '\n';
-// }
+	// print content:
+	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+}
 
-// void	ft_bounds(void)
-// {
-// 	ft::map<char,int> mymap;
-// 	ft::map<char,int>::iterator itlow,itup;
+void	ft_bounds(void)
+{
+	ft::map<char,int> mymap;
+	ft::map<char,int>::iterator itlow,itup;
 
-// 	mymap['a']=20;
-// 	mymap['b']=40;
-// 	mymap['c']=60;
-// 	mymap['d']=80;
-// 	mymap['e']=100;
+	mymap['a']=20;
+	mymap['b']=40;
+	mymap['c']=60;
+	mymap['d']=80;
+	mymap['e']=100;
 
-// 	itlow=mymap.lower_bound ('b');  // itlow points to b
-// 	itup=mymap.upper_bound ('d');   // itup points to e (not d!)
+	itlow=mymap.lower_bound ('b');  // itlow points to b
+	itup=mymap.upper_bound ('d');   // itup points to e (not d!)
 
-// 	mymap.erase(itlow,itup);        // erases [itlow,itup)
+	// mymap.erase(itlow,itup);        // erases [itlow,itup)
 
-// 	// print content:
-// 	for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-// 		std::cout << it->first << " => " << it->second << '\n';
-// }
+	// print content:
+	for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+}
 
 // void	std_equalrange(void)
 // {
@@ -720,7 +718,7 @@ void	test_start(void)
 	// caller(ft_valuecomp, std_valuecomp, "value_comp"); // observers
 	caller(ft_find, std_find, "find"); // operations
 	caller(ft_count, std_count, "count"); // operations
-	// caller(ft_bounds, std_bounds, "lower and upper bound"); // operations
+	caller(ft_bounds, std_bounds, "lower and upper bound"); // operations
 	// caller(ft_equalrange, std_equalrange, "equal_range"); // operations
 	caller(ft_allocator, std_allocator, "allocator"); // allocator
 }

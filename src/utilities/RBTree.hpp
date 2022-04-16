@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/16 09:50:06 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/16 17:16:44 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ class RBTree
                     rebalanceTree4erase(to_fix);
                 delNode(node);
         };
-		void 					erase(iterator first, iterator last)                    {	while (first != last)   erase(*first++); 	        };
+		void 					erase(iterator first, iterator last)                    {	while (first != last)   { printf("num %d\n", first->second); erase(*first++); }	        };
 
         // [FIND] + search
 
@@ -262,15 +262,15 @@ class RBTree
         }
         iterator				end()				{       return iterator(max(_root));                         }
         const_iterator			end() const			{       return const_iterator(max(_root));                   }
-        reverse_iterator		rbegin()			{       return reverse_iterator(max(_root));                 }
-        const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(max(_root));           }
+        reverse_iterator		rbegin()			{       return reverse_iterator(end());                 }
+        const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(end());           }
         reverse_iterator		rend()				{       return reverse_iterator(begin());               }
         const_reverse_iterator	rend() const		{       return const_reverse_iterator(begin());         }
 
         // min, max
 
-        treeNode    *min(treeNode* node) const      {       while (node->left != NIL)          { node = node->left;  }  return node;         };
-        treeNode    *max(treeNode* node) const      {       while (node && node->leaf)          { /*printf("returned %d\n", node->parent->leaf); */ node = node->right; }   return node;        };
+        treeNode    *min(treeNode* node) const      {       while (node->left != NIL)       {       node = node->left;  }  return node;         };
+        treeNode    *max(treeNode* node) const      {       while (node != NIL)             {       node = node->right; }   return node;        };
 
 
         void inorder(treeNode* root)
@@ -459,8 +459,41 @@ class RBTree
             node->color = BLACK;
         };
 
-        treeNode    *get_root()    const                         {           return _root;     };
-        treeNode    *get_end()     const                         {           return NIL;       };
+        treeNode    *get_root()    const                         {           return _root;      };
+        treeNode    *get_end()     const                         {           return NIL;        };
+
+        iterator lower_bound (const value_type& value)
+        {
+            treeNode*	node = _root;
+            treeNode*	lower = nullptr;
+        
+            while (node != NIL)
+            {
+                if (!_comp(value, node->value))   {    return node ;   }  // if inferior
+                else                                node = node->right;
+            }
+            return lower;
+        };
+
+        const_iterator lower_bound (const value_type& value) const  {   return lower_bound(value);  }
+
+        iterator upper_bound (const value_type& value)
+        {
+            treeNode*	node = _root;
+            treeNode*	upper = nullptr;
+        
+            while (node != NIL)
+            {
+                if (_comp(node->value, value))   node = node->right;
+                else                             {       upper = node->right; node = node->left;   }
+            }
+            return upper;
+        };
+
+        const_iterator upper_bound (const value_type& value) const  {   return upper_bound(value);  }
+
+        ft::pair<const_iterator,const_iterator> equal_range (const value_type& value) const;
+        ft::pair<iterator,iterator>             equal_range (const value_type& value);
 };
 
 #endif

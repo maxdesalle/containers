@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/16 17:16:44 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/19 21:31:20 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ class RBTree
         iterator 				insert(iterator position, const value_type& value)      {       return insert(value).first; (void)position;         }
 		
         template <class InputIterator>
-	    void					insert(InputIterator first, InputIterator last)     {    while (first != last)   { insert(*first); first++; }           }; // printf("%d %d\n", (first.node())->value.second, (last.node())->value.second); 
+	    void					insert(InputIterator first, InputIterator last)     {    while (first != last)   { insert(*first); first++; }           }; 
 
         // [ERASE] ( + delNode() )
 
@@ -168,7 +168,7 @@ class RBTree
                     to_del = min(node->right); //min
                     originColor = to_del->color;
                     to_fix = to_del->right;
-                    if (to_del->parent == node) to_fix->parent = node; // to check
+                    if (to_del->parent == node) to_fix->parent = to_del; // to check
                     else
                     {
                         transplantNode(to_del, to_del->right);
@@ -185,7 +185,7 @@ class RBTree
                     rebalanceTree4erase(to_fix);
                 delNode(node);
         };
-		void 					erase(iterator first, iterator last)                    {	while (first != last)   { printf("num %d\n", first->second); erase(*first++); }	        };
+		void 					erase(iterator first, iterator last)                    {	while (first != last)   {    erase(*first++); }	        };
 
         // [FIND] + search
 

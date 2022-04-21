@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/21 22:19:42 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/21 23:41:22 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,15 @@ class RBTree
         const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(end());           }
         reverse_iterator		rend()				{       return reverse_iterator(begin());               }
         const_reverse_iterator	rend() const		{       return const_reverse_iterator(begin());         }
+
+        void	swap( RBTree &t ) {
+			ft::swap(NIL, t.NIL);
+			ft::swap(_root, t._root);
+			ft::swap(_alloc, t._alloc);
+			ft::swap(_node_alloc, t._node_alloc);
+			ft::swap(_comp, t._comp);
+			ft::swap(_height, t._height);
+		}
 
         // min, max
 

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 09:34:30 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/03/21 10:42:54 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/21 23:41:00 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ namespace ft
 		is_integral<char> : public true_type{};
 	template <> struct
 		is_integral<bool> : public true_type{};
+
+	template<typename T>
+		void	swap(T &first, T& second) {
+			T	tmp = first;
+			first = second;
+			second = tmp;
+		}
 };
 
 #endif

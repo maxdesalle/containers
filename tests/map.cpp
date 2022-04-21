@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/21 22:20:37 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/21 23:33:46 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,49 +326,49 @@ void	ft_erase(void)
 	std::cout << it->first << " => " << it->second << '\n';
 }
 
-// void	std_swap(void)
-// {
-// 	std::map<char,int> foo,bar;
+void	std_swap(void)
+{
+	std::map<char,int> foo,bar;
 
-// 	foo['x']=100;
-// 	foo['y']=200;
+	foo['x']=100;
+	foo['y']=200;
 
-// 	bar['a']=11;
-// 	bar['b']=22;
-// 	bar['c']=33;
+	bar['a']=11;
+	bar['b']=22;
+	bar['c']=33;
 
-// 	foo.swap(bar);
+	foo.swap(bar);
 
-// 	std::cout << "foo contains:\n";
-// 	for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-// 		std::cout << it->first << " => " << it->second << '\n';
+	std::cout << "foo contains:\n";
+	for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
 
-// 	std::cout << "bar contains:\n";
-// 	for (std::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-// 	std::cout << it->first << " => " << it->second << '\n';
-// }
+	std::cout << "bar contains:\n";
+	for (std::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+	std::cout << it->first << " => " << it->second << '\n';
+}
 
-// void	ft_swap(void)
-// {
-// 	ft::map<char,int> foo,bar;
+void	ft_swap(void)
+{
+	ft::map<char,int> foo,bar;
 
-// 	foo['x']=100;
-// 	foo['y']=200;
+	foo['x']=100;
+	foo['y']=200;
 
-// 	bar['a']=11;
-// 	bar['b']=22;
-// 	bar['c']=33;
+	bar['a']=11;
+	bar['b']=22;
+	bar['c']=33;
 
-// 	foo.swap(bar);
+	foo.swap(bar);
 
-// 	std::cout << "foo contains:\n";
-// 	for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-// 		std::cout << it->first << " => " << it->second << '\n';
+	std::cout << "foo contains:\n";
+	for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
 
-// 	std::cout << "bar contains:\n";
-// 	for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-// 	std::cout << it->first << " => " << it->second << '\n';
-// }
+	std::cout << "bar contains:\n";
+	for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+	std::cout << it->first << " => " << it->second << '\n';
+}
 
 void	std_clear(void)
 {
@@ -708,10 +708,10 @@ void	test_start(void)
 	// caller(ft_access, std_access, "element access");
 	caller(ft_insert, std_insert, "insert"); // modifiers
 	caller(ft_erase, std_erase, "erase"); // modifiers
-	// caller(ft_swap, std_swap, "swap"); // modifiers
+	caller(ft_swap, std_swap, "swap"); // modifiers
 	caller(ft_clear, std_clear, "clear"); // modifiers
-	// caller(ft_keycomp, std_keycomp, "key_comp"); // observers
-	// caller(ft_valuecomp, std_valuecomp, "value_comp"); // observers
+	caller(ft_keycomp, std_keycomp, "key_comp"); // observers
+	caller(ft_valuecomp, std_valuecomp, "value_comp"); // observers
 	caller(ft_find, std_find, "find"); // operations
 	caller(ft_count, std_count, "count"); // operations
 	caller(ft_bounds, std_bounds, "lower and upper bound"); // operations

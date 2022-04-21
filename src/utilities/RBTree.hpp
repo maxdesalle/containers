@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/19 21:31:20 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/21 22:19:42 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ class RBTree
 
         RBTree& operator = ( const RBTree &t )
         {
-            if ( this != &t)
+            if ( this != &t )
             {
                 clear(_root);
-
                 _root = copytree(t.get_root(), NIL);
                 _comp = t._comp;
                 _alloc = t._alloc;
@@ -128,6 +127,8 @@ class RBTree
             curr = newNode( value, parent, 1 );
             if (_comp(value, parent->value))             parent->left = curr;
             else                                         parent->right = curr;
+            curr->left->parent  = curr;
+            curr->right->parent = curr;
             rebalanceTree4insert(curr);
             return ft::make_pair(iterator(curr), true);
         };
@@ -141,7 +142,6 @@ class RBTree
 
         size_type 				erase(value_type const &val)
         {
-            // printf("search\n"); 
             	treeNode	*to_del = search(_root, val);
 		        if (!to_del)	return 0;
 		        erase(to_del);
@@ -269,9 +269,8 @@ class RBTree
 
         // min, max
 
-        treeNode    *min(treeNode* node) const      {       while (node->left != NIL)       {       node = node->left;  }  return node;         };
-        treeNode    *max(treeNode* node) const      {       while (node != NIL)             {       node = node->right; }   return node;        };
-
+        treeNode    *min(treeNode* node) const      {       while (node->left != NIL)       {       node = node->left;  }    return node;         };
+        treeNode    *max(treeNode* node) const      {       while (node != NIL)             {       node = node->right; }    return node;        };
 
         void inorder(treeNode* root)
         {

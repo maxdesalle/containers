@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/21 23:33:46 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/21 23:47:18 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,38 +241,37 @@ void	ft_insert(void)
 		std::cout << it->first << " => " << it->second << '\n';
 }
 
+void	std_access(void)
+{
+	std::map<char,std::string> mymap;
 
-// void	std_access(void)
-// {
-// 	std::map<char,std::string> mymap;
+	mymap['a']="an element";
+	mymap['b']="another element";
+	mymap['c']=mymap['b'];
 
-// 	mymap['a']="an element";
-// 	mymap['b']="another element";
-// 	mymap['c']=mymap['b'];
+	std::cout << "mymap['a'] is " << mymap['a'] << '\n';
+	std::cout << "mymap['b'] is " << mymap['b'] << '\n';
+	std::cout << "mymap['c'] is " << mymap['c'] << '\n';
+	std::cout << "mymap['d'] is " << mymap['d'] << '\n';
 
-// 	std::cout << "mymap['a'] is " << mymap['a'] << '\n';
-// 	std::cout << "mymap['b'] is " << mymap['b'] << '\n';
-// 	std::cout << "mymap['c'] is " << mymap['c'] << '\n';
-// 	std::cout << "mymap['d'] is " << mymap['d'] << '\n';
+	std::cout << "mymap now contains " << mymap.size() << " elements.\n";
+}
 
-// 	std::cout << "mymap now contains " << mymap.size() << " elements.\n";
-// }
+void	ft_access(void)
+{
+	ft::map<char,std::string> mymap;
 
-// void	ft_access(void)
-// {
-// 	ft::map<char,std::string> mymap;
+	mymap['a']="an element";
+	mymap['b']="another element";
+	mymap['c']=mymap['b'];
 
-// 	mymap['a']="an element";
-// 	mymap['b']="another element";
-// 	mymap['c']=mymap['b'];
+	std::cout << "mymap['a'] is " << mymap['a'] << '\n';
+	std::cout << "mymap['b'] is " << mymap['b'] << '\n';
+	std::cout << "mymap['c'] is " << mymap['c'] << '\n';
+	std::cout << "mymap['d'] is " << mymap['d'] << '\n';
 
-// 	std::cout << "mymap['a'] is " << mymap['a'] << '\n';
-// 	std::cout << "mymap['b'] is " << mymap['b'] << '\n';
-// 	std::cout << "mymap['c'] is " << mymap['c'] << '\n';
-// 	std::cout << "mymap['d'] is " << mymap['d'] << '\n';
-
-// 	std::cout << "mymap now contains " << mymap.size() << " elements.\n";
-// }
+	std::cout << "mymap now contains " << mymap.size() << " elements.\n";
+}
 
 void	std_erase(void)
 {
@@ -705,7 +704,7 @@ void	test_start(void)
 	caller(ft_constructor, std_constructor, "constructor");
 	caller(ft_iterators, std_iterators, "iterators");
 	caller(ft_empty, std_empty, "empty and size"); // capacity
-	// caller(ft_access, std_access, "element access");
+	caller(ft_access, std_access, "element access");
 	caller(ft_insert, std_insert, "insert"); // modifiers
 	caller(ft_erase, std_erase, "erase"); // modifiers
 	caller(ft_swap, std_swap, "swap"); // modifiers

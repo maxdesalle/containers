@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/21 23:41:22 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/21 23:53:42 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ class RBTree
 
     public:
         // CONSTRUCTORS
-        explicit RBTree( const value_compare &comp, const allocator_type &alloc) :  NIL(newNode(ft::make_pair(0, 0), nullptr, 0)),
+        explicit RBTree( const value_compare &comp, const allocator_type &alloc) :  NIL(nilNode()),
                                                                                     _height(0),
                                                                                     _comp(comp),
                                                                                     _alloc(alloc)    {     NIL->color = BLACK; _root = NIL;       };
@@ -77,7 +77,7 @@ class RBTree
             return *this;
         };
 
-        ~RBTree( void ) {   clear(_root); delNode(NIL); };
+        ~RBTree( void ) {   clear(_root); delnilNode(NIL); };
 
 
         treeNode    *copytree(treeNode *src, treeNode *parent)
@@ -93,6 +93,17 @@ class RBTree
         }
 
         // [INSERT] ( + newNode() )
+        treeNode                    *nilNode( void )
+        {
+            treeNode    *nilnode = _node_alloc.allocate(1);
+            nilnode->left  = NIL;
+            nilnode->right = NIL;
+            nilnode->parent = nullptr;
+            nilnode->color = BLACK;
+            nilnode->leaf = 0;
+			return nilnode;
+        };
+
         treeNode                    *newNode( value_type const& value, treeNode *parent, int leaf )
         {
             treeNode    *newnode = _node_alloc.allocate(1);
@@ -104,7 +115,6 @@ class RBTree
             newnode->leaf = leaf;
             _height++;
 			return newnode;
-
         };
 
         ft::pair< iterator, bool>    insert( value_type const& value )
@@ -180,7 +190,6 @@ class RBTree
                     to_del->left->parent = to_del;
                     to_del->color = node->color;
                 }
-                // delNode(node);
                 if (originColor == BLACK)
                     rebalanceTree4erase(to_fix);
                 delNode(node);
@@ -213,6 +222,11 @@ class RBTree
             _alloc.destroy(&(node->value));  
             _node_alloc.deallocate(node, 1); 
             _height--; }
+
+        void        delnilNode(treeNode *node)        {              
+            _node_alloc.deallocate(node, 1); 
+            _height--; 
+        }
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {

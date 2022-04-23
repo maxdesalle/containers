@@ -6,15 +6,15 @@
 #    By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/06 09:20:39 by mdesalle          #+#    #+#              #
-#    Updated: 2022/03/22 08:26:09 by mlazzare         ###   ########.fr        #
+#    Updated: 2022/04/23 12:29:53 by mlazzare         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = container
 
-CC = clang++ -g #-fsanitize=address -g
+CC = c++ #-fsanitize=address -g
 
-CFLAGS = -Wall -Wextra -Werror #-std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 vector:
 	@$(CC) $(CFLAGS) tests/vector.cpp -o $(NAME)

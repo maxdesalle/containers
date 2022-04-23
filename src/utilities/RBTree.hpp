@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/21 23:53:42 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/23 15:28:47 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -513,9 +513,6 @@ class RBTree
         };
 
         const_iterator upper_bound (const value_type& value) const  {   return upper_bound(value);  }
-
-        ft::pair<const_iterator,const_iterator> equal_range (const value_type& value) const;
-        ft::pair<iterator,iterator>             equal_range (const value_type& value);
 };
 
 #endif

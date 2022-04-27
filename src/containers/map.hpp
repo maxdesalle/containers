@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/23 15:42:28 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/27 19:19:46 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <iterator>
 # include <algorithm>
 
-# include "../utilities/RBTree.hpp"
-# include "../utilities/type_traits.hpp"
-# include "../utilities/iterator.hpp"
-# include "../utilities/algorithm.hpp"
-# include "../utilities/pair.hpp"
+# include "RBTree.hpp"
+# include "type_traits.hpp"
+# include "iterator.hpp"
+# include "algorithm.hpp"
+# include "pair.hpp"
 
 namespace ft
 {

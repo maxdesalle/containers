@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/28 18:55:18 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/28 20:38:40 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,12 +218,15 @@ class RBTree
         }
 
         // CLEAR
-        void        delNode(treeNode *node)        {              
+        void        delNode(treeNode *node)
+        {              
             _alloc.destroy(&(node->value));  
             _node_alloc.deallocate(node, 1); 
-            _height--; }
+            _height--;
+        }
 
-        void        delnilNode(treeNode *node)        {              
+        void        delnilNode(treeNode *node)
+        {              
             _node_alloc.deallocate(node, 1); 
             _height--; 
         }
@@ -484,20 +487,20 @@ class RBTree
         treeNode    *get_root()    const                         {           return _root;      };
         treeNode    *get_end()     const                         {           return NIL;        };
 
-        treeNode* _lower_bound (const value_type& value) const
+        treeNode* lower_bound (const value_type& value) const
         {
             treeNode*	node = _root;
             treeNode*	lower = NIL;
         
             while (node != NIL)
             {
-                if (!_comp(node->value, value)){ lower = node; node = node->left; } // if inferior
+                if (!_comp(node->value, value)){ lower = node; node = node->left; }
                 else                                node = node->right;
             }
             return lower;
         };
 
-        treeNode* _upper_bound (const value_type& value) const
+        treeNode* upper_bound (const value_type& value) const
         {
             treeNode*	node = _root;
             treeNode*	upper = NIL;
@@ -509,12 +512,6 @@ class RBTree
             }
             return upper;
         };
-
-        iterator lower_bound (const value_type& value)                  {   return iterator(_lower_bound(value));    };
-        const_iterator lower_bound (const value_type& value) const      {   return iterator(_lower_bound(value));    }; 
-
-        iterator upper_bound (const value_type& value)                  {   return iterator(_upper_bound(value));    };
-        const_iterator upper_bound (const value_type& value) const      {   return iterator(_upper_bound(value));    }
 };
 
 #endif

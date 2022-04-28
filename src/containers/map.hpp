@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/27 19:19:46 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/28 20:33:04 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ namespace ft
 {
 	template <	class Key,
                 class T,
-                class Compare = std::less< const Key >,
-                class Alloc = std::allocator< ft::pair< const Key, T > >
+                class Compare = std::less< Key >,
+                class Alloc = std::allocator< ft::pair< Key, T > >
              >
 			 		 
 	class map
@@ -39,7 +39,7 @@ namespace ft
 
 			typedef	T			 								mapped_type;
             typedef Key                                         key_type;
-            typedef ft::pair< const key_type, mapped_type >     value_type;
+            typedef ft::pair< key_type, mapped_type >     value_type;
             typedef std::size_t									size_type;
             typedef std::ptrdiff_t							    difference_type;
             typedef Compare                                     key_compare;
@@ -142,7 +142,7 @@ namespace ft
 			size_type 					erase(const key_type& k)							{	return _tree.erase( get_valuetype(k) );		};
 			void 						erase(iterator first, iterator last)				{	_tree.erase( first, last );					};
 
-			void 						swap(map& x)										{	if (this != &x)	_tree.swap(x._tree);		};
+			void 						swap(map& m)										{	if (this != &m)	_tree.swap(m._tree);		};
 
 			void 						clear()												{	_tree.clear(_tree.get_root());				};
 

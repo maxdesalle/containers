@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/28 18:55:09 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/28 20:45:04 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ class treeIterator
         typedef std::ptrdiff_t					difference_type;
         typedef std::bidirectional_iterator_tag	iterator_category;
         typedef node< value_type >              treeNode;
+        typedef node< const value_type >        const_treeNode;
+        typedef treeIterator< U >               iterator;
+        typedef treeIterator< const U >         const_iterator;
 
         treeIterator( void ) :  _node(NULL)                     {};
         treeIterator( treeNode * current ) : _node(current)      {};
@@ -73,6 +76,8 @@ class treeIterator
         treeIterator		operator = ( treeIterator t )       {       _node = t.node(); return *this;                             };
         template < class _it >
         treeIterator( treeIterator< _it > const& t ) : _node(reinterpret_cast<treeNode *>(t.node()))  {};
+
+        // operator            treeIterator< const U >() const						    {   return treeIterator< const U >(reinterpret_cast<const_treeNode const *>(_node));    }
 
         treeNode            *node( void )                       {       return _node;                                               };
         treeNode            *node( void )   const               {       return _node;                                               };
@@ -127,8 +132,6 @@ class treeIterator
 
         bool			    operator == ( treeIterator const& t )	const	{   return _node == t._node;    }
         bool			    operator != ( treeIterator const& t )	const	{   return _node != t._node;    }
-
-        // operator            const_iterator () const						    {   return const_iterator(_node);    }
         
         private:
             treeNode*			    _node;

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 11:03:03 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/03/16 18:56:14 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:03:10 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <iterator>
 # include <algorithm>
 
-# include "../utilities/type_traits.hpp"
-# include "../utilities/iterator.hpp"
-# include "../utilities/algorithm.hpp"
+# include "type_traits.hpp"
+# include "iterator.hpp"
+# include "algorithm.hpp"
 
 namespace ft
 {

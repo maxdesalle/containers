@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 11:03:03 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/03/16 18:56:14 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/28 19:10:41 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <iterator>
 # include <algorithm>
 
-# include "../utilities/type_traits.hpp"
-# include "../utilities/iterator.hpp"
-# include "../utilities/algorithm.hpp"
+# include "type_traits.hpp"
+# include "iterator.hpp"
+# include "algorithm.hpp"
 
 namespace ft
 {
@@ -27,7 +27,7 @@ namespace ft
 	class vector
 	{
 		public:
-
+			template < class U >
 			class 												Iterator;
 
 			typedef	T											value_type;
@@ -38,8 +38,8 @@ namespace ft
 			typedef typename allocator_type::pointer			pointer;
 			typedef typename allocator_type::const_pointer		const_pointer;
 
-			typedef Iterator									iterator;
-			typedef const iterator								const_iterator;
+			typedef Iterator< T >									iterator;
+			typedef Iterator< const T >								const_iterator;
 			typedef ft::reverse_iterator<iterator>				reverse_iterator;
 			typedef const ft::reverse_iterator<iterator>		const_reverse_iterator;
 			typedef size_t										size_type;
@@ -266,14 +266,15 @@ namespace ft
 				std::swap(_size, x._size);
 			}
 
+			template < class U >
 			class Iterator
 			{
 				public:
 
 					typedef ptrdiff_t								difference_type;
-					typedef T										value_type;
-					typedef T*										pointer;
-					typedef T&										reference;
+					typedef U										value_Uype;
+					typedef U*										pointUr;
+					typedef U&										referUnce;
 					typedef std::random_access_iterator_tag			iterator_category;
 
 					Iterator(void): _it() {}

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#/usr/bin/env bash
 
 EOC="\e[0m"
 BOLD="\e[1m"

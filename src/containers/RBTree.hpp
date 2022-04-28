@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/27 20:41:51 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/23 15:28:47 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ class RBTree
                 leaf->right = copytree(src->right, leaf);
                 return leaf;
             }
-            return 0;
+            return nullptr;
         }
 
         // [INSERT] ( + newNode() )
@@ -98,7 +98,7 @@ class RBTree
             treeNode    *nilnode = _node_alloc.allocate(1);
             nilnode->left  = NIL;
             nilnode->right = NIL;
-            nilnode->parent = 0;
+            nilnode->parent = nullptr;
             nilnode->color = BLACK;
             nilnode->leaf = 0;
 			return nilnode;
@@ -206,7 +206,7 @@ class RBTree
                 else if (_comp(to_find->value, val))         	to_find = to_find->right;
                 else					                        return to_find;
             }
-            return 0;
+            return nullptr;
         }
 
         iterator    find(const value_type& val) const
@@ -214,7 +214,7 @@ class RBTree
             treeNode*	node = search(_root, val);
             if (node)
                 return iterator(node);
-            return iterator(0);
+            return iterator(nullptr);
         }
 
         // CLEAR
@@ -262,24 +262,24 @@ class RBTree
         // iterators
         iterator				begin( void )
         {
-            if (_root == NIL)        return iterator(0);
+            if (_root == NIL)        return iterator(nullptr);
             treeNode* first = _root;
             while (first->left != NIL) { first = first->left; }
             return iterator(first);
         }
         const_iterator			begin( void ) const
         {
-            if (_root == NIL)        return const_iterator(0);
+            if (_root == NIL)        return const_iterator(nullptr);
             treeNode* first = _root;
             while (first->left != NIL) first = first->left;
-            return iterator(first);
+            return const_iterator(first);
         }
-        iterator				end()				{       return iterator(max(_root));                    }
-        const_iterator			end() const			{       return iterator(max(_root));                    }
+        iterator				end()				{       return iterator(max(_root));                         }
+        const_iterator			end() const			{       return const_iterator(max(_root));                   }
         reverse_iterator		rbegin()			{       return reverse_iterator(end());                 }
-        const_reverse_iterator	rbegin() const		{       return reverse_iterator(end());                 }
+        const_reverse_iterator	rbegin() const		{       return const_reverse_iterator(end());           }
         reverse_iterator		rend()				{       return reverse_iterator(begin());               }
-        const_reverse_iterator	rend() const		{       return reverse_iterator(begin());               }
+        const_reverse_iterator	rend() const		{       return const_reverse_iterator(begin());         }
 
         void	swap( RBTree &t ) {
 			ft::swap(NIL, t.NIL);
@@ -350,7 +350,7 @@ class RBTree
 
         treeNode	*replaceNode(treeNode *node)
             {
-                if (!node || (!node->left && !node->right))         return 0;
+                if (!node || (!node->left && !node->right))         return nullptr;
                 if (node->left && node->right)  			return successor(node->right);
             if (node->right)  return node->left;
                 return node->right;
@@ -484,37 +484,35 @@ class RBTree
         treeNode    *get_root()    const                         {           return _root;      };
         treeNode    *get_end()     const                         {           return NIL;        };
 
-        treeNode* _lower_bound (const value_type& value) const
+        iterator lower_bound (const value_type& value)
         {
             treeNode*	node = _root;
-            treeNode*	lower = NIL;
+            treeNode*	lower = nullptr;
         
             while (node != NIL)
             {
-                if (!_comp(node->value, value)){ lower = node; node = node->left; } // if inferior
+                if (!_comp(value, node->value))   {    return node ;   }  // if inferior
                 else                                node = node->right;
             }
             return lower;
         };
 
-        treeNode* _upper_bound (const value_type& value) const
+        const_iterator lower_bound (const value_type& value) const  {   return lower_bound(value);  }
+
+        iterator upper_bound (const value_type& value)
         {
             treeNode*	node = _root;
-            treeNode*	upper = NIL;
+            treeNode*	upper = nullptr;
         
             while (node != NIL)
             {
-                if (_comp(value, node->value))   { upper = node; node = node->left; }
-                else                             {       node = node->right;;   }
+                if (_comp(node->value, value))   node = node->right;
+                else                             {       upper = node->right; node = node->left;   }
             }
             return upper;
         };
 
-        iterator lower_bound (const value_type& value)                  {   return iterator(_lower_bound(value));    };
-        const_iterator lower_bound (const value_type& value) const      {   return iterator(_lower_bound(value));    }; 
-
-        iterator upper_bound (const value_type& value)                  {   return iterator(_upper_bound(value));    };
-        const_iterator upper_bound (const value_type& value) const      {   return iterator(_upper_bound(value));    }
+        const_iterator upper_bound (const value_type& value) const  {   return upper_bound(value);  }
 };
 
 #endif

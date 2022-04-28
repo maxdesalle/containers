@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/27 19:47:36 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/21 22:21:36 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ struct node {
 	node                *parent, *left, *right;
 	int                color, leaf;
 
-    node( void )    :   value( 0 ),
+    node( void )    :   value( nullptr ),
                             parent (0), left(0), right(0),
                             color( RED )        {};
     node( T const& value, node *parent, int leaf )   :      value(value),
@@ -70,10 +70,7 @@ class treeIterator
         treeIterator( void ) :  _node(NULL)                     {};
         treeIterator( treeNode * current ) : _node(current)      {};
         treeIterator( treeIterator const& t ) : _node(t.node())  {};
-        treeIterator		operator = ( treeIterator t )       {       _node = t.node(); return *this;                             };
-        template < class _it >
-        treeIterator( treeIterator< _it > const& t ) : _node(reinterpret_cast<treeNode *>(t.node()))  {};
-
+        treeIterator		operator = ( treeIterator t )       {       _node = t.node(); return *this;                              };
         treeNode            *node( void )                       {       return _node;                                               };
         treeNode            *node( void )   const               {       return _node;                                               };
 

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 11:03:03 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/04/28 19:10:41 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/29 18:37:54 by mdesalle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ namespace ft
 			typedef Iterator< T >									iterator;
 			typedef Iterator< const T >								const_iterator;
 			typedef ft::reverse_iterator<iterator>				reverse_iterator;
-			typedef const ft::reverse_iterator<iterator>		const_reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 			typedef size_t										size_type;
 			typedef typename iterator::difference_type			difference_type;
 
@@ -64,7 +64,7 @@ namespace ft
 			template <class InputIterator>
 			void					assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 			{
-				size_type	n = last - first;
+				size_type			n = ft::distance(first, last);
 
 				clear();
 				if (n > _capacity)
@@ -115,6 +115,7 @@ namespace ft
 			iterator				end() { return (iterator(_elem + _size)); }
 			const_iterator			end() const { return (const_iterator(_elem + _size)); }
 
+
 			iterator				erase(iterator position)
 			{
 				size_type			val = position - begin();
@@ -132,20 +133,20 @@ namespace ft
 
 			iterator				erase(iterator first, iterator last)
 			{
-				size_type			val = first - begin();
 				size_type			diff = last - first;
 
-				for (size_type i = val; i < diff; i += 1)
-					_alloc.destroy(&_elem[i]);
-
-				_size -= diff;
-				for (size_type i = val; i < _size; i += 1)
+				while (first != end() - diff)
 				{
-					_alloc.construct(&_elem[i], _elem[i + 1]);
-					_alloc.destroy(&_elem[i + 1]);
+					*first = first[diff];
+					++first;
 				}
-
-				return (iterator(&_elem[val]));
+				while (first != end())
+				{
+					_alloc.destroy(&(*first));
+					++first;
+				}
+				_size -= diff;
+				return (last - diff);
 			}
 
 			reference				front() { return (_elem[0]); }
@@ -183,7 +184,7 @@ namespace ft
 			void					insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 			{
 				size_type			i = position - begin();
-				size_type			j = last - first;
+				size_type			j = ft::distance(first, last);
 
 				if ((_size + j) > _capacity)
 					reserve(_new_capacity(_size + j));
@@ -196,7 +197,7 @@ namespace ft
 				for (size_type l = i; l < i + j; l += 1)
 				{
 					_alloc.construct(&_elem[l], *first);
-					first += 1;
+					first++;
 					_size += 1;
 				}
 			}
@@ -272,15 +273,15 @@ namespace ft
 				public:
 
 					typedef ptrdiff_t								difference_type;
-					typedef U										value_Uype;
-					typedef U*										pointUr;
-					typedef U&										referUnce;
+					typedef U										value_type;
+					typedef U*										pointer;
+					typedef U&										reference;
 					typedef std::random_access_iterator_tag			iterator_category;
 
 					Iterator(void): _it() {}
-					explicit	Iterator(pointer it): _it(it) {}
-
-					Iterator(const Iterator& it): _it(it.base()) {}
+					Iterator(pointer it): _it(it) {}
+					Iterator(const Iterator& it): _it(it._it) {}
+					~Iterator(void) {}
 
 					pointer			base() const { return (_it); }
 
@@ -321,7 +322,7 @@ namespace ft
 
 					Iterator	operator--(int)
 					{
-						reverse_iterator(temp) = *this;
+						Iterator(temp) = *this;
 						--(*this);
 						return (temp);
 					}
@@ -341,14 +342,17 @@ namespace ft
 					reference		operator[] (difference_type n) { return (this->base()[n]); }
 					const_reference	operator[] (difference_type n) const { return (this->base()[n]); }
 
+					friend Iterator			operator+(difference_type n, Iterator const& rhs)		{ return rhs + n; }
 					friend difference_type	operator-(const Iterator& lhs, const Iterator& rhs) { return (&(*lhs) - &(*rhs)); }
 
 					friend bool				operator==(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() == rhs.base()); }
 					friend bool				operator!=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() != rhs.base()); }
-					friend bool				operator<(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() > rhs.base()); }
-					friend bool				operator<=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() >= rhs.base()); }
-					friend bool				operator>(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() < rhs.base()); }
-					friend bool 			operator>=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() <= rhs.base()); }
+					friend bool				operator>(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() > rhs.base()); }
+					friend bool				operator<=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() <= rhs.base()); }
+					friend bool				operator<(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() < rhs.base()); }
+					friend bool 			operator>=(const Iterator& lhs, const Iterator& rhs) { return (lhs.base() >= rhs.base()); }
+
+					operator const_iterator () const						{ return const_iterator(_it); }
 
 				private:
 

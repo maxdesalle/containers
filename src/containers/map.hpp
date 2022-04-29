@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/28 20:33:04 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/04/29 18:14:58 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ namespace ft
 			iterator upper_bound(key_type const & k)		{	return _tree.upper_bound(get_valuetype(k));		};
 			iterator upper_bound(key_type const & k) const	{	return _tree.upper_bound(get_valuetype(k));		};
 
-			ft::pair< const_iterator, const_iterator > equal_range (const key_type& k) const	{	return (ft::make_pair(lower_bound(k), upper_bound(k)));	};
 			ft::pair< iterator, iterator >             equal_range (const key_type& k)			{	return (ft::make_pair(lower_bound(k), upper_bound(k)));	};
+			ft::pair< const_iterator, const_iterator > equal_range (const key_type& k) const	{	return (ft::make_pair(lower_bound(k), upper_bound(k)));	};
 
 			// [ OBSERVERS ]
 			key_compare 			key_comp() const		{	return this->_compare;					};

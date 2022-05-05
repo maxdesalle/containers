@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/05 22:29:16 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/05 23:50:07 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ class RBTree
                 leaf->right = copytree(src->right, leaf);
                 return leaf;
             }
-            return 0;
+            return NIL;
         }
 
         // [INSERT] ( + newNode() )
@@ -265,14 +265,14 @@ class RBTree
         // iterators
         iterator				begin( void )
         {
-            if (_root == NIL)        return iterator(0);
+            if (_root == NIL)		return iterator(NIL);
             treeNode* first = _root;
-            while (first->left != NIL) { first = first->left; }
+            while (first && first->left != NIL) { first = first->left; }
             return iterator(first);
         }
         const_iterator			begin( void ) const
         {
-            if (_root == NIL || !_root)        return const_iterator(0);
+            if (_root == NIL || !_root)  return iterator(NIL);
             treeNode* first = _root;
             while (first->left && first->left != NIL) first = first->left;
             return iterator(first);
@@ -296,7 +296,7 @@ class RBTree
         // min, max
 
         treeNode    *min(treeNode* node) const      {       while (node->left != NIL)       {       node = node->left;  }    return node;         };
-        treeNode    *max(treeNode* node) const      {       while (node && node != NIL)     {  if (!node->right) break; node = node->right; }    return node;        };
+        treeNode    *max(treeNode* node) const      {       while (node && node->leaf)     {   node = node->right; }    return node;        };
 
         void inorder(treeNode* root)
         {

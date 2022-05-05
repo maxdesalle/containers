@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/29 18:12:00 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/05 22:04:56 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ class treeIterator
 
         treeIterator&		operator ++ ()
         {
-            if (_node->right && _node->right->leaf)
+            if (_node && _node->right && _node->right->leaf)
             {
                 _node = _node->right;
-                while (_node->left && _node->left->leaf) _node = _node->left;
+                while (_node && _node->left && _node->left->leaf) _node = _node->left;
             }
             else
             {
@@ -102,28 +102,33 @@ class treeIterator
                 {
                     curr = _node;
                     _node = _node->parent;
-                };                       
+                };                   
             }
             return *this;
         }
 
         treeIterator&		operator -- ()
         {
-            if (_node->leaf && _node->left && _node->left->leaf)
+            if (!_node || !_node->leaf)
+                _node = _node->parent;
+            else if (_node->left && _node->left->leaf)
             {
-                
                 _node = _node->left;
                 while (_node->right && _node->right->leaf) _node = _node->right;
             }
             else
             {
+                std::cout << "minus\n";
                 treeNode	*curr = _node;
                 _node = _node->parent;
-                while (_node && _node->left->leaf && _node->left == curr)
+                while (_node && _node->leaf && _node->left == curr)
                 {
+                    std::cout << "while" << std::endl;
+                    std::cout << curr->value.second << std::endl;
                     curr = _node;
                     _node = _node->parent;
                 };
+                _node = curr;
             }
             return *this;
         }

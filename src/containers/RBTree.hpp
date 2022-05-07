@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/07 16:44:13 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/07 18:57:39 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ class RBTree
             if ( this != &t )
             {
                 clear(_root);
-                _root = copytree(t.get_root(), NIL);
+                insert(t.begin(), t.end());
                 _comp = t._comp;
                 _alloc = t._alloc;
             }
@@ -77,19 +77,6 @@ class RBTree
         };
 
         ~RBTree( void ) {   clear(_root); delnilNode(NIL); };
-
-
-        treeNode    *copytree(treeNode *src, treeNode *parent)
-        {
-        	if (src && src->leaf)
-            {
-                treeNode* leaf = newNode(src->value, parent, src->leaf);
-                leaf->left = copytree(src->left, leaf);
-                leaf->right = copytree(src->right, leaf);
-                return leaf;
-            }
-            return NIL;
-        }
 
         // [INSERT] ( + newNode() )
         treeNode                    *nilNode( void )
@@ -273,7 +260,7 @@ class RBTree
         {
             if (_root == NIL || !_root)  return iterator(NIL);
             treeNode* first = _root;
-            while (first->left && first->left != NIL) first = first->left;
+            while (first && first->left != NIL) first = first->left;
             return iterator(first);
         }
         iterator				end()				{       return iterator(max(_root));                    }

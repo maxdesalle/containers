@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 10:14:41 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/04/29 18:33:49 by mdesalle         ###   ########.fr       */
+/*   Updated: 2022/05/07 18:20:15 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ namespace ft
 				typedef typename iterator_traits<Iterator>::difference_type		difference_type;
 				typedef typename iterator_traits<Iterator>::pointer				pointer;
 				typedef typename iterator_traits<Iterator>::reference			reference;
+
 
 			protected:
 				Iterator		_it;

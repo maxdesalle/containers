@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/05 23:50:07 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/07 16:44:13 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,10 @@ class RBTree
                                                                                     _comp(comp),
                                                                                     _alloc(alloc)    {     NIL->color = BLACK; _root = NIL;       };
 
-        RBTree( RBTree const &t ) : NIL(newNode(t.NIL->value, t.NIL->parent, t.NIL->leaf)),
-                                    _root(copytree(t._root, t.NIL)),                                    
-                                    _height(t._height),
+        RBTree( RBTree const &t ) : NIL(nilNode()),
+                                    _root(NIL),                                    
                                     _comp(t._comp),
-                                    _alloc(t._alloc)    {};
+                                    _alloc(t._alloc)    { insert(t.begin(), t.end()); };
 
         RBTree& operator = ( const RBTree &t )
         {

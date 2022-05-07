@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/05 23:52:03 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/07 16:26:21 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ class treeIterator
         treeIterator&		operator ++ ()
         {
             if (!_node || !_node->leaf)
-                { std::cout << "00++\n"; return *this;}
+                return *this;
             if (_node && _node->right && _node->right->leaf)
             {
                 _node = _node->right;
@@ -98,7 +98,6 @@ class treeIterator
             }
             else
             {
-                std::cout << "22 ++\n"; 
                 treeNode	*curr = _node;
                 _node = _node->parent;
                 while (_node && _node->leaf && _node->right == curr)
@@ -121,13 +120,13 @@ class treeIterator
             }
             else
             {
-                std::cout << "minus\n";
+                // std::cout << "minus\n";
                 treeNode	*curr = _node;
                 _node = _node->parent;
                 while (_node && _node->leaf && _node->left == curr)
                 {
-                    std::cout << "while" << std::endl;
-                    std::cout << curr->value.second << std::endl;
+                    // std::cout << "while" << std::endl;
+                    // std::cout << curr->value.second << std::endl;
                     curr = _node;
                     _node = _node->parent;
                 };

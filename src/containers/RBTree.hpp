@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/07 18:57:39 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/08 21:01:10 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ class RBTree
             treeNode*	node = search(_root, val);
             if (node)
                 return iterator(node);
-            return end();
+            return iterator(max(_root));
         }
 
         // CLEAR

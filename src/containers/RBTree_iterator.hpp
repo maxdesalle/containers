@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/08 19:23:46 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/08 21:02:36 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,11 @@ class treeIterator
         treeIterator( treeNode * current ) : _node(current)      {};
         treeIterator( treeIterator const& t ) : _node(t.base())  {};
         treeIterator		operator = ( treeIterator t )       {       _node = t.base(); return *this;                             };
-        template < class _it >
-        treeIterator( treeIterator< _it > const& t ) : _node(reinterpret_cast<treeNode *>(t.base()))  {};
+        // template < class _it >
+        // treeIterator( treeIterator< _it > const& t ) : _node(reinterpret_cast<treeNode *>(t.base()))  {};
 
-        // operator            treeIterator< const U >() const						    {   return treeIterator< const U >(reinterpret_cast<const_treeNode const *>(_node));    }
+        operator            const_iterator() const
+        {   return const_iterator(reinterpret_cast<const_treeNode *>(_node));    }
 
         treeNode            *base( void )                       {       return _node;                                               };
         treeNode            *base( void )   const               {       return _node;                                               };

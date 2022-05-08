@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/07 16:26:21 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/08 19:23:46 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,15 @@ class treeIterator
 
         treeIterator( void ) :  _node(NULL)                     {};
         treeIterator( treeNode * current ) : _node(current)      {};
-        treeIterator( treeIterator const& t ) : _node(t.node())  {};
-        treeIterator		operator = ( treeIterator t )       {       _node = t.node(); return *this;                             };
+        treeIterator( treeIterator const& t ) : _node(t.base())  {};
+        treeIterator		operator = ( treeIterator t )       {       _node = t.base(); return *this;                             };
         template < class _it >
-        treeIterator( treeIterator< _it > const& t ) : _node(reinterpret_cast<treeNode *>(t.node()))  {};
+        treeIterator( treeIterator< _it > const& t ) : _node(reinterpret_cast<treeNode *>(t.base()))  {};
 
         // operator            treeIterator< const U >() const						    {   return treeIterator< const U >(reinterpret_cast<const_treeNode const *>(_node));    }
 
-        treeNode            *node( void )                       {       return _node;                                               };
-        treeNode            *node( void )   const               {       return _node;                                               };
+        treeNode            *base( void )                       {       return _node;                                               };
+        treeNode            *base( void )   const               {       return _node;                                               };
 
         reference		operator* () 							{   return _node->value;    };
         const_reference	operator* () const						{   return _node->value;    };
@@ -111,8 +111,14 @@ class treeIterator
 
         treeIterator&		operator -- ()
         {
-            if (!_node || !_node->leaf)
-                _node = _node->parent;
+            if (!_node->leaf)
+            {
+                while (_node->parent->leaf)
+                    _node = _node->parent;
+                while (_node->right->leaf)
+                    _node = _node->right;
+                return *this;
+            }
             else if (_node->left && _node->left->leaf)
             {
                 _node = _node->left;

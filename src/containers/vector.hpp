@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 11:03:03 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/04/29 18:37:54 by mdesalle         ###   ########.fr       */
+/*   Updated: 2022/05/09 19:40:42 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ namespace ft
 			typedef size_t										size_type;
 			typedef typename iterator::difference_type			difference_type;
 
-			explicit	vector(const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(nullptr), _size(0) {}
-			explicit	vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(nullptr), _size(0) { insert(begin(), n, val); }
+			explicit	vector(const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(NULL), _size(0) {}
+			explicit	vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): _alloc(alloc), _capacity(0), _elem(NULL), _size(0) { insert(begin(), n, val); }
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0): _alloc(alloc), _capacity(0), _elem(nullptr), _size(0) { insert(begin(), first, last); }
+			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0): _alloc(alloc), _capacity(0), _elem(NULL), _size(0) { insert(begin(), first, last); }
 
 			vector(const vector& x): _alloc(x._alloc), _capacity(x._capacity), _elem(_alloc.allocate(x._capacity)), _size(x._size)
 			{
@@ -285,7 +285,7 @@ namespace ft
 
 					pointer			base() const { return (_it); }
 
-					Iterator		operator=(const Iterator rhs)
+					Iterator		operator=(const Iterator& rhs)
 					{
 						this->_it = rhs.base();
 						return (*this);
@@ -302,7 +302,7 @@ namespace ft
 					Iterator	operator++(int)
 					{
 						Iterator(temp) = *this;
-						++(*this);
+						this->_it += 1;
 						return (temp);
 					}
 

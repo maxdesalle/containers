@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/09 21:20:09 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 21:40:43 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ namespace ft
 {
 	template <	class Key,
                 class T,
-                class Compare = std::less< const Key >,
+                class Compare = std::less< Key >,
                 class Alloc = std::allocator< ft::pair< const Key, T > >
              >
 			 		 

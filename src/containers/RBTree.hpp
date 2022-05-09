@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/09 21:18:49 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 21:36:11 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ class RBTree
         // CLEAR
         void        delNode(treeNode *node)
         {              
-            _alloc.destroy(node->value);  
+            _alloc.destroy(&(node->value));  
             _node_alloc.deallocate(node, 1); 
             _height--;
         }

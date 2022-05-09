@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/08 21:01:10 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 14:33:38 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,16 @@ class RBTree
 
     public:
         // CONSTRUCTORS
-        explicit RBTree( const value_compare &comp, const allocator_type &alloc) :  NIL(nilNode()),
-                                                                                    _height(0),
-                                                                                    _comp(comp),
-                                                                                    _alloc(alloc)    {     NIL->color = BLACK; _root = NIL;       };
+        explicit RBTree( const value_compare &comp,
+                         const allocator_type &alloc )  :   NIL(nilNode()),
+                                                            _height(0),
+                                                            _comp(comp),
+                                                            _alloc(alloc)           {     NIL->color = BLACK; _root = NIL;       };
 
         RBTree( RBTree const &t ) : NIL(nilNode()),
                                     _root(NIL),                                    
                                     _comp(t._comp),
-                                    _alloc(t._alloc)    { insert(t.begin(), t.end()); };
+                                    _alloc(t._alloc)                                {       insert(t.begin(), t.end());          };
 
         RBTree& operator = ( const RBTree &t )
         {
@@ -76,7 +77,7 @@ class RBTree
             return *this;
         };
 
-        ~RBTree( void ) {   clear(_root); delnilNode(NIL); };
+        ~RBTree( void )                                                             {       clear(_root); delnilNode(NIL);      };
 
         // [INSERT] ( + newNode() )
         treeNode                    *nilNode( void )
@@ -129,17 +130,17 @@ class RBTree
             return ft::make_pair(iterator(curr), true);
         };
 
-        iterator 				insert(iterator position, const value_type& value)      {       return insert(value).first; (void)position;         }
+        iterator 				insert(iterator position, const value_type& value)      {       return insert(value).first; (void)position;                     };
 		
         template <class InputIterator>
-	    void					insert(InputIterator first, InputIterator last)     {    while (first != last)   { insert(*first); first++; }           }; 
+	    void					insert(InputIterator first, InputIterator last)         {       while (first != last)   { insert(*first); first++; }            }; 
 
         // [ERASE] ( + delNode() )
-
         size_type 				erase(value_type const &val)
         {
             	treeNode	*to_del = search(_root, val);
-		        if (!to_del)	return 0;
+		        if (!to_del)
+                    return 0;
 		        erase(to_del);
 		        return 1;
         }
@@ -180,7 +181,7 @@ class RBTree
                     rebalanceTree4erase(to_fix);
                 delNode(node);
         };
-		void 					erase(iterator first, iterator last)                    {	while (first != last)   {    erase(*first++); }	        };
+		void 					erase(iterator first, iterator last)                    {       while (first != last)   erase(*first++);	        };
 
         // [FIND] + search
 
@@ -216,6 +217,7 @@ class RBTree
             _node_alloc.deallocate(node, 1); 
             _height--; 
         }
+
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
@@ -229,24 +231,9 @@ class RBTree
         }
         
         // capacity
-        bool        empty( void ) const      {   return _height == 0;                     };
-        size_type   size( void )  const      {   return _height;                          };
-	    size_type	max_size() const	     {   return _node_alloc.max_size();           };
-
-        // exceptions
-		class EmptyTree : public std::exception {
-			public:
-				virtual const char* what() const throw() {
-					return ( "Tree is empty" );
-				}
-		};
-
-        class KeyNotFound : public std::exception {
-			public:
-				virtual const char* what() const throw() {
-					return ( "Key not found" );
-				}
-		};
+        bool        empty( void ) const             {       return _height == 0;                     };
+        size_type   size( void )  const             {       return _height;                          };
+	    size_type	max_size() const	            {       return _node_alloc.max_size();           };
 
         // iterators
         iterator				begin( void )
@@ -280,10 +267,10 @@ class RBTree
 		}
 
         // min, max
+        treeNode    *min(treeNode* node) const      {       while (node->left != NIL)       {   node = node->left;      }    return node;        };
+        treeNode    *max(treeNode* node) const      {       while (node && node->leaf)      {   node = node->right;     }    return node;        };
 
-        treeNode    *min(treeNode* node) const      {       while (node->left != NIL)       {       node = node->left;  }    return node;         };
-        treeNode    *max(treeNode* node) const      {       while (node && node->leaf)     {   node = node->right; }    return node;        };
-
+        // debugging
         void inorder(treeNode* root)
         {
             if (root != NIL)
@@ -480,8 +467,9 @@ class RBTree
         
             while (node != NIL)
             {
-                if (!_comp(node->value, value)){ lower = node; node = node->left; }
-                else                                node = node->right;
+                if (!_comp(node->value, value))
+                    {       lower = node; node = node->left;        }
+                else         node = node->right;
             }
             return lower;
         };
@@ -493,8 +481,9 @@ class RBTree
         
             while (node != NIL)
             {
-                if (_comp(value, node->value))   { upper = node; node = node->left; }
-                else                             {       node = node->right;;   }
+                if (_comp(value, node->value))
+                    {       upper = node; node = node->left;        }
+                else        node = node->right;
             }
             return upper;
         };

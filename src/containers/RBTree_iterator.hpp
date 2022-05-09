@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/09 12:52:15 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 14:37:24 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,14 @@ struct node {
 	node                *parent, *left, *right;
 	int                color, leaf;
 
-    node( void )    :   value( 0 ),
-                            parent (0), left(0), right(0),
-                            color( RED )        {};
+    node( void )    :   value(0), parent (0), left(0), 
+                        right(0), color( RED )                                              {};
     node( T const& value, node *parent, int leaf )   :      value(value),
                                                             parent (parent), left(0), right(0),
-                                                            color( RED ), leaf(leaf)         {};
+                                                            color( RED ), leaf(leaf)        {};
     node( node const& t )   :   value(t.value),
-                                        parent (t.parent), left(t.left), right(t.right),
-                                        color( t.color ), leaf(t.leaf) {};
+                                parent (t.parent), left(t.left), right(t.right),
+                                color( t.color ), leaf(t.leaf)                              {};
     node const&     operator = ( node const& t )
     {
         this->value = t.value;
@@ -70,29 +69,24 @@ class treeIterator
         typedef treeIterator< U >               iterator;
         typedef treeIterator< const U >         const_iterator;
 
-        treeIterator( void ) :  _node(NULL)                     {};
-        treeIterator( treeNode * current ) : _node(current)      {};
-        treeIterator( treeIterator const& t ) : _node(t.base())  {};
-        treeIterator		operator = ( treeIterator t )       {       _node = t.base(); return *this;                             };
+        treeIterator( void ) :  _node(NULL)                         {};
+        treeIterator( treeNode * current ) : _node(current)         {};
+        treeIterator( treeIterator const& t ) : _node(t.base())     {};
+        treeIterator		operator = ( treeIterator t )           {       _node = t.base(); return *this;         };
 
-        operator            const_iterator() const
-        {   return const_iterator(reinterpret_cast<const_treeNode *>(_node));    }
+        operator            const_iterator() const                  {      return const_iterator(reinterpret_cast<const_treeNode *>(_node));    }
 
-        treeNode            *base( void )                       {       return _node;                                               };
-        treeNode            *base( void )   const               {       return _node;                                               };
+        treeNode            *base( void )                           {       return _node;                           };
+        treeNode            *base( void )   const                   {       return _node;                           };
 
-        reference		operator* () 							{   return _node->value;    };
-        const_reference	operator* () const						{   return _node->value;    };
-        pointer			operator->()							{   return &_node->value;   };
-        const_pointer	operator->() const						{   return &_node->value;   };
+        reference		operator* () 							    {       return _node->value;                    };
+        const_reference	operator* () const						    {       return _node->value;                    };
+        pointer			operator->()							    {       return &_node->value;                   };
+        const_pointer	operator->() const						    {       return &_node->value;                   };
 
         treeIterator&		operator ++ ()
         {
-            // std::cout << "NODE ";
-			// std::cout << _node->value.second << std::endl;
-            // std::cout << "LEAF ";
-			// std::cout << _node->leaf << std::endl;
-            if (!_node || !_node->leaf)
+            if (!_node->leaf)
                 return *this;
             if (_node && _node->right && _node->right->leaf)
             {
@@ -114,13 +108,8 @@ class treeIterator
 
         treeIterator&		operator -- ()
         {
-            // std::cout << "NODE ";
-			// std::cout << _node->value.second << std::endl;
-            // std::cout << "LEAF ";
-			// std::cout << _node->leaf << std::endl;
             if (!_node->leaf)
             {
-                // std::cout << "no node\n";
                 while (_node->parent->leaf)
                     _node = _node->parent;
                 while (_node->right->leaf)
@@ -134,28 +123,18 @@ class treeIterator
             }
             else
             {
-            //     std::cout << "minus\n";
                 treeNode	*curr = _node;
                 _node = _node->parent;
-            // std::cout << "PAR NODE ";
-			// std::cout << _node->value.second << std::endl;
-            // std::cout << "PAR LEAF ";
-			// std::cout << _node->leaf << std::endl;
-            // std::cout << "PAR LEFT ";
-			// std::cout << _node->left->value.second << std::endl;
                 while (_node && _node->leaf && _node->left == curr)
                 {
-                    // std::cout << "while" << std::endl;
-                    // std::cout << curr->value.second << std::endl;
                     curr = _node;
                     _node = _node->parent;
                 };
-                // _node = curr;
             }
             return *this;
         }
-        treeIterator		operator ++ ( int )							{   treeIterator ptr(*this); operator++(); return ptr;  }
-        treeIterator		operator -- ( int )							{   treeIterator ptr(*this); operator--(); return ptr;  }
+        treeIterator		operator ++ ( int )							    {   treeIterator ptr(*this); operator++(); return ptr;  }
+        treeIterator		operator -- ( int )							    {   treeIterator ptr(*this); operator--(); return ptr;  }
 
         bool			    operator == ( treeIterator const& t )	const	{   return _node == t._node;    }
         bool			    operator != ( treeIterator const& t )	const	{   return _node != t._node;    }

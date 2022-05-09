@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/08 19:11:38 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 14:43:51 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ namespace ft
 
 			typedef	T			 								mapped_type;
             typedef Key                                         key_type;
-            typedef ft::pair< key_type, mapped_type >     value_type;
+            typedef ft::pair< key_type, mapped_type >     		value_type;
             typedef std::size_t									size_type;
             typedef std::ptrdiff_t							    difference_type;
             typedef Compare                                     key_compare;
@@ -80,7 +80,7 @@ namespace ft
 					typedef bool 			result_type;
 					typedef value_type 		first_argument_type;
 					typedef value_type 		second_argument_type;
-					bool 	operator() ( const value_type& x, const value_type& y ) const { 		return comp(x.first, y.first);			};
+					bool 	operator() ( const value_type& x, const value_type& y ) const 				{ 		return comp(x.first, y.first);			};
 			};
 
 			// [ MEMEBER FUNCTIONS ]
@@ -112,25 +112,25 @@ namespace ft
 				return *this;
 			}
 
-			allocator_type			get_allocator( void ) const		{	return this->_alloc;	};
+			allocator_type	get_allocator( void ) const					{	return this->_alloc;	};
 			
 			// [ ELEMENT ACCESS ]
-			mapped_type& operator[] ( const key_type& k )	{	return (*(insert(ft::make_pair( k, mapped_type() )).first)).second;			};
+			mapped_type& 	operator[] ( const key_type& k )			{	return (*(insert(ft::make_pair( k, mapped_type() )).first)).second;			};
 
 			// [ ITERATORS ]
-			iterator begin()								{	return	_tree.begin();		};
-			const_iterator begin() const					{	return	_tree.begin();		};
-			iterator end()									{	return	_tree.end();		};
-			const_iterator end() const						{	return	_tree.end();		};
-			reverse_iterator rbegin()						{	return	_tree.rbegin();		};
-			const_reverse_iterator rbegin() const			{	return	_tree.rbegin();		};
-			reverse_iterator rend()							{	return	_tree.rend();		};
-			const_reverse_iterator rend() const				{	return	_tree.rend();		};
+			iterator 			begin()									{	return	_tree.begin();		};
+			const_iterator		begin() const							{	return	_tree.begin();		};
+			iterator 			end()									{	return	_tree.end();		};
+			const_iterator 		end() const								{	return	_tree.end();		};
+			reverse_iterator		rbegin()							{	return	_tree.rbegin();		};
+			const_reverse_iterator 	rbegin() const						{	return	_tree.rbegin();		};
+			reverse_iterator 		rend()								{	return	_tree.rend();		};
+			const_reverse_iterator 	rend() const						{	return	_tree.rend();		};
 
 			// [ CAPACITY ]
-			bool			empty( void ) const				{	return	_tree.empty();		};
-			size_type 		size( void ) const				{	return	_tree.size();		};
-			size_type 		max_size() const				{	return	_tree.max_size();	};
+			bool			empty( void ) const							{	return	_tree.empty();		};
+			size_type 		size( void ) const							{	return	_tree.size();		};
+			size_type 		max_size() const							{	return	_tree.max_size();	};
 
 			// [ MODIFIERS ]
 			ft::pair< iterator,bool > 	insert(value_type const & val)						{	return _tree.insert( val );					};
@@ -162,12 +162,12 @@ namespace ft
 			ft::pair< const_iterator, const_iterator > equal_range (const key_type& k) const	{	return (ft::make_pair(lower_bound(k), upper_bound(k)));	};
 
 			// [ OBSERVERS ]
-			key_compare 			key_comp() const		{	return this->_compare;					};
-			value_compare 			value_comp() const		{	return value_compare(this->_compare);	};
+			key_compare 			key_comp() const									{	return this->_compare;											};
+			value_compare 			value_comp() const									{	return value_compare(this->_compare);							};
 
 			// [ HELPER FUNCTIONS ]
-			value_type				get_valuetype( const key_type& k ) const			{		return ft::make_pair( k, mapped_type() );					}
-			void					inorder( void ) 									{		_tree.inorder(_tree.get_root());							}
+			value_type				get_valuetype( const key_type& k ) const			{		return ft::make_pair( k, mapped_type() );					};
+			void					inorder( void ) 									{		_tree.inorder(_tree.get_root());							};
 
 	};
 	

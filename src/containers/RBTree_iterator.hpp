@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/09 14:37:24 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 21:24:49 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ struct node {
     node( node const& t )   :   value(t.value),
                                 parent (t.parent), left(t.left), right(t.right),
                                 color( t.color ), leaf(t.leaf)                              {};
-    node const&     operator = ( node const& t )
+    node&     operator = ( node const& t )
     {
         this->value = t.value;
         this->parent = t.parent;

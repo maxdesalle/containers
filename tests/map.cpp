@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/09 19:51:01 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 19:59:07 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -672,7 +672,7 @@ void	ft_allocator(void)
 	p=mymap.get_allocator().allocate(5);
 
 	// assign some values to array
-	psize = sizeof(std::map<char,int>::value_type)*5;
+	psize = sizeof(ft::map<char,int>::value_type)*5;
 
 	std::cout << "The allocated array has a size of " << psize << " bytes.\n";
 

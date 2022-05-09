@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 08:57:16 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/04/23 15:28:11 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 21:42:11 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -684,17 +684,17 @@ void	caller(void (*f1)(void), void (*f2)(void), std::string title)
 	std::cout << std::endl;
 	decorator(title);
 
-	std::cout << "\x1B[36mft:\033[0m\t\n";
-	std::chrono::steady_clock::time_point b1 = std::chrono::high_resolution_clock::now();
+	// std::cout << "\x1B[36mft:\033[0m\t\n";
+	// std::chrono::steady_clock::time_point b1 = std::chrono::high_resolution_clock::now();
 	f1();
-	std::chrono::steady_clock::time_point e1 = std::chrono::high_resolution_clock::now();
-	std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e1 - b1).count() << " microseconds)" << std::endl;
+	// std::chrono::steady_clock::time_point e1 = std::chrono::high_resolution_clock::now();
+	// std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e1 - b1).count() << " microseconds)" << std::endl;
 
-	std::cout << "\x1B[33mstd:\033[0m\t\n";
-	std::chrono::steady_clock::time_point b2 = std::chrono::high_resolution_clock::now();
+	// std::cout << "\x1B[33mstd:\033[0m\t\n";
+	// std::chrono::steady_clock::time_point b2 = std::chrono::high_resolution_clock::now();
 	f2();
-	std::chrono::steady_clock::time_point e2 = std::chrono::high_resolution_clock::now();
-	std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e2 - b2).count() << " microseconds)" << std::endl;
+	// std::chrono::steady_clock::time_point e2 = std::chrono::high_resolution_clock::now();
+	// std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e2 - b2).count() << " microseconds)" << std::endl;
 
 	std::cout << std::endl;
 }

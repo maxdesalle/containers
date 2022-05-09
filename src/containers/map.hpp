@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 07:34:38 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/09 14:43:51 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 21:41:48 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ namespace ft
 	template <	class Key,
                 class T,
                 class Compare = std::less< Key >,
-                class Alloc = std::allocator< ft::pair< Key, T > >
+                class Alloc = std::allocator< ft::pair< const Key, T > >
              >
 			 		 
 	class map
@@ -39,7 +39,7 @@ namespace ft
 
 			typedef	T			 								mapped_type;
             typedef Key                                         key_type;
-            typedef ft::pair< key_type, mapped_type >     		value_type;
+            typedef ft::pair< const key_type, mapped_type >     		value_type;
             typedef std::size_t									size_type;
             typedef std::ptrdiff_t							    difference_type;
             typedef Compare                                     key_compare;

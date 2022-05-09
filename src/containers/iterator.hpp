@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 10:14:41 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/05/07 18:20:15 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 10:52:21 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,10 @@ namespace ft
 
 				reverse_iterator&	operator++()
 				{
+					// std::cout << _it->second << std::endl;
 					--_it;
+					// std::cout << "AFTER" << std::endl;
+					// std::cout << _it->second << std::endl;
 					return (*this);
 				};
 

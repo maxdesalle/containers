@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/08 21:02:36 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/09 12:52:15 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ class treeIterator
         treeIterator( treeNode * current ) : _node(current)      {};
         treeIterator( treeIterator const& t ) : _node(t.base())  {};
         treeIterator		operator = ( treeIterator t )       {       _node = t.base(); return *this;                             };
-        // template < class _it >
-        // treeIterator( treeIterator< _it > const& t ) : _node(reinterpret_cast<treeNode *>(t.base()))  {};
 
         operator            const_iterator() const
         {   return const_iterator(reinterpret_cast<const_treeNode *>(_node));    }
@@ -90,6 +88,10 @@ class treeIterator
 
         treeIterator&		operator ++ ()
         {
+            // std::cout << "NODE ";
+			// std::cout << _node->value.second << std::endl;
+            // std::cout << "LEAF ";
+			// std::cout << _node->leaf << std::endl;
             if (!_node || !_node->leaf)
                 return *this;
             if (_node && _node->right && _node->right->leaf)
@@ -112,8 +114,13 @@ class treeIterator
 
         treeIterator&		operator -- ()
         {
+            // std::cout << "NODE ";
+			// std::cout << _node->value.second << std::endl;
+            // std::cout << "LEAF ";
+			// std::cout << _node->leaf << std::endl;
             if (!_node->leaf)
             {
+                // std::cout << "no node\n";
                 while (_node->parent->leaf)
                     _node = _node->parent;
                 while (_node->right->leaf)
@@ -127,9 +134,15 @@ class treeIterator
             }
             else
             {
-                // std::cout << "minus\n";
+            //     std::cout << "minus\n";
                 treeNode	*curr = _node;
                 _node = _node->parent;
+            // std::cout << "PAR NODE ";
+			// std::cout << _node->value.second << std::endl;
+            // std::cout << "PAR LEAF ";
+			// std::cout << _node->leaf << std::endl;
+            // std::cout << "PAR LEFT ";
+			// std::cout << _node->left->value.second << std::endl;
                 while (_node && _node->leaf && _node->left == curr)
                 {
                     // std::cout << "while" << std::endl;
@@ -137,7 +150,7 @@ class treeIterator
                     curr = _node;
                     _node = _node->parent;
                 };
-                _node = curr;
+                // _node = curr;
             }
             return *this;
         }

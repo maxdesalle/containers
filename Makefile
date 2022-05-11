@@ -6,7 +6,7 @@
 #    By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/06 09:20:39 by mdesalle          #+#    #+#              #
-#    Updated: 2022/05/09 19:42:47 by mlazzare         ###   ########.fr        #
+#    Updated: 2022/05/11 13:47:05 by mdesalle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,9 @@ NAME = container
 CC = c++ #-fsanitize=address -g
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
+
+all:
+	@echo "Please mention a container name"
 
 vector:
 	@$(CC) $(CFLAGS) tests/vector.cpp -o $(NAME)

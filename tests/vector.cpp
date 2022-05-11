@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 11:22:01 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/05/09 19:45:45 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:48:38 by mdesalle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -858,16 +858,16 @@ void	caller(void (*f1)(void), void (*f2)(void), std::string title)
 	decorator(title);
 
 	std::cout << "\x1B[36mft:\033[0m\t";
-	//std::chrono::steady_clock::time_point b1 = std::chrono::high_resolution_clock::now();
+	std::chrono::steady_clock::time_point b1 = std::chrono::high_resolution_clock::now();
 	f1();
-	//std::chrono::steady_clock::time_point e1 = std::chrono::high_resolution_clock::now();
-	//std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e1 - b1).count() << " microseconds)" << std::endl;
+	std::chrono::steady_clock::time_point e1 = std::chrono::high_resolution_clock::now();
+	std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e1 - b1).count() << " microseconds)" << std::endl;
 
 	std::cout << "\x1B[33mstd:\033[0m\t";
-	//std::chrono::steady_clock::time_point b2 = std::chrono::high_resolution_clock::now();
+	std::chrono::steady_clock::time_point b2 = std::chrono::high_resolution_clock::now();
 	f2();
-	//std::chrono::steady_clock::time_point e2 = std::chrono::high_resolution_clock::now();
-	//std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e2 - b2).count() << " microseconds)" << std::endl;
+	std::chrono::steady_clock::time_point e2 = std::chrono::high_resolution_clock::now();
+	std::cout << " (" << std::chrono::duration_cast<std::chrono::microseconds>(e2 - b2).count() << " microseconds)" << std::endl;
 
 	std::cout << std::endl;
 }

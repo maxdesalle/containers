@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 11:03:03 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/18 20:51:24 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/19 21:22:19 by mdesalle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,13 +263,15 @@ namespace ft
 
 		private:
 
-			size_type		_new_capacity(size_type size)
+			size_type		_new_capacity(size_type new_size)
 			{
-				size_type			n;
-
-				n = 1;
-				while (n < size)	{	n *= 2;	};
-				return n;
+				if (new_size > _capacity * 2) {
+					return (new_size);
+				} else if (_capacity > 0) {
+					return (_capacity * 2);
+				} else {
+					return (1);
+				}
 			}
 
 			allocator_type	_alloc;

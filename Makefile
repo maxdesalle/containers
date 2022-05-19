@@ -6,7 +6,7 @@
 #    By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/06 09:20:39 by mlazzare          #+#    #+#              #
-#    Updated: 2022/05/18 22:27:00 by mlazzare         ###   ########.fr        #
+#    Updated: 2022/05/19 21:18:12 by mdesalle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,4 +44,4 @@ fclean:
 
 re: fclean all
 
-.PHONY: 
+.PHONY: all clean re fclean

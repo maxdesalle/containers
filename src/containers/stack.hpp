@@ -6,7 +6,7 @@
 /*   By: maxdesalle <mdesalle@student.s19.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:35:46 by maxdesall         #+#    #+#             */
-/*   Updated: 2022/01/12 09:59:08 by maxdesall        ###   ########.fr       */
+/*   Updated: 2022/05/19 11:21:16 by mdesalle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ namespace ft
 
 			friend bool			operator<(const stack<T,Container>& lhs, const stack<T,Container>& rhs) { return (lhs._ctnr < rhs._ctnr); }
 
-		private:
+		protected:
 
 			container_type		_ctnr;
 	};

@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/09 21:36:11 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/18 20:51:29 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include <memory> // std::allocator
 # include <cmath>
 
-# include "type_traits.hpp"
-# include "iterator.hpp"
+# include "enable_if.hpp"
+# include "vector_iterator.hpp"
 # include "RBTree_iterator.hpp"
-# include "algorithm.hpp"
+# include "equal.hpp"
 # include "pair.hpp"
 
 template < class T, class Compare = std::less< T >, class Alloc = std::allocator<T> >
@@ -91,18 +91,19 @@ class RBTree
 			return nilnode;
         };
 
-        treeNode                    *newNode( value_type const& value, treeNode *parent, int leaf )
+
+        allocator_type	get_allocator( void ) const					{	return _alloc;	        };
+
+        treeNode*	search(treeNode* to_find, const value_type& val) const
         {
-            treeNode    *newnode = _node_alloc.allocate(1);
-            _alloc.construct(&(newnode->value), value);
-            newnode->left  = NIL;
-            newnode->right = NIL;
-            newnode->parent = parent;
-            newnode->color = RED;
-            newnode->leaf = leaf;
-            _height++;
-			return newnode;
-        };
+            while (to_find != NIL) 
+            {
+                if (_comp(val, to_find->value))              	to_find = to_find->left;
+                else if (_comp(to_find->value, val))         	to_find = to_find->right;
+                else					                        return to_find;
+            }
+            return 0;
+        }
 
         ft::pair< iterator, bool>    insert( value_type const& value )
         {
@@ -185,17 +186,6 @@ class RBTree
 
         // [FIND] + search
 
-        treeNode*	search(treeNode* to_find, const value_type& val) const
-        {
-            while (to_find != NIL) 
-            {
-                if (_comp(val, to_find->value))              	to_find = to_find->left;
-                else if (_comp(to_find->value, val))         	to_find = to_find->right;
-                else					                        return to_find;
-            }
-            return 0;
-        }
-
         iterator    find(const value_type& val) const
         {
             treeNode*	node = search(_root, val);
@@ -205,19 +195,6 @@ class RBTree
         }
 
         // CLEAR
-        void        delNode(treeNode *node)
-        {              
-            _alloc.destroy(&(node->value));  
-            _node_alloc.deallocate(node, 1); 
-            _height--;
-        }
-
-        void        delnilNode(treeNode *node)
-        {              
-            _node_alloc.deallocate(node, 1); 
-            _height--; 
-        }
-
         // clear the tree in postorder trasversal (left, right, root)
         void        clear(treeNode *root)
         {
@@ -265,6 +242,63 @@ class RBTree
 			ft::swap(_comp, t._comp);
 			ft::swap(_height, t._height);
 		}
+
+            treeNode* lower_bound (const value_type& value) const
+        {
+            treeNode*	node = _root;
+            treeNode*	lower = NIL;
+        
+            while (node != NIL)
+            {
+                if (!_comp(node->value, value))
+                    {       lower = node; node = node->left;        }
+                else         node = node->right;
+            }
+            return lower;
+        };
+
+        treeNode* upper_bound (const value_type& value) const
+        {
+            treeNode*	node = _root;
+            treeNode*	upper = NIL;
+        
+            while (node != NIL)
+            {
+                if (_comp(value, node->value))
+                    {       upper = node; node = node->left;        }
+                else        node = node->right;
+            }
+            return upper;
+        };
+
+        treeNode    *get_root()    const                         {           return _root;      };
+
+    private:
+        treeNode                    *newNode( value_type const& value, treeNode *parent, int leaf )
+        {
+            treeNode    *newnode = _node_alloc.allocate(1);
+            _alloc.construct(&(newnode->value), value);
+            newnode->left  = NIL;
+            newnode->right = NIL;
+            newnode->parent = parent;
+            newnode->color = RED;
+            newnode->leaf = leaf;
+            _height++;
+			return newnode;
+        };
+
+        void        delNode(treeNode *node)
+        {              
+            _alloc.destroy(&(node->value));  
+            _node_alloc.deallocate(node, 1); 
+            _height--;
+        }
+
+        void        delnilNode(treeNode *node)
+        {              
+            _node_alloc.deallocate(node, 1); 
+            _height--; 
+        }
 
         // min, max
         treeNode    *min(treeNode* node) const      {       while (node->left != NIL)       {   node = node->left;      }    return node;        };
@@ -314,8 +348,8 @@ class RBTree
             tmp->right = node;
             node->parent = tmp;
         }
-        
-        void        recolorNode(treeNode *node)                     {          node->color == RED ? node->color = BLACK : node->color = RED;                        };
+
+        void        recolorNode(treeNode *node)                     {          node->color == RED ? node->color = BLACK : node->color = RED;                        };        
         void        transplantNode(treeNode *a, treeNode *b)
         {
             if (a->parent == NIL)       _root = b;
@@ -456,39 +490,6 @@ class RBTree
             }
             node->color = BLACK;
         };
-
-        treeNode    *get_root()    const                         {           return _root;      };
-        treeNode    *get_end()     const                         {           return NIL;        };
-
-        treeNode* lower_bound (const value_type& value) const
-        {
-            treeNode*	node = _root;
-            treeNode*	lower = NIL;
-        
-            while (node != NIL)
-            {
-                if (!_comp(node->value, value))
-                    {       lower = node; node = node->left;        }
-                else         node = node->right;
-            }
-            return lower;
-        };
-
-        treeNode* upper_bound (const value_type& value) const
-        {
-            treeNode*	node = _root;
-            treeNode*	upper = NIL;
-        
-            while (node != NIL)
-            {
-                if (_comp(value, node->value))
-                    {       upper = node; node = node->left;        }
-                else        node = node->right;
-            }
-            return upper;
-        };
-
-        allocator_type	get_allocator( void ) const					{	return _alloc;	        };
 };
 
 #endif

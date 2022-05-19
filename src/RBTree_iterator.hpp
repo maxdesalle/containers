@@ -6,7 +6,7 @@
 /*   By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:47:47 by mlazzare          #+#    #+#             */
-/*   Updated: 2022/05/09 21:37:00 by mlazzare         ###   ########.fr       */
+/*   Updated: 2022/05/18 20:51:35 by mlazzare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <cmath>
 
 # include "RBTree_iterator.hpp"
-# include "type_traits.hpp"
-# include "iterator.hpp"
-# include "algorithm.hpp"
+# include "enable_if.hpp"
+# include "vector_iterator.hpp"
+# include "equal.hpp"
 # include "pair.hpp"
 
 enum        nodeColor {        RED, BLACK      };
@@ -30,7 +30,8 @@ struct node {
     typedef T           value_type;
     value_type          value;
 	node                *parent, *left, *right;
-	int                color, leaf;
+	bool                color;
+    int                 leaf;
 
     node( void )    :   value(0), parent (0), left(0), 
                         right(0), color( RED )                                              {};
@@ -76,7 +77,6 @@ class treeIterator
 
         operator            const_iterator() const                  {      return const_iterator(reinterpret_cast<const_treeNode *>(_node));    }
 
-        // treeNode            *base( void )                           {       return _node;                           };
         treeNode            *base( void )   const                   {       return _node;                           };
 
         reference		operator* () 							    {       return _node->value;                    };
@@ -136,8 +136,8 @@ class treeIterator
         treeIterator		operator ++ ( int )							    {   treeIterator ptr(*this); operator++(); return ptr;  }
         treeIterator		operator -- ( int )							    {   treeIterator ptr(*this); operator--(); return ptr;  }
 
-        bool			    operator == ( treeIterator const& t )	const	{   return _node == t._node;    }
-        bool			    operator != ( treeIterator const& t )	const	{   return _node != t._node;    }
+        bool    			operator == ( treeIterator const& t )	const	{   return _node == t._node;    }
+        bool    			operator != ( treeIterator const& t )	const	{   return _node != t._node;    }
         
         private:
             treeNode*			    _node;

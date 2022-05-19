@@ -5,38 +5,43 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mlazzare <mlazzare@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/06/06 09:20:39 by mdesalle          #+#    #+#              #
-#    Updated: 2022/05/11 13:47:05 by mdesalle         ###   ########.fr        #
+#    Created: 2021/06/06 09:20:39 by mlazzare          #+#    #+#              #
+#    Updated: 2022/05/18 22:27:00 by mlazzare         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = container
+CNT-FT = containers-ft
+CNT-STL = containers-stl
 
-CC = c++ #-fsanitize=address -g
+CXX = c++
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+SRCS			=	tests/main.cpp											
 
-all:
-	@echo "Please mention a container name"
+INC		=	src/map.hpp						\
+			src/stack.hpp					\
+			src/vector.hpp					\
+			src/vector_iterator.hpp			\
+			src/enable_if.hpp				\
+			src/equal.hpp					\
+			src/pair.hpp					\
+			src/RBTree.hpp					\
+			src/RBTree_iterator.hpp			\
 
-vector:
-	@$(CC) $(CFLAGS) tests/vector.cpp -o $(NAME)
+all: $(CNT-FT) $(CNT-STL)
 
-stack:
-	@$(CC) $(CFLAGS) tests/stack.cpp -o $(NAME)
+$(CNT-FT): $(SRCS) $(INC)
+	$(CXX) $(CXXFLAGS) $(SRCS) -o $@
 
-map:
-	@$(CC) $(CFLAGS) tests/map.cpp -o $(NAME)
+$(CNT-STL): $(SRCS) $(INC)
+	$(CXX) $(CXXFLAGS) $(SRCS) -D STL=1 -o $@
 
-clean:
-	@rm -rf $(OBJ)
-	@rm -rf *.dSYM
+clean: fclean
 
 fclean:
-	@rm -rf $(OBJ)
-	@rm -rf $(NAME)
-	@rm -rf *.dSYM
+	@rm -f $(CNT-FT)
+	@rm -f $(CNT-STL)
 
-re:	fclean all
+re: fclean all
 
-.PHONY: all clean re fclean
+.PHONY: 
